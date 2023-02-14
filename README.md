@@ -1,4 +1,4 @@
-# ThinkCPP
+# ThinkCPP, a game perspective
 
 Originally based on Text and code for Think C++ by Allen Downey
 
