@@ -1,4 +1,4 @@
-% LaTeX source for textbook ``How to think like a computer scientist''
+% LaTeX source for textbook ``ThinkCPP , a game perspective''
 % Copyright (C) 2023  Lisa Patacchiola and Allen B. Downey
 
 
@@ -11,7 +11,7 @@ they combine some of the best features of Mathematics, Engineering,
 and Natural Science.  Like mathematicians, computer scientists use formal
 languages to denote ideas (specifically computations).  Like
 engineers, they design things, assembling components into systems and
-evaluating tradeoffs among alternatives.  Like scientists,
+evaluating trade-offs among alternatives.  Like scientists,
 they observe the behavior of complex systems, form hypotheses, and test
 predictions.
 
@@ -89,8 +89,8 @@ code.
 Then, depending on what your programming environment is like,
 you might leave the text editor and run the compiler.  The
 compiler would read your source code, translate it, and create
-a new file named {\tt program.o} to contain the object code,
-or {\tt program.exe} to contain the executable. 
+a new file named {\tt program.o} or {\tt program.obj} to contain the object code,
+and {\tt program.out} or {\tt program.exe} to contain the executable. 
 
 \vspace{0.1in}
 \centerline{\epsfig{figure=compile.eps}}
@@ -181,12 +181,14 @@ in order to track them down more quickly.
 \subsection{Compile-time errors}
 \index{compile-time error}
 \index{error!compile-time}
+\index{error!syntax}
+\index{syntax error}
 
 The compiler can only translate a program if the program is
 syntactically correct; otherwise, the compilation fails and
 you will not be able to run your program.  {\bf Syntax}
 refers to the structure of your program and the rules about
-that structure.
+that structure. A mistake with the syntax is often called a {\bf syntax error}.
 
 \index{syntax}
 
@@ -425,8 +427,8 @@ Traditionally the first program people write in a new language
 is called ``Hello, World.'' because all it does is print the
 words ``Hello, World.''  In C++, this program looks like this:
 
-\begin{mdframed}
-\begin{verbatim}
+
+\begin{lstlisting}[frame=single]
 #include <iostream>
 
 // main: generate some simple output
@@ -436,9 +438,9 @@ int main ()
   std::cout << "Hello, world." << std::endl;
   return 0;
 }
-\end{verbatim}
+\end{lstlisting}
 %
-\end{mdframed}
+
 Some people judge the quality of a programming language by
 the simplicity of the ``Hello, World.'' program.  By this
 standard, C++ does reasonably well.  Even so, this simple

@@ -1,4 +1,4 @@
-% LaTeX source for textbook ``How to think like a computer scientist''
+% LaTeX source for textbook ``ThinkCPP , a game perspective''
 % Copyright (C) 2023  Lisa Patacchiola and Allen B Downey
 
 
@@ -11,21 +11,21 @@
 As I mentioned in the last chapter, you can put as many statements as
 you want in {\tt main}.  For example, to output more than one line:
 
-\begin{mdframed}
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
 #include <iostream>
 
 // main: generate some simple output
 
 int main ()
 {
-  std::cout << "Hello, world." << std::endl; // output 1 line
-  std::cout << "How are you?" << std::endl;  // output 1 more
+  // output 1 line
+  std::cout << "Hello, world." << std::endl; 
+  
+  // output 1 more
+  std::cout << "How are you?" << std::endl;  
   return 0;
 }
-\end{verbatim}
-%
-\end{mdframed}
+\end{lstlisting}
 
 As you can see, it is legal to put comments at the
 end of a line, as well as on a line by themselves.
@@ -54,21 +54,18 @@ Often it is useful to display the output from multiple output
 statements all on one line.  You can do this by leaving out
 the first {\tt endl}:
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
 int main ()
 {
-  std::cout << "Goodbye, ";
-  std::cout << "cruel world!" << std::endl;
+  std::cout << "The game ";
+  std::cout << "is about to start!" << std::endl;
   return 0
 }
-\end{verbatim}
-%
-\end{mdframed}
+\end{lstlisting}
+
 In this case the output appears on a single line as
-{\tt Goodbye, cruel world!}.  Notice that there is a space
-between the word ``Goodbye,'' and the second quotation mark.
+{\tt The game is about to start!}.  Notice that there is a space
+between the word ``game'' and the second quotation mark.
 This space appears in the output, so it affects the behavior
 of the program.
 
@@ -76,30 +73,24 @@ Spaces that appear outside of quotation marks generally do
 not affect the behavior of the program.  For example, I
 could have written:
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
 int main ()
 {
-  std::cout<<"Goodbye, ";
-  std::cout<<"cruel world!"<<std::endl;
+  std::cout<<"The game";
+  std::cout<<" is about to start!"<<std::endl;
   return 0;
 }
-\end{verbatim}
-%
-\end{mdframed}
+\end{lstlisting}
+
 This program would compile and run just as well as the original.
 The breaks at the ends of lines (newlines) do not affect
 the program's behavior either, so I could have written:
 
-\begin{mdframed}
+\begin{lstlisting}[frame=single]
+int main(){std::cout<<"The game ";std::cout<<
+    "is about to start!"<<std::endl;return 0;}
+\end{lstlisting}
 
-\begin{verbatim}
-int main(){std::cout<<"Goodbye, ";std::cout<<"cruel world!"
-    <<std::endl;return 0;}
-\end{verbatim}
-%
-\end{mdframed}
 That would work, too, although you have probably noticed that
 the program is getting harder and harder to read.  Newlines and
 spaces are useful for organizing your program visually, making
@@ -119,27 +110,19 @@ There are other kinds of values, including integers and characters.
 An integer is a whole number like 1 or 17.  You can output
 integer values the same way you output strings:
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}
   std::cout << 17 << std::endl;
-\end{verbatim}
-%
+\end{lstlisting}
 
-\end{mdframed}
 A character value is a letter or digit or punctuation mark
 enclosed in single quotes, like {\tt 'a'} or {\tt '5'}.
 You can output character values the same way:
 
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}
   std::cout << '}' << std::endl;
-\end{verbatim}
-%
+\end{lstlisting}
 
-\end{mdframed}
 This example outputs a single close squiggly-brace on a line
 by itself.
 
@@ -163,14 +146,10 @@ variable, you have to declare what type it is.  For example, the
 character type in C++ is called {\tt char}.  The following statement
 creates a new variable named {\tt fred} that has type {\tt char}.
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}
     char fred;
-\end{verbatim}
-%
+\end{lstlisting}
 
-\end{mdframed}
 This kind of statement is called a {\bf declaration}.
 
 The type of a variable determines what kind of values it can
@@ -185,27 +164,22 @@ are going to skip that for now (see Chapter~\ref{strings}).
 
 To create an integer variable, the syntax is 
 
-\begin{mdframed}
 
-\begin{verbatim}
-  int bob;
-\end{verbatim}
+\begin{lstlisting}
+    int bob;
+\end{lstlisting}
 %
 
-\end{mdframed}
 where {\tt bob} is the arbitrary name you made up for the
 variable.  In general, you will want to make up variable names
 that indicate what you plan to do with the variable.  For
 example, if you saw these variable declarations:
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}
     char firstLetter;
     char lastLetter;
     int hour, minute;
-\end{verbatim}
-\end{mdframed}
+\end{lstlisting}
 %
 
 you could probably make a good guess at what values
@@ -222,14 +196,13 @@ Now that we have created some variables, we would like to
 store values in them.  We do that with an {\bf assignment
 statement}.
 
-\begin{mdframed}
 
-\begin{verbatim}
-    firstLetter = 'a';   // give firstLetter the value 'a'
+\begin{lstlisting}
+    firstLetter = 'a';   // give firstLetter the 
+                         // value 'a'
     hour = 11;           // assign the value 11 to hour
     minute = 59;         // set minute to 59
-\end{verbatim}
-\end{mdframed}
+\end{lstlisting}
 %
 This example shows three assignments, and the comments show
 three different ways people sometimes talk about assignment
@@ -265,14 +238,11 @@ value you assign it.  For example, you cannot store a string in
 an {\tt int} variable.  The following statement generates a compiler
 error.
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}
   int hour;
   hour = "Hello.";       // WRONG !!
-\end{verbatim}
+\end{lstlisting}
 
-\end{mdframed}
 %
 This rule is sometimes a source of confusion, because there are many
 ways that you can convert values from one type to another, and C++
@@ -287,17 +257,17 @@ characters {\tt 1}, {\tt 2} and {\tt 3}, is not
 the same thing as the {\em number} {\tt 123}.
 This assignment is illegal:
 
-\begin{verbatim}
+\begin{lstlisting}
   minute = "59";         // WRONG!
-\end{verbatim}
+\end{lstlisting}
 %
 \section{Outputting variables}
 \label{output}
 
 You can output the value of a variable using the same commands
 we used to output simple values.
-\begin{mdframed}
-\begin{verbatim}
+
+\begin{lstlisting}[frame=single]
   int hour, minute;
   char colon;
 
@@ -305,22 +275,22 @@ we used to output simple values.
   minute = 59;
   colon = ':';
 
-  std::cout << "The current time is ";
+  std::cout << "The battle will start at  ";
   std::cout << hour;
   std::cout << colon;
   std::cout << minute;
-  std::cout << sts::endl;
-\end{verbatim}
-\end{mdframed}
+  std::cout << std::endl;
+\end{lstlisting}
+
 %
-Try this project here: \url{https://replit.com/@lpatacch/OutputVariables#main.cpp}.
+Try this project here:\url{https://replit.com/@lpatacch/OutputVariables#main.cpp}.
 This program creates two integer variables named {\tt hour} and {\tt
 minute}, and a character variable named {\tt colon}.  It assigns
 appropriate values to each of the variables and then uses a series
 of output statements to generate the following:
 
 \begin{verbatim}
-The current time is 11:59
+The battle will start at 11:59
 \end{verbatim}
 
 When we talk about ``outputting a variable,'' we mean outputting the
@@ -331,9 +301,7 @@ As we have seen before, you can include more than one value in
 a single output statement, which can make the previous program more
 concise:
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
   int hour, minute;
   char colon;
 
@@ -341,10 +309,9 @@ concise:
   minute = 59;
   colon = ':';
 
-  std::cout << "The current time is " << hour << colon 
-                << minute << std::endl;
-\end{verbatim}
-\end{mdframed}
+  std::cout << "The battle will start at " << hour 
+                << colon << minute << std::endl;
+\end{lstlisting}
 %
 On one line, this program outputs a string, two integers, a character,
 and the special value {\tt endl}.  Very impressive!
@@ -364,20 +331,21 @@ want for your variables, but that's not quite true. There are certain rules that
 \end{enumerate}
 
 Here are some examples of variables that do not follow the naming rules, and what you can use instead
-\begin{mdframed}
-\begin{verbatim}
-    int 3player;    \\ WRONG, can not start with a number
+\begin{lstlisting}[frame=single]
+    int 3player;    \\ WRONG, can not start with a 
+                    \\ number
     int player3;    \\ This would work
     int my3player   \\ This will also work
     
-    int hit points; \\ WRONG, spaces not allowed in the name
+    int hit points; \\ WRONG, spaces not allowed in the 
+                    \\ name
     int hitPoints;  \\ This would work
     int hit_points; \\ This also would work
     
-    int cash$;      \\ This would not work because of $sign
+    int cash$;      \\ This would not work because of 
+                    \\ $sign
     int cashMoney;  \\ changed to use words instead
-\end{verbatim}
-\end{mdframed}
+\end{lstlisting}
 \subsection{Keywords}
 \index{keyword}
 In addition, there
@@ -391,10 +359,12 @@ The complete list of keywords is included in the C++ Standard, which
 is the official language definition adopted by the the International
 Organization for Standardization (ISO) on September 1, 1998.  You
 can download a copy electronically from
+\bigskip
 
     \url{http://www.ansi.org/}
-
 %
+\bigskip
+
 Rather than memorize the list, I would suggest that you
 take advantage of a feature provided in many development
 environments: code highlighting.  As you type, different
@@ -428,75 +398,77 @@ replaced with its value before the computation is performed.
 \subsection{Not all the math operators}
 Although some of the arithmetic operators that you would expect are there, there are some that do not work in C++. Here are a few examples of what does not work, and how to write it in a different way.
 
-\begin{mdframed}
-\begin{verbatim}
+
+\begin{lstlisting}[frame=single]
     int powerUpLevel = 2;
     int damageLevel = 3;
     
-    int damageGiven = powerUpLeveldamageLevel;     // WRONG 
-        // You can't just put variables next to each other
-        // to have them multiply
+    int damageGiven = powerUpLeveldamageLevel;   
+        // WRONG 
+        // You can't just put variables next to each 
+        // other to have them multiply
         
-    int damageGiven = powerUpLevel x damageLevel;  // WRONG 
-        // You can't use x as a multiplication sign. It is
-        // often used as a variable
+    int damageGiven = powerUpLevel x damageLevel;  
+        // WRONG 
+        // You can't use x as a multiplication sign. It 
+        // is often used as a variable
         
-    int damageGiven = powerUpLevel * damageLevel; // Correct!
+    int damageGiven = powerUpLevel * damageLevel; 
+        // Correct!
         // When you multiply, you should use the * symbol
     
-    int valToPower = powerUpLevel^2;              // WRONG
+    int valToPower = powerUpLevel^2;        // WRONG
         // Although you can use the ^ symbol for a 
         // particular math operation, it is not to 
         // calculate the square (or any other power)
         // We will see this later in the book
         
-    int valToPower = powerUpLevel * powerUpLevel; // Correct! 
+    int valToPower = powerUpLevel * powerUpLevel; 
+        // Correct! 
         // To square a number, you can multiply it with
         // itself
         // There is also another way to do this which we
         // will see later
         
-    int percentHurt = damageGiven ÷ 100;         // WRONG
-        // C++ does not use this division sign
-    
-    int percentHurt = damageGiven/100;           // Correct
+    int percentHurt = damageGiven/100;      // Correct
         // To divide, we should use the / symbol
-        // There is something about this that is an issue,
-        // that we will talk about right now.
-\end{verbatim}
-\end{mdframed}
+        // There is something about this that is an 
+        // issue, that we will talk about right now.
+\end{lstlisting}
 %
+Also, this symbol should not be used in code -- $\div$. Code does not know what to do with it, so you should use the other method for division.
 
 \subsection{Integer Division}
 Addition, subtraction and multiplication all do what you
 expect, but you might be surprised by division.  For example,
 the following program:
 
-\begin{mdframed}
-
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
   int hour, minute;
+  int hitpoints = 49;
   hour = 11;
   minute = 59;
-  std::cout << "Number of minutes since midnight: ";
-  std::cout << hour*60 + minute << std::endl;
-  std::cout << "Fraction of the hour that has passed: ";
-  std::cout << minute/60 << std::endl;
-\end{verbatim}
-\end{mdframed}
+  
+  std::cout << "Number of minutes since the midnight";
+  std::cout<<" battle: "<< hour*60 + minute << std::endl;
+
+  // This is integer division, so the result will be zero
+  std::cout << "Fraction of hitpoints left ";
+  std::cout << hitpoints/50 << std::endl;
+\end{lstlisting}
 %
 
 would generate the following output:
 
 \begin{verbatim}
-  Number of minutes since midnight: 719
-  Fraction of the hour that has passed: 0
+  Number of minutes since the midnight battle: 719
+  Fraction of the hitpoints left: 0
 \end{verbatim}
 %
 Try it yourself here: \url{https://replit.com/@lpatacch/IntegerDivision#main.cpp}.
 The first line is what we expected, but the second line is
-odd.  The value of the variable {\tt minute} is 59, and
-59 divided by 60 is 0.98333, not 0.  The reason for the
+odd.  The value of the variable {\tt hitpoints} is 49, and
+49 divided by 50 is 0.98, not 0.  The reason for the
 discrepancy is that C++ is performing {\bf integer division}.
 
 \index{type!int}
@@ -513,25 +485,23 @@ even in cases like this where the next integer is so close.
 A possible alternative in this case is to calculate a percentage
 rather than a fraction:
 
-\begin{mdframed}
-\begin{verbatim} 
-  std::cout << "Percentage of the hour that has passed: ";
-  std::cout << minute*100/60 << std::endl;
-\end{verbatim}
-\end{mdframed}
+\begin{lstlisting}[frame=single]
+  std::cout << "Percentage of the hitpoints left:";
+  std::cout << " " << hitpoints*100/50 << std::endl;
+\end{lstlisting}
 
 %
 The result is:
 
 \begin{verbatim}
-    Percentage of the hour that has passed: 98
+    Percentage of the hitpoints left: 98
 \end{verbatim}
 %
 Again the result is rounded down, but at least now the answer
 is approximately correct.  In order to get an even more accurate
 answer, we could use a different type of variable, called
 floating-point, that is capable of storing fractional values.
-We'll get to that in the next chapter.
+We'll get to that soon in Chapter ~\ref{floating-point}.
 
 \subsection{Modulus operator}
 \label{modulus}
@@ -604,11 +574,11 @@ change the result.
 Interestingly, the same mathematical operations that work on
 integers also work on characters.  For example,
 
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
   char letter;
   letter = 'a' + 1;
   std::cout << letter << std::endl;
-\end{verbatim}
+\end{lstlisting}
 %
 outputs the letter {\tt b}.  Although it is syntactically legal
 to multiply characters, it is almost never useful to do it.
@@ -619,11 +589,11 @@ but that is not completely true.  In some cases, C++ converts
 automatically between types.  For example, the following is
 legal.
 
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
   int number;
   number = 'a';
   std::cout << number << std::endl;
-\end{verbatim}
+\end{lstlisting}
 %
 The result is 97, which is the number that is used internally
 by C++ to represent the letter {\tt 'a'}.  However, it is
@@ -676,10 +646,10 @@ already seen one example:
 You can also put arbitrary expressions on the right-hand
 side of an assignment statement:
 
-\begin{verbatim}
+\begin{lstlisting}[frame=single]
   int percentage;
-  percentage = (minute * 100) / 60;
-\end{verbatim}
+  percentage = (hitpoints * 100) / 50;
+\end{lstlisting}
 %
 This ability may not seem so impressive now, but we will see
 other examples where composition makes it possible

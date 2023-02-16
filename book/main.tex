@@ -13,10 +13,16 @@
             pdfcreator={pdflatex, or other tool}]{hyperref}
 \usepackage{makeidx}
 \usepackage{url}
+\usepackage{listings}
 \usepackage{mdframed}
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \pssilent
+\lstset{language=[ANSI]C++,
+keywordstyle=\color{blue}\bfseries, % style for keywords
+showstringspaces=false,
+%backgroundcolor=\color{yellow!10}
+}   
 
 \title{Think C++}
 
@@ -34,7 +40,7 @@
 
 \title {Think C++, a game perspective}
 \author {Lisa Patacchiola, Allen B. Downey(original author)}
-\date {Version 2.0 alpha 0.2}
+\date {Version 2.0 alpha 0.3}
 \maketitle
 
 \vspace{2in}
@@ -58,7 +64,7 @@ work, please contact the author.
 The \LaTeX\ source and code for this version of the book are available from
 
 \bigskip
-\url{https://github.com/lpatacch/ThinkCPP}
+\url{https://github.com/lpatacch/thinkCPPGames}
 
 \bigskip
 The \LaTeX\ source and code for the original book is available from
