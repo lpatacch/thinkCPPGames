@@ -106,6 +106,8 @@ hardware just for performing floating-point operations.
 \label{rounding}
 \index{rounding}
 \index{typecasting}
+\index{static cast}
+\index{cast!static}
 
 As I mentioned, C++ converts {\tt int}s
 to {\tt double}s automatically if necessary, because no
@@ -120,19 +122,17 @@ use a {\bf typecast}.  Typecasting is so called because it allows you
 to take a value that belongs to one type and ``cast'' it into another
 type (in the sense of molding or reforming, not throwing).
 
-The syntax for typecasting is like the syntax
-for a function call.  For example:
+The syntax for typecasting is different than code we have seen so far.  For example:
 
-\begin{verbatim}
+FIXME ADD more about STATIC CAST HERE
+\begin{lstlisting}
   double pi = 3.14159;
-  int x = int (pi);
-\end{verbatim}
+  int x = static_cast<int>(pi);
+\end{lstlisting}
 %
-The {\tt int} function returns an integer, so {\tt x} gets the value
+The {\tt static\_cast<int>} function returns an integer, so {\tt x} gets the value
 3.  Converting to an integer always rounds down, even if the fraction
 part is 0.99999999.
-
-FIXME ADD STATIC CAST HERE
 
 For every type in C++, there is a corresponding function that
 typecasts its argument to the appropriate type.
@@ -162,12 +162,12 @@ If the condition is not true, nothing happens.
 The condition can contain any of the {\tt comparison operators}:
 
 \begin{lstlisting}
-    x == y               // x equals y
-    x != y               // x is not equal to y
-    x > y                // x is greater than y
-    x < y                // x is less than y
-    x >= y               // x is greater than or equal to y
-    x <= y               // x is less than or equal to y
+    x == y           // x equals y
+    x != y           // x is not equal to y
+    x > y            // x is greater than y
+    x < y            // x is less than y
+    x >= y           // x is greater than or equal to y
+    x <= y           // x is less than or equal to y
 \end{lstlisting}
 %
 Although these operations are probably familiar to you, the
@@ -178,12 +178,11 @@ that {\tt =} is the assignment operator, and {\tt ==} is
 a comparison operator.  Also, there is no such thing as
 {\tt =<} or {\tt =>}.
 
+Unfortunately, the default behavior in many compilers is to not display warnings when you use one equal instead of two in an if statements. (Check out Chapter \ref{showwarning} if you want to know how to turn on the warnings.) Be sure to be careful when you are using equal signs and if statements.
+
 The two sides of a condition operator have to be the same
 type.  You can only compare {\tt ints} to {\tt ints} and
-{\tt doubles} to {\tt doubles}.  Unfortunately, at this
-point you can't compare {\tt string}s at all!  There is
-a way to compare {\tt string}s, but we won't get to it for a couple
-of chapters.
+{\tt doubles} to {\tt doubles}. 
 
 \section {Alternative execution}
 \label{alternative}
@@ -196,9 +195,9 @@ which one gets executed.  The syntax looks like:
 \begin{lstlisting}
     
   if (x%2 == 0) {
-    cout << "x is even" << endl;
+    std::cout << "x is even" << std::endl;
   } else {
-    cout << "x is odd" << endl;
+    std::cout << "x is odd" << std::endl;
   }
 \end{lstlisting}
 %
@@ -211,37 +210,7 @@ set of statements is executed.  Since the condition must
 be true or false, exactly one of the alternatives will be
 executed.
 
-As an aside, if you think you might want to check the parity
-(evenness or oddness) of numbers often, you might want to
-``wrap'' this code up in a function, as follows:
 
-\begin{verbatim}
-void printParity (int x) {
-  if (x%2 == 0) {
-    cout << "x is even" << endl;
-  } else {
-    cout << "x is odd" << endl;
-  }
-}
-\end{verbatim}
-%
-Now you have a function named {\tt printParity} that will display
-an appropriate message for any integer you care to provide.
-In {\tt main} you would call this function as follows:
-
-\begin{verbatim}
-    printParity (17);
-\end{verbatim}
-%
-Always remember that when you {\em call} a function, you do
-not have to declare the types of the arguments you provide.
-C++ can figure out what type they are.  You should resist the
-temptation to write things like:
-
-\begin{verbatim}
-  int number = 17;
-  printParity (int number);         // WRONG!!!
-\end{verbatim}
 
 \section {Chained conditionals}
 \index{conditional!chained}
@@ -304,6 +273,93 @@ can.
 On the other hand, this kind of {\bf nested structure} is common, and
 we will see it again, so you better get used to it.
 
+\section{Logical operators}
+\index{logical operator}
+\index{operator!logical}
+Nested if statements can get tricky to look at, so there are a couple of different ways to make it look less complex. The first we will look at is "logical operators".
+There are three {\bf logical operators} in C++: AND, OR and NOT,
+which are denoted by the symbols {\tt \&\&}, {\tt ||} and
+{\tt !}.  The semantics (meaning) of these operators is similar
+to their meaning in English.  For example {\tt x > 0 \&\& x < 10}
+is true only if {\tt x} is greater than zero AND less than 10.
+
+\index{semantics}
+
+{\tt evenFlag || n\%3 == 0} is true if {\em either} of
+the conditions is true, that is, if {\tt evenFlag} is true OR the
+number is divisible by 3.
+
+Finally, the NOT operator has the effect of negating or
+inverting a bool expression, so {\tt !evenFlag} is true
+if {\tt evenFlag} is false; that is, if the number is odd.
+
+\index{nested structure}
+
+Logical operators often provide a way to simplify nested
+conditional statements.  For example, how would you write
+the following code using a single conditional?
+
+\begin{verbatim}
+  if (x > 0) {
+    if (x < 10) {
+      cout << "x is a positive single digit." << endl;
+    }
+  }
+\end{verbatim}
+
+\section{{\tt switch} statement}
+\index{switch statement}
+\index{statement!switch}
+\label{switch}
+
+Another method that we can use instead of a complex if statement is {\tt switch}
+statements.  A {\tt switch} statement
+is an alternative to a chained conditional that is syntactically
+prettier and often more efficient.  It looks like this:
+
+\begin{verbatim}
+  switch (symbol) {
+  case '+':
+    perform_addition ();
+    break;
+  case '*':
+    perform_multiplication ();
+    break;
+  default:
+    cout << "I only know how to perform addition and multiplication" << endl;
+    break;
+  }
+\end{verbatim}
+%
+This {\tt switch} statement is equivalent to the following chained
+conditional:
+
+\begin{verbatim}
+  if (symbol == '+') {
+    perform_addition ();
+  } else if (symbol == '*') {
+    perform_multiplication ();
+  } else {
+    cout << "I only know how to perform addition and multiplication" << endl;
+  }
+\end{verbatim}
+%
+The {\tt break} statements are necessary in each branch
+in a {\tt switch} statement because otherwise the flow of execution
+``falls through'' to the next case.  Without the {\tt break} statements,
+the symbol {\tt +} would make the program perform addition, and
+then perform multiplication, and then print the error message.
+Occasionally this feature is useful, but most of the time it is
+a source of errors when people forget the {\tt break} statements.
+
+\index{break statement}
+\index{statement!break}
+
+\index{default}
+
+In general it is good style to include a {\tt default} case in
+every {\tt switch} statement, to handle errors or unexpected values.
+
 \section{Pseudocode}
 \section{Flowcharts}
 \section{Glossary}
@@ -322,12 +378,13 @@ in sequence.
 \item[nesting:] Putting a conditional statement inside one or both
 branches of another conditional statement.
 
-
+\item[switch statement:] A different way to write conditional code. The switch selects the case to run depending on the variable it is checking.
 
 \index{conditional}
 \index{conditional!chained}
 \index{conditional!nested}
 \index{floating-point}
+\index{switch statement}
 
 \end{description}
 

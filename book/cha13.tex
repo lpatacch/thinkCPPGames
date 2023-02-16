@@ -106,50 +106,8 @@ the scope of this book.
 \index{statement!switch}
 
 It's hard to mention enumerated types without mentioning {\tt switch}
-statements, because they often go hand in hand.  A {\tt switch} statement
-is an alternative to a chained conditional that is syntactically
-prettier and often more efficient.  It looks like this:
-
-\begin{verbatim}
-  switch (symbol) {
-  case '+':
-    perform_addition ();
-    break;
-  case '*':
-    perform_multiplication ();
-    break;
-  default:
-    cout << "I only know how to perform addition and multiplication" << endl;
-    break;
-  }
-\end{verbatim}
-%
-This {\tt switch} statement is equivalent to the following chained
-conditional:
-
-\begin{verbatim}
-  if (symbol == '+') {
-    perform_addition ();
-  } else if (symbol == '*') {
-    perform_multiplication ();
-  } else {
-    cout << "I only know how to perform addition and multiplication" << endl;
-  }
-\end{verbatim}
-%
-The {\tt break} statements are necessary in each branch
-in a {\tt switch} statement because otherwise the flow of execution
-``falls through'' to the next case.  Without the {\tt break} statements,
-the symbol {\tt +} would make the program perform addition, and
-then perform multiplication, and then print the error message.
-Occasionally this feature is useful, but most of the time it is
-a source of errors when people forget the {\tt break} statements.
-
-\index{break statement}
-\index{statement!break}
-
-{\tt switch} statements work with integers, characters, and enumerated
-\mbox{types}.  For example, to convert a {\tt Suit} to the corresponding
+statements, because they often go hand in hand.  We saw switch statements in Section ~\ref{switch}, but we only used it with characters and integers. It also works well with enumerated types.
+For example, to convert a {\tt Suit} to the corresponding
 string, we could use something like:
 
 \begin{verbatim}
@@ -165,11 +123,6 @@ string, we could use something like:
 In this case we don't need {\tt break} statements because the
 {\tt return} statements cause the flow of execution to return to
 the caller instead of falling through to the next case.
-
-\index{default}
-
-In general it is good style to include a {\tt default} case in
-every {\tt switch} statement, to handle errors or unexpected values.
 
 \section{Decks}
 \label{deck}

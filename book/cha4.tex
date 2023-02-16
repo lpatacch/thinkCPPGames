@@ -483,6 +483,39 @@ unnecessary and illegal to include the type when you pass them
 as arguments.  The correct
 syntax is {\tt printTime (hour, minute)}.
 
+\label{printparity}
+Do you remember the if/else code we did in the last chapter to check if something was even or odd? If you think you might want to check the parity
+(evenness or oddness) of numbers often, you might want to
+``wrap'' this code up in a function, as follows:
+
+\begin{lstlisting}
+
+void printParity (int x) {
+  if (x%2 == 0) {
+    std::cout << "x is even" << std::endl;
+  } else {
+    std::cout << "x is odd" << std::endl;
+  }
+}
+\end{lstlisting}
+%
+Now you have a function named {\tt printParity} that will display
+an appropriate message for any integer you care to provide. It is perfectly acceptable to have an if statement in a function.
+In {\tt main} you would call this function as follows:
+
+\begin{verbatim}
+    printParity (17);
+\end{verbatim}
+%
+Always remember that when you {\em call} a function, you do
+not have to declare the types of the arguments you provide.
+C++ can figure out what type they are.  You should resist the
+temptation to write things like:
+
+\begin{verbatim}
+  int number = 17;
+  printParity (int number);         // WRONG!!!
+\end{verbatim}
 \section {Functions with results}
 \index{fruitful function}
 \index{function!fruitful}

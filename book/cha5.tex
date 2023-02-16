@@ -508,36 +508,8 @@ since it flags the presence or absence of some condition.
 \section{Logical operators}
 \index{logical operator}
 \index{operator!logical}
-
-There are three {\bf logical operators} in C++: AND, OR and NOT,
-which are denoted by the symbols {\tt \&\&}, {\tt ||} and
-{\tt !}.  The semantics (meaning) of these operators is similar
-to their meaning in English.  For example {\tt x > 0 \&\& x < 10}
-is true only if {\tt x} is greater than zero AND less than 10.
-
-\index{semantics}
-
-{\tt evenFlag || n\%3 == 0} is true if {\em either} of
-the conditions is true, that is, if {\tt evenFlag} is true OR the
-number is divisible by 3.
-
-Finally, the NOT operator has the effect of negating or
-inverting a bool expression, so {\tt !evenFlag} is true
-if {\tt evenFlag} is false; that is, if the number is odd.
-
-\index{nested structure}
-
-Logical operators often provide a way to simplify nested
-conditional statements.  For example, how would you write
-the following code using a single conditional?
-
-\begin{verbatim}
-  if (x > 0) {
-    if (x < 10) {
-      cout << "x is a positive single digit." << endl;
-    }
-  }
-\end{verbatim}
+We have looked at logical operators 
+FIXME -- show how the and/or and NOT were using booleans
 
 \section{Bool functions}
 \label{bool}

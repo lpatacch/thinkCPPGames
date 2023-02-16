@@ -1,145 +1,47 @@
-% LaTeX source for textbook ``How to think like a computer scientist''
-% Copyright (C) 1999  Allen B. Downey
+% LaTeX source for textbook ``ThinkCPP , a game perspective''
+% Copyright (C) 2023  Lisa Patacchiola
 
 
-\chapter{Quick reference for AP classes}
+\chapter{Integrated Development Environments}
+Most Integrated Development Environments work well as soon as you install them. They are designed so you do not have to worry about all the various options the compiler and linker can use. This chapter will explain options you may want to set on your IDE to help you code. NOTE: Your IDE will work fine without these changes. They are the ones that I have found particularly helpful.  
+\section{Replit}
+\index{replit}
+\index{warnings}
+\label{showwarning}
+One particular feature I like to use is to "show all warnings". If you remember, warnings are a way that the compiler can show you that it noticed some code that could be an error. The code does not have a problem with it's syntax, but many times code in this pattern is a logic error.
 
-These class definitions are copied from the College Board
-web page,
+For example, this code compiles without an error on Replit:
+\begin{lstlisting}
+  if (x=0)          \\ There is only 1 equal sign
+  {
+    std::cout<<"woo";
+  }
+\end{lstlisting}
+It only has one equal sign, so instead of comparing the variable
+to zero, it set the variable to zero. Technically, that code does not have a syntax problem. But, very few people would want to set a value here. They were expecting the code to compare values.
 
-\begin{verbatim}
-http://www.collegeboard.org/ap/computer-science/html/quick_ref.htm
-\end{verbatim}
+Luckily, you can set options in the Replit environment to let you know that there could be a mistake.
 
-with minor formatting changes.  This is probably a good time to
-repeat the following text, also from the College Board web page.
+To make your environment less cluttered, Replit hides the configuration files as a default. But, you can show these files so you can edit them. First, click the three dots next to the word "Files" on the left. That should open a menu with an option to "Show hidden files". Click that option. The menu should look like Figure \ref{fig:ShowHiddenMenu}
 
-\begin{quotation}
-"Inclusion of the C++ classes defined for use in the Advanced
-Placement Computer Science courses does not constitute endorsement of
-the other material in this textbook by the College Board, Educational
-Testing service, or the AP Computer Science Development Committee. The
-versions of the C++ classes defined for use in the AP Computer Science
-courses included in this textbook were accurate as of 20 July
-1999.  Revisions to the classes may have been made since that time."
-\end{quotation}
+\begin{figure}
+    \centering
+    \includegraphics{images/showhidden.PNG}
+    \caption{The Menu that Displays when you press the three Dots}
+    \label{fig:ShowHiddenMenu}
+\end{figure}
 
-\section{{\tt apstring}}
-
-\begin{verbatim}
-extern const int npos;  // used to indicate not a position in the string
-
-// public member functions
-
-  // constructors/destructor
-  apstring();                       // construct empty string ""
-  apstring(const char * s);         // construct from string literal
-  apstring(const apstring & str);   // copy constructor
-  ~apstring();                      // destructor
-
-  // assignment
-  const apstring & operator= (const apstring & str); // assign str
-  const apstring & operator= (const char * s);       // assign s
-  const apstring & operator= (char ch);              // assign ch
-
-  // accessors
-  int length() const;                      // number of chars
-  int find(const apstring & str) const;    // index of first occurrence of str
-  int find(char ch) const;                 // index of first occurrence of ch
-  apstring substr(int pos, int len) const; // substring of len chars, 
-                                           // starting at pos
-  const char * c_str() const;              // explicit conversion to char *
-
-  // indexing
-  char operator[ ](int k) const; // range-checked indexing
-  char & operator[ ](int k);     // range-checked indexing
-
-  // modifiers
-  const apstring & operator+= (const apstring & str); // append str
-  const apstring & operator+= (char ch);              // append char
-
-  // The following free (non-member) functions operate on strings
-
-  // I/O functions
-  ostream & operator<< ( ostream & os, const apstring & str );
-  istream & operator>> ( istream & is, apstring & str );
-  istream & getline( istream & is, apstring & str );
-
-  // comparison operators
-  bool operator== ( const apstring & lhs, const apstring & rhs );
-  bool operator!= ( const apstring & lhs, const apstring & rhs );
-  bool operator<  ( const apstring & lhs, const apstring & rhs );
-  bool operator<= ( const apstring & lhs, const apstring & rhs );
-  bool operator>  ( const apstring & lhs, const apstring & rhs );
-  bool operator>= ( const apstring & lhs, const apstring & rhs );
-
-  // concatenation operator +
-  apstring operator+ ( const apstring & lhs, const apstring & rhs );
-  apstring operator+ ( char ch, const apstring & str );
-  apstring operator+ ( const apstring & str, char ch );
-\end{verbatim}
-
-\section{{\tt apvector}}
+The file that you will be editing is called "Makefile". This file holds the special options that are used when compiling and linking. Look for a line in the file matches this:
 
 \begin{verbatim}
-template <class itemType>
-class apvector
-
-// public member functions
-
-  // constructors/destructor
-  apvector();                                 // default constructor (size==0)
-  apvector(int size);                         // initial size of vector is size
-  apvector(int size, const itemType & fillValue);  // all entries == fillValue
-  apvector(const apvector & vec);             // copy constructor
-  ~apvector();                                // destructor
-
-  // assignment
-  const apvector & operator= (const apvector & vec);
-
-  // accessors
-  int length() const;                            // capacity of vector
-
-  // indexing
-  // indexing with range checking
-  itemType & operator[ ](int index);           
-  const itemType & operator[ ](int index) const;
-
-  // modifiers
-  void resize(int newSize);               // change size dynamically
-                                          //can result in losing values
+    override CXXFLAGS += -g -Wno-everything    
 \end{verbatim}
 
-\section{{\tt apmatrix}}
+The -Wno-everything flag is telling the compiler to ignore all warnings. That is not what we want. Instead, change that line to:
 
 \begin{verbatim}
-template <class itemType>
-class apmatrix
-
-// public member functions
-
-  // constructors/destructor
-  apmatrix();                                   // default size is 0 x 0
-  apmatrix(int rows, int cols);                 // size is rows x cols
-  apmatrix(int rows, int cols, const itemType & fillValue);
-                                                // all entries == fillValue
-  apmatrix(const apmatrix & mat);               // copy constructor
-  ~apmatrix( );                                 // destructor
-
-  // assignment
-  const apmatrix & operator = (const apmatrix & rhs);
-
-  // accessors
-  int numrows() const;                                  // number of rows
-  int numcols() const;                                  // number of columns
-
-  // indexing
-  // range-checked indexing
-  const apvector<itemType> & operator[ ](int k) const;  
-  apvector<itemType> & operator[ ](int k);
-
-  // modifiers
-  void resize(int newRows, int newCols); // resizes matrix to newRows x newCols
-                                         // (can result in losing values)
+    override CXXFLAGS += -g -Weverything
 \end{verbatim}
+
+Instead of hiding all the warnings, it will show them instead. There are other flags that do not show as many warnings, but I prefer to see all the possible problems with my code.
 
