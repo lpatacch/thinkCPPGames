@@ -187,6 +187,10 @@ Particular values aside, the interesting question is whether
 we can prove that this program terminates for {\em all} values of n.
 So far, no one has been able to prove it {\em or} disprove it!
 
+\section{Definite loop}
+count example
+\section{indefinite loop}
+sentinel example
 \section{Tables}
 \index{table}
 \index{logarithm}
@@ -363,290 +367,65 @@ The output of this program is:
 So far, so good.  The next step is to {\bf encapsulate} and {\bf
 generalize}.
 
-\section {Encapsulation and generalization}
+\section{{\tt do-while} loop}
+FIXME
 
-Encapsulation usually means taking a piece of code and wrapping it up
-in a function, allowing you to take advantage of all the things functions
-are good for.  We have seen two examples of encapsulation, when we
-wrote {\tt printParity} in Section~\ref{printparity} and {\tt
-isSingleDigit} in Section~\ref{bool}.
+\section{{\tt for} loops}
+FIXME
 
-Generalization means taking something specific, like printing
-multiples of 2, and making it more general, like printing the
-multiples of any integer.
+The loops we have written so far have a number of elements
+in common.  All of them start by initializing a variable;
+they have a test, or condition, that depends on that variable;
+and inside the loop they do something to that variable,
+like increment it.
 
-\index{encapsulation}
-\index{generalization}
+\index{loop!for}
+\index{for}
+\index{statement!for}
 
-Here's a function that encapsulates the loop from the previous
-section and generalizes it to print multiples of {\tt n}.
+This type of loop is so common that there is an alternate
+loop statement, called {\tt for}, that expresses it more
+concisely.  The general syntax looks like this:
 
 \begin{verbatim}
-void printMultiples (int n)
-{
-  int i = 1;
-  while (i <= 6) {
-    cout << n*i << "   ";
-    i = i + 1;
+  for (INITIALIZER; CONDITION; INCREMENTOR) {
+    BODY
   }
-  cout << endl;
-}
 \end{verbatim}
 %
-To encapsulate, all I had to do was add the first line,
-which declares the name, parameter,
-and return type.  To generalize, all I had to do was replace
-the value 2 with the parameter {\tt n}.
-
-If we call this function with the argument 2, we get the same
-output as before.  With argument 3, the output is:
+This statement is exactly equivalent to
 
 \begin{verbatim}
-3   6   9   12   15   18
-\end{verbatim}
-%
-and with argument 4, the output is
-
-\begin{verbatim}
-4   8   12   16   20   24 
-\end{verbatim}
-%
-By now you can probably guess how we are going to print a
-multiplication table: we'll call {\tt printMultiples} repeatedly with
-different arguments.  In fact, we are going to use another loop to
-iterate through the rows.
-
-\begin{verbatim}
-  int i = 1;
-  while (i <= 6) {
-    printMultiples (i);
-    i = i + 1;
-  }    
-\end{verbatim}
-%
-First of all, notice how similar this loop is to the one inside {\tt
-printMultiples}.  All I did was replace the print statement with a
-function call.
-
-The output of this program is
-
-\begin{verbatim}
-1   2   3   4   5   6   
-2   4   6   8   10   12   
-3   6   9   12   15   18   
-4   8   12   16   20   24   
-5   10   15   20   25   30   
-6   12   18   24   30   36   
-\end{verbatim}
-%
-which is a (slightly sloppy) multiplication table.  If the
-sloppiness bothers you, try replacing the spaces between
-columns with tab characters and see what you get.
-
-\section{Functions}
-\index{function}
-
-In the last section I mentioned ``all the things functions
-are good for.''  About this time, you might be wondering
-what exactly those things are.  Here are some of the reasons
-functions are useful:
-
-\begin{itemize}
-
-\item By giving a name to a sequence of statements, you make
-your program easier to read and debug.
-
-\item Dividing a long program into functions allows you to
-separate parts of the program, debug them in isolation, and
-then compose them into a whole.
-
-\item Functions facilitate both recursion and iteration.
-
-\item Well-designed functions are often useful for many programs.
-Once you write and debug one, you can reuse it.
-
-\end{itemize}
-
-\section{More encapsulation}
-\index{encapsulation}
-\index{program development!encapsulation}
-
-To demonstrate encapsulation again, I'll take the code
-from the previous section and wrap it up in a function:
-
-\begin{verbatim}
-void printMultTable () {
-  int i = 1;
-  while (i <= 6) {
-    printMultiples (i);
-    i = i + 1;
+  INITIALIZER;
+  while (CONDITION) {
+    BODY
+    INCREMENTOR
   }
-}
 \end{verbatim}
 %
-The process I am demonstrating is a common 
-development plan.  You develop code gradually by adding
-lines to {\tt main} or someplace else, and then when you get
-it working, you extract it and wrap it up in a function.
-
-The reason this is useful is that you sometimes don't know
-when you start writing exactly how to divide the program into
-functions.  This approach lets you design as you go along.
-
-\section{Local variables}
-
-About this time, you might be wondering how we can use the same
-variable {\tt i} in both {\tt printMultiples} and {\tt
-printMultTable}.  Didn't I say that you can only declare a variable
-once?  And doesn't it cause problems when one of the functions changes
-the value of the variable?
-
-The answer to both questions is ``no,'' because the {\tt i} in {\tt
-printMultiples} and the {\tt i} in {\tt printMultTable} are
-{\em not the same variable}.  They have the same name, but
-they do not refer to the same storage location, and changing
-the value of one of them has no effect on the other.
-
-\index{local variable}
-\index{variable!local}
-
-Remember that variables that are declared inside a function definition
-are local.  You cannot access a local variable from outside its
-``home'' function, and you are free to have multiple variables with
-the same name, as long as they are not in the same function.
-
-The stack diagram for this program shows clearly that the
-two variables named {\tt i} are not in the same storage location.
-They can have different values, and changing one does not affect
-the other.
-
-\vspace{0.1in}
-\centerline{\epsfig{figure=stack4.eps}}
-\vspace{0.1in}
-%
-Notice that the value of the parameter {\tt n} in
-{\tt printMultiples} has to be the same as the value
-of {\tt i} in {\tt printMultTable}.  On the other hand,
-the value of {\tt i} in {\tt printMultiple} goes
-from 1 up to {\tt n}.  In the diagram, it happens to be 3.
-The next time through the loop it will be 4.
-
-It is often a good idea to use different variable names in
-different functions, to avoid confusion, but there are good
-reasons to reuse names.  For example, it is common to
-use the names {\tt i}, {\tt j} and {\tt k} as loop variables.
-If you avoid using them in one function just because you
-used them somewhere else, you will probably make the program
-harder to read.
-
-\index{loop variable}
-\index{variable!loop}
-
-\section{More generalization}
-\index{generalization}
-
-As another example of generalization, imagine you wanted
-a program that would print a multiplication table of any
-size, not just the 6x6 table.  You could add a parameter to
-{\tt printMultTable}:
+except that it is more concise and, since it puts all the
+loop-related statements in one place, it is easier to read.
+For example:
 
 \begin{verbatim}
-void printMultTable (int high) {
-  int i = 1;
-  while (i <= high) {
-    printMultiples (i);
-    i = i + 1;
+  int i;
+  for (i = 0; i < 4; i++) {
+    cout << count[i] << endl;
   }
-}
 \end{verbatim}
 %
-I replaced the value 6 with the parameter {\tt high}.  If I
-call {\tt printMultTable} with the argument 7, I get
+is equivalent to 
 
 \begin{verbatim}
-1   2   3   4   5   6   
-2   4   6   8   10   12   
-3   6   9   12   15   18   
-4   8   12   16   20   24   
-5   10   15   20   25   30   
-6   12   18   24   30   36   
-7   14   21   28   35   42   
-\end{verbatim}
-%
-which is fine, except that I probably want the table to
-be square (same number of rows and columns), which means
-I have to add another parameter to {\tt printMultiples},
-to specify how many columns the table should have.
-
-Just to be annoying, I will also call this parameter {\tt high},
-demonstrating that different functions can have parameters
-with the same name (just like local variables):
-
-\begin{verbatim}
-void printMultiples (int n, int high) {
-  int i = 1;
-  while (i <= high) {
-    cout << n*i << "   ";
-    i = i + 1;
-  }    
-  cout << endl;
-}
-
-void printMultTable (int high) {
-  int i = 1;
-  while (i <= high) {
-    printMultiples (i, high);
-    i = i + 1;
+  int i = 0;
+  while (i < 4) {
+    cout << count[i] << endl;
+    i++;
   }
-}
 \end{verbatim}
-%
-Notice that when I added a new parameter, I had to change the first
-line of the function (the interface or prototype), and I also had to
-change the place where the function is called in {\tt printMultTable}.
-As expected, this program generates a square 7x7 table:
 
-\begin{verbatim}
-1   2   3   4   5   6   7   
-2   4   6   8   10   12   14   
-3   6   9   12   15   18   21   
-4   8   12   16   20   24   28   
-5   10   15   20   25   30   35   
-6   12   18   24   30   36   42   
-7   14   21   28   35   42   49
-\end{verbatim}
-%
-When you generalize a function appropriately, you often find
-that the resulting program has capabilities you did not intend.
-For example, you might notice that the multiplication table
-is symmetric, because $ab = ba$, so all the entries in the
-table appear twice.  You could save ink by printing only
-half the table.  To do that, you only have to change one
-line of {\tt printMultTable}.  Change
-
-\begin{verbatim}
-      printMultiples (i, high);
-\end{verbatim}
-%
-to
-
-\begin{verbatim}
-      printMultiples (i, i);
-\end{verbatim}
-%
-and you get
-
-\begin{verbatim}
-1   
-2   4   
-3   6   9   
-4   8   12   16   
-5   10   15   20   25   
-6   12   18   24   30   36   
-7   14   21   28   35   42   49  
-\end{verbatim}
-%
-I'll leave it up to you to figure out how it works.
+FIXME - example of for loop with a decrement instead
+FIXME - example of for loop with a step of 5
 
 \section{Glossary}
 

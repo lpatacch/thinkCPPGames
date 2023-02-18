@@ -141,10 +141,7 @@ typecasts its argument to the appropriate type.
 \index{conditional}
 \index{statement!conditional}
 
-In order to write useful programs, we almost always need the ability
-to check certain conditions and change the behavior of the program
-accordingly.  {\bf Conditional statements} give us this ability.  The
-simplest form is the {\tt if} statement:
+In order to write useful programs, we almost always need the ability to check certain conditions and change the behavior of the program accordingly.  {\bf Conditional statements} give us this ability.  The simplest form is the {\tt if} statement:
 
 \begin{lstlisting}
   if (x > 0) {
@@ -152,9 +149,22 @@ simplest form is the {\tt if} statement:
   }
 \end{lstlisting}
 %
+That code is doing the following:
+\begin{verbatim}
+IF x is greater than 0 THEN
+    Output "x is positive" and then go to the next line
+\end{verbatim}
+
 The expression in parentheses is called the condition.
 If it is true, then the statements in brackets get executed.
 If the condition is not true, nothing happens.
+
+\begin{figure}
+    \centering
+    \includegraphics{images/ifflow.png}
+    \caption{If flowchart}
+    \label{fig:ifflow}
+\end{figure}
 
 \index{operator!comparison}
 \index{comparison!operator}
@@ -203,6 +213,13 @@ which one gets executed.  The syntax looks like:
 %
 (If you do not remember what the \% sign is doing, check out the
 Modulus section in Chapter~\ref{modulus})
+That code is doing the following:
+\begin{verbatim}
+IF x mod 2 is equal to 0 THEN
+    Output "x is even" and then go to the next line
+ELSE
+    Output "x is odd" and then go to the next line
+\end{verbatim}
 If the remainder when {\tt x} is divided by 2 is zero, then
 we know that {\tt x} is even, and this code displays a message
 to that effect.  If the condition is false, the second
@@ -210,6 +227,12 @@ set of statements is executed.  Since the condition must
 be true or false, exactly one of the alternatives will be
 executed.
 
+\begin{figure}
+    \centering
+    \includegraphics[height=6cm]{images/ifelseflow.png}
+    \caption{If else flowchart}
+    \label{fig:ifelseflow}
+\end{figure}
 
 
 \section {Chained conditionals}
@@ -219,15 +242,15 @@ Sometimes you want to check for a number of related conditions
 and choose one of several actions.  One way to do this is by
 {\bf chaining} a series of {\tt if}s and {\tt else}s:
 
-\begin{verbatim}
+\begin{lstlisting}
   if (x > 0) {
-    cout << "x is positive" << endl;
+    std::cout << "x is positive" << std::endl;
   } else if (x < 0) {
-    cout << "x is negative" << endl;
+    std::cout << "x is negative" << std::endl;
   } else {
-    cout << "x is zero" << endl;
+    std::cout << "x is zero" << std::endl;
   }
-\end{verbatim}
+\end{lstlisting}
 %
 These chains can be as long as you want, although they can
 be difficult to read if they get out of hand.  One way to
@@ -244,17 +267,18 @@ In addition to chaining, you can also nest one conditional
 within another.  We could have written the previous example
 as:
 
-\begin{verbatim}
+\begin{lstlisting}
+  
   if (x == 0) {
-    cout << "x is zero" << endl;
+    std::cout << "x is zero" << std::endl;
   } else {
     if (x > 0) {
-      cout << "x is positive" << endl;
+      std::cout << "x is positive" << std::endl;
     } else {
-      cout << "x is negative" << endl;
+      std::cout << "x is negative" << std::endl;
     }
   }
-\end{verbatim}
+\end{lstlisting}
 %
 There is now an outer conditional that contains two branches.  The
 first branch contains a simple output statement, but the second
@@ -299,14 +323,22 @@ Logical operators often provide a way to simplify nested
 conditional statements.  For example, how would you write
 the following code using a single conditional?
 
-\begin{verbatim}
+\begin{lstlisting}
+  
   if (x > 0) {
     if (x < 10) {
-      cout << "x is a positive single digit." << endl;
+      std::cout << "x is a positive single digit.";
+      std::cout << std::endl;
     }
   }
-\end{verbatim}
+\end{lstlisting}
+\section{Short circuiting the logic}
+truth table of and
+explain how the short circuiting of and works
+guardian pattern
 
+truth table of or
+explain how the short circuiting of or works
 \section{{\tt switch} statement}
 \index{switch statement}
 \index{statement!switch}
@@ -361,7 +393,19 @@ In general it is good style to include a {\tt default} case in
 every {\tt switch} statement, to handle errors or unexpected values.
 
 \section{Pseudocode}
+
 \section{Flowcharts}
+Just like pseudocode, I have put a few figure of flowcharts around the if and if else statements. Flowcharts are another way to show how code is running. Instead of using just words, flowcharts add shapes and arrows to help people understand the logic of the code. There are some specifics of how flowcharts generally work.
+\subsection{shapes}
+selection (if statements)
+processing (math)
+input and output
+Start/Stop
+part of a large algorithm start/stop
+\subsection{How they connect}
+Each section is a component and it should not jump from one section to another
+"spaghetti code"
+
 \section{Glossary}
 
 \begin{description}

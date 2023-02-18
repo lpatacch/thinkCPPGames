@@ -76,8 +76,8 @@ all of them to zero.
 \index{vector!element}
 
 The {\tt []} operator reads and writes the elements of a vector in
-much the same way it accesses the characters in an {\tt apstring}.  As
-with {\tt apstring}s, the indices start at zero, so {\tt count[0]}
+much the same way it accesses the characters in an {\tt string}.  As
+with {\tt string}s, the indices start at zero, so {\tt count[0]}
 refers to the ``zeroeth'' element of the vector, and {\tt count[1]}
 refers to the ``oneth'' element.  You can use the {\tt []} operator
 anywhere in an expression:
@@ -153,41 +153,15 @@ Although this syntax is legal, it is almost never used for
 The {\tt =} operator works on {\tt vector}s in pretty much
 the way you would expect.
 
-\section{{\tt for} loops}
 
-The loops we have written so far have a number of elements
-in common.  All of them start by initializing a variable;
-they have a test, or condition, that depends on that variable;
-and inside the loop they do something to that variable,
-like increment it.
+\section{{\tt for each} loops}
+FIXME -- change to be more vector specific (change to be FOR EACH loops instead)
 
-\index{loop!for}
-\index{for}
-\index{statement!for}
 
-This type of loop is so common that there is an alternate
-loop statement, called {\tt for}, that expresses it more
-concisely.  The general syntax looks like this:
+\index{loop!for each}
+\index{for each}
+\index{statement!for each}
 
-\begin{verbatim}
-  for (INITIALIZER; CONDITION; INCREMENTOR) {
-    BODY
-  }
-\end{verbatim}
-%
-This statement is exactly equivalent to
-
-\begin{verbatim}
-  INITIALIZER;
-  while (CONDITION) {
-    BODY
-    INCREMENTOR
-  }
-\end{verbatim}
-%
-except that it is more concise and, since it puts all the
-loop-related statements in one place, it is easier to read.
-For example:
 
 \begin{verbatim}
   int i;

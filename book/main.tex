@@ -18,10 +18,18 @@
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 \pssilent
+\usepackage{color}
+\definecolor{dkgreen}{RGB}{46,133,64}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lightblue}{rgb}{0.5, 0.6, 0.8}
 \lstset{language=[ANSI]C++,
 keywordstyle=\color{blue}\bfseries, % style for keywords
 showstringspaces=false,
-%backgroundcolor=\color{yellow!10}
+   commentstyle=\color{dkgreen},
+   stringstyle=\color{mauve},
+   basicstyle={\small\ttfamily},
+  % backgroundcolor=\color{lightblue}
 }   
 
 \title{Think C++}
@@ -82,9 +90,9 @@ The \LaTeX\ source and code for the original book is available from
 \include{cha1}
 \include{cha2}
 \include{cha3}
+\include{cha6}
 \include{cha4}
 \include{cha5}
-\include{cha6}
 \include{cha7}
 \include{cha8}
 \include{cha9}
