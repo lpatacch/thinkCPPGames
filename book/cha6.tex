@@ -5,6 +5,7 @@
 
 \chapter{Iteration}
 
+
 \section{Multiple assignment}
 \index{assignment}
 \index{statement!assignment}
@@ -188,9 +189,64 @@ we can prove that this program terminates for {\em all} values of n.
 So far, no one has been able to prove it {\em or} disprove it!
 
 \section{Definite loop}
-count example
+FIXME count example
 \section{indefinite loop}
-sentinel example
+FIXME sentinel example
+\section{New Operators}
+FIXME
+Things like the += operator
+\section{Increment and decrement operators}
+\index{operator!increment}
+\index{operator!decrement}
+
+Incrementing and decrementing are such common operations that C++
+provides special operators for them.  The {\tt ++} operator adds one
+to the current value of an {\tt int}, {\tt char} or {\tt double}, and
+{\tt --} subtracts one.  Neither operator works on {\tt string}s,
+and neither {\em should} be used on {\tt bool}s.
+
+Technically, it is legal to increment a variable and use it
+in an expression at the same time.  For example, you might see
+something like:
+
+\begin{verbatim}
+  cout << i++ << endl;
+\end{verbatim}
+%
+Looking at this, it is not clear whether the increment will
+take effect before or after the value is displayed.  Because
+expressions like this tend to be confusing, I would discourage
+you from using them.  In fact, to discourage you even more,
+I'm not going to tell you what the result is.  If you really
+want to know, you can try it.
+
+Using the increment operators, we can rewrite the letter-counter:
+
+FIXME - change example
+\begin{verbatim}
+  int index = 0;
+  while (index < length) {
+    if (fruit[index] == 'a') {
+      count++;
+    }
+    index++;
+  }
+\end{verbatim}
+%
+It is a common error to write something like
+
+\begin{verbatim}
+  index = index++;             // WRONG!!
+\end{verbatim}
+%
+Unfortunately, this is syntactically legal, so the compiler
+will not warn you.  The effect of this statement is to leave
+the value of {\tt index} unchanged.  This is often a difficult
+bug to track down.
+
+Remember, you can write {\tt index = index +1;}, or you
+can write {\tt index++;}, but you shouldn't mix them.
+
 \section{Tables}
 \index{table}
 \index{logarithm}

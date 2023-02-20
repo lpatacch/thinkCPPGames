@@ -6,6 +6,7 @@
 Most Integrated Development Environments work well as soon as you install them. They are designed so you do not have to worry about all the various options the compiler and linker can use. This chapter will explain options you may want to set on your IDE to help you code. NOTE: Your IDE will work fine without these changes. They are the ones that I have found particularly helpful.  
 \section{Replit}
 \index{replit}
+\subsection{Turning on warnings}
 \index{warnings}
 \label{showwarning}
 One particular feature I like to use is to "show all warnings". If you remember, warnings are a way that the compiler can show you that it noticed some code that could be an error. The code does not have a problem with it's syntax, but many times code in this pattern is a logic error.
@@ -24,7 +25,7 @@ Luckily, you can set options in the Replit environment to let you know that ther
 
 To make your environment less cluttered, Replit hides the configuration files as a default. But, you can show these files so you can edit them. First, click the three dots next to the word "Files" on the left. That should open a menu with an option to "Show hidden files". Click that option. The menu should look like Figure \ref{fig:ShowHiddenMenu}
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics{images/showhidden.PNG}
     \caption{The Menu that Displays when you press the three Dots}
@@ -45,3 +46,14 @@ The -Wno-everything flag is telling the compiler to ignore all warnings. That is
 
 Instead of hiding all the warnings, it will show them instead. There are other flags that do not show as many warnings, but I prefer to see all the possible problems with my code.
 
+\subsection{Using a certain version of the C++ standard}
+\label{changestandard}
+Although Replit does compile C++ code, it defaults to an older version of the language. C++ has continually added new features as the years have gone on. For example, smart pointers were not added to the language until 2011.
+
+At the time of the writing of this book, the default version of C++ that Replit uses is the 2014 standard. If you want to use some of the newer features, you need to tell it to use a different version of the standard. That is achievable by changing the Makefile again. Look for the same overide CXXFLAGS line that you changed in the last section. Change that line to the following line:
+
+\begin{verbatim}
+override CXXFLAGS += -g -std=c++20 -Weverything -Wno-c++98-compat
+\end{verbatim}
+
+The important part is the {\tt -std=} part of the line. That is telling the compiler what standard to use. c++20 is telling it to use the 2020 version of the standard. I also added the {\tt -Wnoc++98-compat"} to the line. That shuts off any warnings complaining that the code is not compatible with the 1998 version of C++. That isn't necessary to get the 2020 version to run, but I found it helpful to remove the warnings that were no longer pertinent. If I am using the 2020 version of the standard because I want to use the new language features, I am not worried about if my code works with a 1998 version of the compiler.

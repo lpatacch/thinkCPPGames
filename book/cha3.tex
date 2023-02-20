@@ -124,22 +124,27 @@ type (in the sense of molding or reforming, not throwing).
 
 The syntax for typecasting is different than code we have seen so far.  For example:
 
-FIXME ADD more about STATIC CAST HERE
 \begin{lstlisting}
   double pi = 3.14159;
   int x = static_cast<int>(pi);
 \end{lstlisting}
 %
-The {\tt static\_cast<int>} function returns an integer, so {\tt x} gets the value
+The {\tt static\_cast<int>} casting operator returns an integer, so {\tt x} gets the value
 3.  Converting to an integer always rounds down, even if the fraction
 part is 0.99999999.
 
 For every type in C++, there is a corresponding function that
-typecasts its argument to the appropriate type.
+typecasts its argument to the appropriate type. The format follows the following pattern:
+
+\begin{lstlisting}
+  T newVariable = static_cast<T>(oldVariable);
+\end{lstlisting}
+To use this, change T to be the type you are converting into. Put the variable name you are converting where "oldVariable" is. Last, change "newVariable" to the name of the variable you want the new value to be placed. 
 
 \section{Conditional execution}
 \index{conditional}
 \index{statement!conditional}
+\index{if}
 
 In order to write useful programs, we almost always need the ability to check certain conditions and change the behavior of the program accordingly.  {\bf Conditional statements} give us this ability.  The simplest form is the {\tt if} statement:
 
@@ -153,13 +158,15 @@ That code is doing the following:
 \begin{verbatim}
 IF x is greater than 0 THEN
     Output "x is positive" and then go to the next line
+ENDIF
 \end{verbatim}
+That also means that if x is zero or less, it will not output anything and just go to the following line of code. 
 
 The expression in parentheses is called the condition.
 If it is true, then the statements in brackets get executed.
 If the condition is not true, nothing happens.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics{images/ifflow.png}
     \caption{If flowchart}
@@ -197,10 +204,12 @@ type.  You can only compare {\tt ints} to {\tt ints} and
 \section {Alternative execution}
 \label{alternative}
 \index{conditional!alternative}
+\index{if else}
+\index{else}
 
 A second form of conditional execution is alternative execution,
 in which there are two possibilities, and the condition determines
-which one gets executed.  The syntax looks like:
+which one gets executed.  This is sometimes called the {\tt if else} statement. The syntax looks like:
 
 \begin{lstlisting}
     
@@ -219,6 +228,7 @@ IF x mod 2 is equal to 0 THEN
     Output "x is even" and then go to the next line
 ELSE
     Output "x is odd" and then go to the next line
+ENDIF
 \end{verbatim}
 If the remainder when {\tt x} is divided by 2 is zero, then
 we know that {\tt x} is even, and this code displays a message
@@ -227,7 +237,7 @@ set of statements is executed.  Since the condition must
 be true or false, exactly one of the alternatives will be
 executed.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[height=6cm]{images/ifelseflow.png}
     \caption{If else flowchart}
@@ -286,7 +296,23 @@ branch contains another {\tt if} statement, which has two branches
 of its own.  Fortunately, those two branches are both output
 statements, although they could have been conditional statements as
 well.
-
+\begin{verbatim}
+    IF x is equal to zero THEN
+        Output "X is zero"
+    ELSE 
+        IF x is greater than zero THEN
+            Output "x is positive"
+        ELSE 
+            Output "x is negative"
+        ENDIF
+    ENDIF
+\end{verbatim}
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=6cm]{images/nestedifflow.png}
+    \caption{Nested if/else statement}
+    \label{fig:nestedifelse}
+\end{figure}
 Notice again that indentation helps make the structure
 apparent, but nevertheless, nested conditionals get difficult to read
 very quickly.  In general, it is a good idea to avoid them when you
@@ -309,13 +335,13 @@ is true only if {\tt x} is greater than zero AND less than 10.
 
 \index{semantics}
 
-{\tt evenFlag || n\%3 == 0} is true if {\em either} of
-the conditions is true, that is, if {\tt evenFlag} is true OR the
+{\tt n\%2==0 || n\%3 == 0} is true if {\em either} of
+the conditions is true, that is, if the number is divisible by 2 OR the
 number is divisible by 3.
 
 Finally, the NOT operator has the effect of negating or
-inverting a bool expression, so {\tt !evenFlag} is true
-if {\tt evenFlag} is false; that is, if the number is odd.
+inverting a bool expression, so {\tt !(n\%2 == 0)} is true
+if {\tt (n\%2 == 0)} is false; that is, if the number is odd.
 
 \index{nested structure}
 
@@ -332,13 +358,59 @@ the following code using a single conditional?
     }
   }
 \end{lstlisting}
-\section{Short circuiting the logic}
-truth table of and
-explain how the short circuiting of and works
-guardian pattern
 
-truth table of or
-explain how the short circuiting of or works
+But, you need to be careful when you are making a comparison. What makes sense to a human does not make sense to a computer. If you want to see if x is less than y and z, the following are what many students think is a solution (it is not.)
+
+\begin{lstlisting}
+
+if ((x < y) && (z))   // WRONG!
+{
+}
+\end{lstlisting}
+Although it is comparing x to y, it is not comparing z. It is just checking if Z is zero or not. Instead, this is what the if statement should be:
+\begin{lstlisting}
+if ((x < y) && (x < z))  // this is the way!  
+\end{lstlisting}
+
+
+\section{Short circuiting the logic}
+If you are not exactly sure how AND works, here is a table that explains the specifics. If you have one comparison (first) and it is ANDed to the second comparison (second), the third column is the result.
+\begin{table}[h]
+\centering
+\begin{tabular}{ | c | c | c | }
+\hline
+ first & second & first \&\& second \\\hline
+ true & true & true \\ 
+ true & false & false \\  
+ false & true & false \\
+ false & false & false \\
+\hline
+\end{tabular}
+    \caption{Truth table for AND}
+    \label{tab:andtruth}
+\end{table}
+
+If you take a look at the table, you may notice that the only way the final result is true is that both comparisons need to be true. Because of that, when C++ code is running, it has a shortcut. If it notices the first item of an AND comparison is false, it does not bother checking the second comparison. If you happen to know the comparison that is false more often, you can have your code run faster by having it be the first of the comparisons.
+
+Next is how the OR comparison works. If you look at the OR truth table, you will notice that you only need one item to be true for the result to be true.
+\vspace{0.1in}
+\begin{table}[h]
+\centering
+\begin{tabular}{ | c | c | c | }
+\hline
+ first & second & first OR second \\\hline
+ true & true & true \\ 
+ true & false & true \\  
+ false & true & true \\
+ false & false & false \\
+\hline
+\end{tabular}
+    \caption{Truth table for OR}
+    \label{tab:ortruth}
+\end{table}
+\vspace{0.1in}
+Just like the AND comparison, there is a shortcut. As soon as it sees a "true", the program goes straight to the resulting code. If you know the comparison that happens to be true more often, you can have your code run quicker by having it be the first comparison.
+
 \section{{\tt switch} statement}
 \index{switch statement}
 \index{statement!switch}
@@ -349,32 +421,36 @@ statements.  A {\tt switch} statement
 is an alternative to a chained conditional that is syntactically
 prettier and often more efficient.  It looks like this:
 
-\begin{verbatim}
-  switch (symbol) {
+\begin{lstlisting}
+  
+ switch (symbol) {
   case '+':
-    perform_addition ();
+    z = x + y;
     break;
   case '*':
-    perform_multiplication ();
+    z = x * y;
     break;
   default:
-    cout << "I only know how to perform addition and multiplication" << endl;
+    std::cout << "I only know how to perform addition";
+    std::cout <<" and multiplication" << std::endl;
     break;
-  }
-\end{verbatim}
+ }
+\end{lstlisting}
 %
 This {\tt switch} statement is equivalent to the following chained
 conditional:
 
-\begin{verbatim}
+\begin{lstlisting}
+  
   if (symbol == '+') {
-    perform_addition ();
+    z = x + y;
   } else if (symbol == '*') {
-    perform_multiplication ();
+    z = x * y;
   } else {
-    cout << "I only know how to perform addition and multiplication" << endl;
+    std::cout << "I only know how to perform addition";
+    std::cout << "and multiplication" << std::endl;
   }
-\end{verbatim}
+\end{lstlisting}
 %
 The {\tt break} statements are necessary in each branch
 in a {\tt switch} statement because otherwise the flow of execution
@@ -391,11 +467,29 @@ a source of errors when people forget the {\tt break} statements.
 
 In general it is good style to include a {\tt default} case in
 every {\tt switch} statement, to handle errors or unexpected values.
+\subsection{Fallthrough}
+FIXME - explain stacking cases, show example
+FIXME - explain what fallthrough is, show example
 
+There is more of a chance that this type of code is a mistake, so the C++ 2017 standard (and the later standards) now has a warning if you write a switch statement with this feature. If you want to avoid this warning, you can add the following:
+\begin{verbatim}
+    [[fallthrough]];    
+\end{verbatim}
+where a "break" statement would normally be. So, if you take the previous example, it would look like this:
+FIXME example with fallthrough warning removed
+
+Remember, this feature is ONLY available if you are using the 2017 standard or later. (For information on how to change the standard on Reddit, check out Section \ref{changestandard}.)
+\subsection{Scoping}
 \section{Pseudocode}
+\index{pseudocode}
+FIXME
+One important point is to not make your pseudocode too technical. You are not trying to write the code itself, just a plan on how the code could be written.
 
 \section{Flowcharts}
+\index{flowchart}
 Just like pseudocode, I have put a few figure of flowcharts around the if and if else statements. Flowcharts are another way to show how code is running. Instead of using just words, flowcharts add shapes and arrows to help people understand the logic of the code. There are some specifics of how flowcharts generally work.
+
+FIXME
 \subsection{shapes}
 selection (if statements)
 processing (math)
@@ -405,7 +499,10 @@ part of a large algorithm start/stop
 \subsection{How they connect}
 Each section is a component and it should not jump from one section to another
 "spaghetti code"
+Picture of a flowchart with the improper shared middle section
 
+\section{Testing Techniques}
+FIXME - Talk about testing code with all the different paths to make sure it is working
 \section{Glossary}
 
 \begin{description}
@@ -424,11 +521,18 @@ branches of another conditional statement.
 
 \item[switch statement:] A different way to write conditional code. The switch selects the case to run depending on the variable it is checking.
 
+\item[pseudocode:]  A way of designing programs by writing
+rough drafts in a combination of keywords and English.
+
+\item[flowchart:] A way of designing programs with shapes and arrows used to show the flow of the program. 
+
 \index{conditional}
 \index{conditional!chained}
 \index{conditional!nested}
 \index{floating-point}
 \index{switch statement}
+\index{pseudocode}
+\index{flowchart}
 
 \end{description}
 

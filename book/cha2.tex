@@ -145,10 +145,10 @@ Just as there are different types of values (integer, character,
 etc.), there are different types of variables.  When you create a new
 variable, you have to declare what type it is.  For example, the
 character type in C++ is called {\tt char}.  The following statement
-creates a new variable named {\tt fred} that has type {\tt char}.
+creates a new variable named {\tt sarah} that has type {\tt char}.
 
 \begin{lstlisting}
-    char fred;
+    char sarah;
 \end{lstlisting}
 
 This kind of statement is called a {\bf declaration}.
@@ -165,12 +165,10 @@ are going to skip that for now (see Chapter~\ref{strings}).
 
 To create an integer variable, the syntax is 
 
-
 \begin{lstlisting}
     int bob;
 \end{lstlisting}
 %
-
 where {\tt bob} is the arbitrary name you made up for the
 variable.  In general, you will want to make up variable names
 that indicate what you plan to do with the variable.  For
@@ -182,7 +180,6 @@ example, if you saw these variable declarations:
     int hour, minute;
 \end{lstlisting}
 %
-
 you could probably make a good guess at what values
 would be stored in them.  This example
 also demonstrates the syntax for declaring multiple variables
@@ -663,6 +660,8 @@ That's because the left side indicates the storage location
 where the result will go.  Expressions
 do not represent storage locations, only values.  So the
 following is illegal:  {\tt minute+1 = hour;}.
+
+FIXME - should I include the UFO operator here?
 
 \section{Glossary}
 
