@@ -452,6 +452,10 @@ conditional:
   }
 \end{lstlisting}
 %
+In general it is good style to include a {\tt default} case in
+every {\tt switch} statement, to handle errors or unexpected values.
+\index{default}
+
 The {\tt break} statements are necessary in each branch
 in a {\tt switch} statement because otherwise the flow of execution
 ``falls through'' to the next case.  Without the {\tt break} statements,
@@ -463,23 +467,75 @@ a source of errors when people forget the {\tt break} statements.
 \index{break statement}
 \index{statement!break}
 
-\index{default}
-
-In general it is good style to include a {\tt default} case in
-every {\tt switch} statement, to handle errors or unexpected values.
 \subsection{Fallthrough}
-FIXME - explain stacking cases, show example
-FIXME - explain what fallthrough is, show example
+Here is an example of code using switch that is using the fall through feature. This method of stacking cases is common, so no error message is created if the compiler sees this:
+\begin{lstlisting}
+  /* In this code, the user types a character to decide 
+     which way to go. If they type 'L' or 'l', they will 
+     go left. If they type 'R' or 'r', they will go 
+     right. If they type anything else, there is an 
+     error message
+   */
+   
+  switch (direction) {
+    case 'L':
+    case 'l':
+        std::cout << "Going left" << std::endl;
+        break;
+    case 'R':
+    case 'r':
+        std::cout << "Going Right" << std::endl;
+        break;    
+    default:
+        std::cout << "Please choose R or L" << std::endl;
+  }
+\end{lstlisting}
+The above code allows the programmer to have the same result if 
+a person typed either R or r. 
+
+The next example is something more uncommon. It is using the fallthrough feature without stacking cases. Each case will be
+printing something connected to its case, and then an printing the items for the lower cases.
+
+\begin{lstlisting}
+  std::cin >> dayOfChristmas;
+  std::cout << "On the " << dayOfChristmas;
+  std::cout << " day of Christmas";
+  std::cout << " my true love gave to me";
+  switch (dayOfChristmas) {
+    case 3:
+        std::cout << " 3 french hens,";
+    case 2:
+        std::cout << " 2 calling birds, and";
+    case 1:
+        std::cout << " a partridge in a pear tree";
+        std::cout << std::endl;
+  }
+\end{lstlisting}
 
 There is more of a chance that this type of code is a mistake, so the C++ 2017 standard (and the later standards) now has a warning if you write a switch statement with this feature. If you want to avoid this warning, you can add the following:
 \begin{verbatim}
     [[fallthrough]];    
 \end{verbatim}
 where a "break" statement would normally be. So, if you take the previous example, it would look like this:
-FIXME example with fallthrough warning removed
+\begin{lstlisting}
+  std::cout << "On the " << dayOfChristmas;
+  std::cout << " day of Christmas";
+  std::cout << " my true love gave to me";
+  switch (dayOfChristmas) {
+    case 3:
+        std::cout << " 3 french hens,";
+        [[fallthrough]];
+    case 2:
+        std::cout << " 2 calling birds, and";
+        [[fallthrough]];
+    case 1:
+        std::cout << " a partridge in a pear tree";
+        std::cout << std::endl;
+    }
+\end{lstlisting}
 
-Remember, this feature is ONLY available if you are using the 2017 standard or later. (For information on how to change the standard on Reddit, check out Section \ref{changestandard}.)
-\subsection{Scoping}
+Remember, this warning removal feature is ONLY available if you are using the 2017 standard or later. (For information on how to change the standard on Reddit, check out Section \ref{changestandard}.)
+
 \section{Pseudocode}
 \index{pseudocode}
 FIXME
@@ -503,6 +559,7 @@ Picture of a flowchart with the improper shared middle section
 
 \section{Testing Techniques}
 FIXME - Talk about testing code with all the different paths to make sure it is working
+
 \section{Glossary}
 
 \begin{description}
