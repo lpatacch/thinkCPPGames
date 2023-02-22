@@ -259,6 +259,26 @@ This assignment is illegal:
   minute = "59";         // WRONG!
 \end{lstlisting}
 %
+\section{Initialization}
+When variables are created, they can be set to a value immediately instead of waiting until later. This can shorten your code. 
+
+\subsection{Legacy}
+Pre-C++ 11, it was quite common to use an equation to initialize 
+your variables.
+Here is an example:
+\begin{lstlisting}
+  int hitPoints = 10;
+\end{lstlisting}
+Most of our examples use this format, because people are used to 
+this style when using other computer languages. But, C++11 and later
+have a different style that can be used instead.
+\subsection{Braced}
+This new style is called braced initialization. Instead of having an equal sign, the line is even shorter. Although it does the same thing as the equal sign, it can help with some common programming errors. We will be talking about this in later chapters.
+\begin{lstlisting}
+  int hitPoints{10};
+\end{lstlisting}
+\index{braced initialization}
+\index{initalization!braced}
 \section{Outputting variables}
 \label{output}
 

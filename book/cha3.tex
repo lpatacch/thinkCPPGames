@@ -27,7 +27,7 @@ using the same syntax we used for the other types.  For example:
   pi = 3.14159;
 \end{lstlisting}
 %
-It is also legal to declare a variable and assign a value to it at the
+Remember, it is also legal to declare a variable and assign a value to it at the
 same time:
 
 \begin{lstlisting}
@@ -40,6 +40,14 @@ In fact, this syntax is quite common.  A combined declaration
 and assignment is sometimes called an {\bf initialization}.
 
 \index{initialization}
+(FYI, if you are using C++20, you can use the mathematical
+constant of PI, like the following:
+\begin{lstlisting}
+  double mypi = std::numbers::pi;
+\end{lstlisting}
+There are lots of constants available. We will be talking 
+more about them when we talk about the Math library in Section \ref{mathlibrary}.)
+
 
 Although floating-point numbers are useful, they are
 often a source of confusion because there seems to be an
@@ -55,12 +63,26 @@ to make assignments between types.  For example, the following
 is illegal
 
 \begin{lstlisting}
-    int x = 1.1;
+    int checkMe = 1.1;  // WARNING!
 \end{lstlisting}
 %
 because the variable on the left is an {\tt int}
-and the value on the right is a {\tt double}.  But it is easy
-to forget this rule, especially because there are places where C++
+and the value on the right is a {\tt double}. If you are
+using the legacy initialization (see above), the compiler
+will give you a warning and let you know that checkMe will
+be set to 1, and not 1.1. But, your code will continue to
+run. If you want an error to happen 
+instead, you can use the braced initialization:
+\begin{lstlisting}
+    int checkMe{1.1};   // ERROR!
+\end{lstlisting}
+Instead of giving a warning, the compiler will create an
+an error, complaining "type 'double' cannot be narrowed to 'int' in initializer list". 
+\index{braced initialization}
+\index{initialization!braced}
+
+But it is easy
+to forget this "no assignment between types" rule, especially because there are places where C++
 automatically converts from one type to another.
 For example,
 
@@ -411,6 +433,30 @@ Next is how the OR comparison works. If you look at the OR truth table, you will
 \vspace{0.1in}
 Just like the AND comparison, there is a shortcut. As soon as it sees a "true", the program goes straight to the resulting code. If you know the comparison that happens to be true more often, you can have your code run quicker by having it be the first comparison.
 
+\section{Conditional Operator}
+\index{conditional operator}
+\index{operator!conditional}
+There is another operator that people can use instead of the 
+if/else statements. It is a more compact way to check a condition,
+and then set the appropriate value. For example:
+\begin{lstlisting}
+  y = ( x < 0 ) ? -1 : 1;
+\end{lstlisting}
+That line is equivalent to:
+\begin{lstlisting}
+  if ( x < 0 ) {
+    y = -1;
+  }
+  else {
+    y = 1;
+  }
+\end{lstlisting}
+It can also be used to decide what to print:
+\begin{lstlisting}
+  std::cout << ((w < 0)? "negative":"positive or zero");
+\end{lstlisting}
+The above code checks what w is set to. If it is less than 0, it 
+will print "negative". Otherwise, it prints "positive or zero".
 \section{{\tt switch} statement}
 \index{switch statement}
 \index{statement!switch}

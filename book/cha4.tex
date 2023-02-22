@@ -10,6 +10,7 @@
 \index{function!Math}
 \index{expression}
 \index{argument}
+\label{mathlibrary}
 
 In mathematics, you have probably seen functions like $\sin$ and
 $\log$, and you have learned to evaluate expressions like
@@ -100,6 +101,17 @@ of your program along with {\tt iostream}:
 
 Such header files have an initial `c' to signify that these
 header files have been derived from the {\bf C} language.
+\section{Math constants}
+FIXME
+\begin{verbatim}
+#define _USE_MATH_DEFINES
+#include <cmath>
+double mypi = M_PI;
+
+or, modern method --
+double mypi = std::numbers::pi;
+\end{verbatim}
+
 
 \section {Composition}
 \label{composition}
