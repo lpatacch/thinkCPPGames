@@ -604,7 +604,54 @@ Each section is a component and it should not jump from one section to another
 Picture of a flowchart with the improper shared middle section
 
 \section{Testing Techniques}
-FIXME - Talk about testing code with all the different paths to make sure it is working
+Now that we have code with if statements, we can't just run the 
+code once to make sure it works. To be truly sure that the entire
+program works, it is important to test each possible path of the
+program. For example, if we have a program that checks to see if
+a number is less than zero, we should check a negative number, 
+a positive number, and zero to make sure the program works. 
+
+\begin{lstlisting}
+int main() {
+  int x = 1; // Later, set to 0, and then -1.
+  if (x == 0) {
+    std::cout << "x is zero" << std::endl;
+  } else {
+    if (x > 0) {
+      std::cout << "x is positive" << std::endl;
+    } else {
+      std::cout << "x is negative" << std::endl;
+    }
+  }
+}
+\end{lstlisting}
+If I put those values in, I should see the x is zero for zero, x is
+positive for the 1, and x is negative for the -1. If one of those does not print the correct item, I would know there is a bug, and 
+would know where to check. For example, if the "x is zero" did not print, I would be looking at the first if statement condition. Check
+the paths in Figure \ref{fig:nestedpath}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=9cm]{images/nestedifflow - Path.png}
+    \caption{Nested if else flowchart with pathlines}
+    \label{fig:nestedpath}
+\end{figure}
+It is good to test each section of code before adding more code
+to the program. This will allow you to have a better idea where the
+bug could be.
+
+\section{Exercises}
+\subsection{Rock Paper Scissors}
+FIXME
+\subsection{Magic 8 Ball}
+FIXME
+\subsection{Decision Maker}
+FIXME
+This assignment will be based on the assignment below.
+Students are asked to create a formula that makes a judgement
+But, should they make a judgement without talking to others?
+
+%https://docs.google.com/document/d/1t_ZvI0brEiHdb4CvvjA5X7-uUSU56p9h7alAf3RAcbg/edit# 
 
 \section{Glossary}
 

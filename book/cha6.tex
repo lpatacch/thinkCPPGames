@@ -1,537 +1,1173 @@
-% LaTeX source for textbook ``ThinkCPP , a game perspective''
-% Copyright (C) 2023  Lisa Patacchiola and Allen B Downey
-
-\chapter{Iteration}
+% LaTeX source for textbook ``How to think like a computer scientist''
+% Copyright (C) 1999  Allen B. Downey
 
 
-\section{Multiple assignment}
-\index{assignment}
-\index{statement!assignment}
-\index{multiple assignment}
+\chapter{Fruitful functions}
 
-I haven't said much about it, but it is legal in C++ to
-make more than one assignment to the same variable.  The
-effect of the second assignment is to replace the old value
-of the variable with a new value.
+\section{Return values}
+\index{return}
+\index{statement!return}
+\index{function!fruitful}
+\index{fruitful function}
+\index{return value}
+\index{void}
+\index{function!void}
+
+Some of the built-in functions we have used, like the math
+functions, have produced results.  That is, the effect of
+calling the function is to generate a new value, which we
+usually assign to a variable or use as part of an expression.
+For example:
+
+\index{math function!exp}
+\index{math function!sin}
 
 \begin{verbatim}
-  int fred = 5;
-  cout << fred;
-  fred = 7;
-  cout << fred;
+  double e = exp (1.0);
+  double height = radius * sin (angle);
 \end{verbatim}
 %
-The output of this program is {\tt 57}, because the first
-time we print {\tt fred} his value is 5, and the second time
-his value is 7.
-
-This kind of {\bf multiple assignment} is the reason I
-described variables as a {\em container} for values.  When
-you assign a value to a variable, you change the contents of
-the container, as shown in the figure:
-
-\vspace{0.1in}
-\centerline{\epsfig{figure=assign2.eps}}
-\vspace{0.1in}
-
-When there are multiple assignments to a variable, it is especially
-important to distinguish between an assignment statement and a
-statement of equality.  Because C++ uses the {\tt =} symbol for
-assignment, it is tempting to interpret a statement like {\tt a = b}
-as a statement of equality.  It is not!
-
-First of all, equality is commutative, and assignment is not.
-For example, in mathematics if $a = 7$ then $7 = a$.  But in
-C++ the statement {\tt a = 7;} is legal, and {\tt 7 = a;}
-is not.
-
-Furthermore, in mathematics, a statement of equality is true
-for all time.  If $a = b$ now, then $a$ will always equal $b$.
-In C++, an assignment statement can make two variables equal,
-but they don't have to stay that way!
+But so far all the functions we have written have been {\bf void}
+functions; that is, functions that return no value.  When you call
+a void function, it is typically on a line by itself, with
+no assignment:
 
 \begin{verbatim}
-  int a = 5;
-  int b = a;     // a and b are now equal
-  a = 3;         // a and b are no longer equal
+  nLines (3);
+  countdown (n-1);
 \end{verbatim}
 %
-The third line changes the value of {\tt a} but it does not
-change the value of {\tt b}, and so they are no longer equal.
-In many programming languages an alternate symbol is used
-for assignment, such as {\tt <-} or {\tt :=}, in order to
-avoid confusion.
+\label{fruitful functions}
+In this chapter, we are going to write functions that return things,
+which I will refer to as {\bf fruitful} functions, for want of a
+better name.  The first example is {\tt area}, which takes a {\tt
+double} as a parameter, and returns the area of a circle with the
+given radius:
 
-Although multiple assignment is frequently useful, you should
-use it with caution.  If the values of variables are changing
-constantly in different parts of the program, it can make
-the code difficult to read and debug.
-
-\section{Iteration}
-\index{iteration}
-
-One of the things computers are often used for is the automation
-of repetitive tasks.  Repeating identical or similar tasks without
-making errors is something that computers do well and people do
-poorly.
-
-We have seen programs that use recursion to perform
-repetition, such as {\tt nLines} and {\tt countdown}.  This
-type of repetition is called {\bf iteration}, and C++ provides
-several language features that make it easier to write iterative
-programs.
-
-The two features we are going to look at are the {\tt while}
-statement and the {\tt for} statement.
-
-\section{The {\tt while} statement}
-\index{statement!while}
-\index{while statement}
-
-Using a {\tt while} statement, we can rewrite {\tt countdown}:
+\index{math function!acos}
+\index{pi}
 
 \begin{verbatim}
-int countdown (int n) {
-  while (n > 0) {
-    cout << n << endl;
-    n = n-1;
-  }
-  cout << "Blastoff!" << endl;
-  return 0;
+double area (double radius) {
+  double pi = acos (-1.0);
+  double area = pi * radius * radius;
+  return area;
 }
 \end{verbatim}
 %
-You can almost read a {\tt while} statement as if it were
-English.  What this means is, ``While {\tt n} is greater than
-zero, continue displaying the value of {\tt n} and then reducing
-the value of {\tt n} by 1.  When you get to zero, output the
-word `Blastoff!'''
+The first thing you should notice is that the beginning of the
+function definition is different.  Instead of {\tt void}, which
+indicates a void function, we see {\tt double}, which indicates that
+the return value from this function will have type {\tt double}.
 
-More formally, the flow of execution for a {\tt while} statement
-is as follows:
-
-\begin{enumerate}
-
-\item Evaluate the condition in parentheses, yielding {\tt true}
-or {\tt false}.
-
-\item If the condition is false, exit the {\tt while} statement
-and continue execution at the next statement.
-
-\item If the condition is true, execute each of the statements
-between the squiggly-braces, and then go back to step 1.
-
-\end{enumerate}
-
-This type of flow is called a {\bf loop} because the third step loops
-back around to the top.  Notice that if the condition is false the
-first time through the loop, the statements inside the loop are
-never executed.  The statements inside the loop are called
-the {\bf body} of the loop.
-
-\index{loop}
-\index{loop!body}
-\index{loop!infinite}
-\index{body!loop}
-\index{infinite loop}
-
-The body of the loop should change the value of
-one or more variables so that, eventually, the condition becomes
-false and the loop terminates.  Otherwise the loop will repeat
-forever, which is called an {\bf infinite loop}.  An endless
-source of amusement for computer scientists is the observation
-that the directions on shampoo, ``Lather, rinse, repeat,'' are
-an infinite loop.
-
-In the case of {\tt countdown}, we can prove that the loop
-will terminate because we know that the value of {\tt n} is
-finite, and we can see that the value of {\tt n} gets smaller
-each time through the loop (each {\bf iteration}), so
-eventually we have to get to zero.  In other cases it is not
-so easy to tell:
+Also, notice that the last line is an alternate form of the
+{\tt return} statement that includes a return value.  This
+statement means, ``return immediately from this function and
+use the following expression as a return value.''  The
+expression you provide can be arbitrarily complicated,
+so we could have written this function more concisely:
 
 \begin{verbatim}
-  void sequence (int n) {
-    while (n != 1) {
-      cout << n << endl;
-      if (n%2 == 0) {           // n is even
-        n = n / 2;
-      } else {                  // n is odd
-        n = n*3 + 1;
-      }
-    }
+double area (double radius) {
+  return acos(-1.0) * radius * radius;
+}
+\end{verbatim}
+%
+On the other hand, {\bf temporary} variables like {\tt area} often
+make debugging easier.  In either case, the type of the expression in
+the {\tt return} statement must match the return type of the function.
+In other words, when you declare that the return type is {\tt double},
+you are making a promise that this function will eventually
+produce a {\tt double}.  If you try to {\tt return} with no
+expression, or an expression with the wrong type, the compiler will
+take you to task.
+
+\index{temporary variable}
+\index{variable!temporary}
+
+Sometimes it is useful to have multiple return
+statements, one in each branch of a conditional:
+
+\begin{verbatim}
+double absoluteValue (double x) {
+  if (x < 0) {
+    return -x;
+  } else {
+    return x;
+  }
+}
+\end{verbatim}
+%
+Since these returns statements are in an alternative conditional, only
+one will be executed.  Although it is legal to have more than one
+{\tt return} statement in a function, you should keep in mind that as soon
+as one is executed, the function terminates without executing any
+subsequent statements.
+
+Code that appears after a {\tt return} statement, or any place else
+where it can never be executed, is called {\bf dead code}.  Some
+compilers warn you if part of your code is dead.
+
+\index{dead code}
+
+If you put return statements inside a conditional, then
+you have to guarantee that {\em every possible path} through
+the program hits a return statement.  For example:
+
+\begin{verbatim}
+double absoluteValue (double x) {
+  if (x < 0) {
+    return -x;
+  } else if (x > 0) {
+    return x;
+  }                          // WRONG!!
+}
+\end{verbatim}
+%
+This program is not correct because if {\tt x} happens to be 0, then
+neither condition will be true and the function will end without hitting
+a return statement.  Unfortunately, many C++ compilers do not catch
+this error.  As a result, the program may compile and run, but the
+return value when {\tt x==0} could be anything, and will probably
+be different in different environments.
+
+\index{absolute value}
+\index{error!compile-time}
+\index{compile-time error}
+
+By now you are probably sick of seeing compiler errors, but as you
+gain more experience, you will realize that the only thing worse
+than getting a compiler error is {\em not} getting a compiler error
+when your program is wrong.
+
+Here's the kind of thing that's likely to happen: you test {\tt
+absoluteValue} with several values of {\tt x} and it seems to work
+correctly.  Then you give your program to someone else and they run it
+in another environment.  It fails in some mysterious way, and it
+takes days of debugging to discover that the problem is an
+incorrect implementation of {\tt absoluteValue}.  If only the
+compiler had warned you!
+
+\index{compile-time error}
+\index{error!compile-time}
+\index{debugging}
+
+From now on, if the compiler points out an error in your program, you
+should not blame the compiler.  Rather, you should thank the compiler
+for finding your error and sparing you days of debugging.  Some
+compilers have an option that tells them to be extra strict and report
+all the errors they can find.  You should turn this option on all the
+time.
+
+\index{math function!fabs}
+
+As an aside, you should know that there is a function in the
+math library called {\tt fabs} that calculates the absolute
+value of a {\tt double}---correctly.
+
+\section{Program development}
+\label{distance}
+\index{program development}
+
+At this point you should be able to look at complete C++ functions
+and tell what they do.  But it may not be clear yet how to go
+about writing them.  I am going to suggest one technique that
+I call {\bf incremental development}.
+
+\index{incremental development}
+\index{program development}
+
+As an example, imagine you want to find the distance between two
+points, given by the coordinates $(x_1, y_1)$ and $(x_2, y_2)$.  By
+the usual definition,
+
+\begin{equation}
+distance = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
+\end{equation}
+%
+The first step is to consider what a {\tt distance} function
+should look like in C++.  In other words, what are the inputs
+(parameters) and what is the output (return value).
+
+In this case, the two points are the parameters, and it is natural to
+represent them using four {\tt double}s.  The return value is the
+distance, which will have type {\tt double}.
+
+Already we can write an outline of the function:
+
+\begin{verbatim}
+double distance (double x1, double y1, double x2, double y2) {
+  return 0.0;
+}
+\end{verbatim}
+%
+The {\tt return} statement is a placekeeper so that the function will
+compile and return something, even though it is not the right answer.
+At this stage the function doesn't do anything useful, but it is
+worthwhile to try compiling it so we can identify any syntax errors
+before we make it more complicated.
+
+In order to test the new function, we have to call it with
+sample values.  Somewhere in {\tt main} I would add:
+
+\begin{verbatim}
+  double dist = distance (1.0, 2.0, 4.0, 6.0);
+  cout << dist << endl;
+\end{verbatim}
+%
+I chose these values so that the horizontal
+distance is 3 and the vertical distance is 4; that way,
+the result will be 5 (the hypotenuse of a 3-4-5 triangle).
+When you are testing a function, it is useful to know the right
+answer.
+
+Once we have checked the syntax of the function definition, we
+can start adding lines of code one at a time.  After each
+incremental change, we recompile and run the program.  That
+way, at any point we know exactly where the error must be---in
+the last line we added.
+
+The next step in the computation is to find the differences
+$x_2 - x_1$ and $y_2 - y_1$.  I will store those values in
+temporary variables named {\tt dx} and {\tt dy}.
+
+\begin{verbatim}
+double distance (double x1, double y1, double x2, double y2) {
+  double dx = x2 - x1;
+  double dy = y2 - y1;
+  cout << "dx is " << dx << endl;
+  cout << "dy is " << dy << endl;
+  return 0.0;
+}
+\end{verbatim}
+%
+I added output statements that will let me check the intermediate
+values before proceeding.  As I mentioned, I already know that they
+should be 3.0 and 4.0.
+
+\index{scaffolding}
+
+When the function is finished I will remove the output statements.  Code
+like that is called {\bf scaffolding}, because it is helpful for
+building the program, but it is not part of the final product.
+Sometimes it is a good idea to keep the scaffolding around, but
+comment it out, just in case you need it later.
+
+The next step in the development is to square {\tt dx} and {\tt dy}.
+We could use the {\tt pow} function, but it is simpler and
+faster to just multiply each term by itself.
+
+\begin{verbatim}
+double distance (double x1, double y1, double x2, double y2) {
+  double dx = x2 - x1;
+  double dy = y2 - y1;
+  double dsquared = dx*dx + dy*dy;
+  cout << "dsquared is " << dsquared;
+  return 0.0;
+}
+\end{verbatim}
+%
+Again, I would compile and run the program at this stage
+and check the intermediate value (which should be 25.0).
+
+Finally, we can use the {\tt sqrt} function to compute and
+return the result.
+
+\begin{verbatim}
+double distance (double x1, double y1, double x2, double y2) {
+  double dx = x2 - x1;
+  double dy = y2 - y1;
+  double dsquared = dx*dx + dy*dy;
+  double result = sqrt (dsquared);
+  return result;
+}
+\end{verbatim}
+%
+Then in {\tt main}, we should output and check the value of the result.
+
+As you gain more experience programming, you might find yourself
+writing and debugging more than one line at a time.  Nevertheless,
+this incremental development process can save you a lot of
+debugging time.
+
+The key aspects of the process are:
+
+\begin{itemize}
+
+\item Start with a working program and make small, incremental
+changes.  At any point, if there is an error, you will know
+exactly where it is.
+
+\item Use temporary variables to hold intermediate values so
+you can output and check them.
+
+\item Once the program is working, you might want to remove
+some of the scaffolding or consolidate multiple statements into
+compound expressions, but only if it does not make the program
+difficult to read.
+
+\end{itemize}
+
+\section{Composition}
+\index{composition}
+
+As you should expect by now, once you define a new function,
+you can use it as part of an expression, and you can build
+new functions using existing functions.  For example, what if someone
+gave you two points, the center of the circle and a point on
+the perimeter, and asked for the area of the circle?
+
+Let's say the center point is stored in the variables {\tt xc}
+and {\tt yc}, and the perimeter point is in {\tt xp} and
+{\tt yp}.  The first step is to find the radius of the circle, which
+is the distance between the two points.  Fortunately, we have
+a function, {\tt distance}, that does that.
+
+\begin{verbatim}
+  double radius = distance (xc, yc, xp, yp);
+\end{verbatim}
+%
+The second step is to find the area of a circle with that
+radius, and return it.
+
+\begin{verbatim}
+  double result = area (radius);
+  return result;
+\end{verbatim}
+%
+Wrapping that all up in a function, we get:
+
+\begin{verbatim}
+double fred (double xc, double yc, double xp, double yp) {
+  double radius = distance (xc, yc, xp, yp);
+  double result = area (radius);
+  return result;
+} 
+\end{verbatim}
+%
+The name of this function is {\tt fred}, which may seem odd.  I will
+explain why in the next section.
+
+The temporary variables {\tt radius} and {\tt area} are
+useful for development and debugging, but once the program is
+working we can make it more concise by composing
+the function calls:
+
+\begin{verbatim}
+double fred (double xc, double yc, double xp, double yp) {
+  return area (distance (xc, yc, xp, yp));
+} 
+\end{verbatim}
+
+\section{Overloading}
+\label{overloading}
+\index{overloading}
+
+In the previous section you might have noticed that {\tt fred}
+and {\tt area} perform similar functions---finding
+the area of a circle---but take different parameters.  For
+{\tt area}, we have to provide the radius; for {\tt fred}
+we provide two points.
+
+If two functions do the same thing, it is natural to give them
+the same name.  In other words, it would make more sense if
+{\tt fred} were called {\tt area}.
+
+Having more than one function with the same name, which is called {\bf
+overloading}, is legal in C++ {\em as long as each version takes
+different parameters}.  So we can go ahead and rename {\tt fred}:
+
+\begin{verbatim}
+double area (double xc, double yc, double xp, double yp) {
+  return area (distance (xc, yc, xp, yp));
+} 
+\end{verbatim}
+%
+This looks like a recursive function, but it is not.  Actually,
+this version of {\tt area} is calling the other version.
+When you call an overloaded function, C++ knows which version you
+want by looking at the arguments that you provide.  If you write:
+
+\begin{verbatim}
+    double x = area (3.0);
+\end{verbatim}
+%
+C++ goes looking for a function named {\tt area} that
+takes a {\tt double} as an argument, and so it uses the
+first version.  If you write
+
+\begin{verbatim}
+    double x = area (1.0, 2.0, 4.0, 6.0);
+\end{verbatim}
+%
+C++ uses the second version of {\tt area}.  
+
+Many of the built-in C++ commands are overloaded, meaning that there
+are different versions that accept different numbers or types of
+parameters.
+
+Although overloading is a useful feature, it should be used with
+caution.  You might get yourself nicely confused if you are trying to
+debug one version of a function while accidently calling a different
+one.
+
+Actually, that reminds me of one of the cardinal rules of debugging:
+{\bf make sure that the version of the program you are looking at is
+the version of the program that is running!}  Some time you may find
+yourself making one change after another in your program, and seeing
+the same thing every time you run it.  This is a warning sign that for
+one reason or another you are not running the version of the program
+you think you are.  To check, stick in an output statement (it
+doesn't matter what it says) and make sure the behavior of the
+program changes accordingly.
+
+\section{Boolean values}
+\index{boolean}
+\index{value!boolean}
+
+The types we have seen so far are pretty big.  There are a lot
+of integers in the world, and even more floating-point numbers.
+By comparison, the set of characters is pretty small.  Well, there
+is another type in C++ that is even smaller.  It is called
+{\bf boolean}, and the only values in it are
+{\tt true} and {\tt false}.
+
+Without thinking about it, we have been using boolean values for the
+last couple of chapters.  The condition inside an {\tt if}
+statement or a {\tt while} statement is a boolean expression.
+Also, the result of a comparison operator is a boolean value.
+For example:
+
+\begin{verbatim}
+  if (x == 5) {
+    // do something
   }
 \end{verbatim}
 %
-The condition for this loop is {\tt n != 1}, so the loop
-will continue until {\tt n} is 1, which will make the condition
-false.
+The operator {\tt ==} compares two integers and produces a
+boolean value.
 
-At each iteration, the program outputs the value of {\tt n} and then
-checks whether it is even or odd.  If it is even, the value of
-{\tt n} is divided by two.  If it is odd, the value is replaced
-by $3n+1$.  For example, if the starting value (the argument passed
-to {\tt sequence}) is 3, the resulting sequence is
-3, 10, 5, 16, 8, 4, 2, 1.
+\index{operator!comparison}
+\index{comparison operator}
 
-Since {\tt n} sometimes increases and sometimes decreases, there is no
-obvious proof that {\tt n} will ever reach 1, or that the program will
-terminate.  For some particular values of {\tt n}, we can prove
-termination.  For example, if the starting value is a power of two, then
-the value of {\tt n} will be even every time through the loop, until
-we get to 1.  The previous example ends with such a sequence,
-starting with 16.
-
-Particular values aside, the interesting question is whether
-we can prove that this program terminates for {\em all} values of n.
-So far, no one has been able to prove it {\em or} disprove it!
-
-\section{Definite loop}
-FIXME count example
-\section{indefinite loop}
-FIXME sentinel example
-\section{New Operators}
-FIXME
-Things like the += operator
-\section{Increment and decrement operators}
-\index{operator!increment}
-\index{operator!decrement}
-
-Incrementing and decrementing are such common operations that C++
-provides special operators for them.  The {\tt ++} operator adds one
-to the current value of an {\tt int}, {\tt char} or {\tt double}, and
-{\tt --} subtracts one.  Neither operator works on {\tt string}s,
-and neither {\em should} be used on {\tt bool}s.
-
-Technically, it is legal to increment a variable and use it
-in an expression at the same time.  For example, you might see
-something like:
+The values {\tt true} and {\tt false} are keywords in C++,
+and can be used anywhere a boolean expression is called for.
+For example, 
 
 \begin{verbatim}
-  cout << i++ << endl;
-\end{verbatim}
-%
-Looking at this, it is not clear whether the increment will
-take effect before or after the value is displayed.  Because
-expressions like this tend to be confusing, I would discourage
-you from using them.  In fact, to discourage you even more,
-I'm not going to tell you what the result is.  If you really
-want to know, you can try it.
-
-Using the increment operators, we can rewrite the letter-counter:
-
-FIXME - change example
-\begin{verbatim}
-  int index = 0;
-  while (index < length) {
-    if (fruit[index] == 'a') {
-      count++;
-    }
-    index++;
+  while (true) {
+    // loop forever
   }
 \end{verbatim}
 %
-It is a common error to write something like
+is a standard idiom for a loop that should run forever (or
+until it reaches a {\tt return} or {\tt break} statement).
+
+\section{Boolean variables}
+\index{type!{\tt bool}}
+
+As usual, for every type of value, there is a corresponding
+type of variable.  In C++ the boolean type is called {\bf bool}.
+Boolean variables work just like the other types:
 
 \begin{verbatim}
-  index = index++;             // WRONG!!
+  bool fred;
+  fred = true;
+  bool testResult = false;
 \end{verbatim}
 %
-Unfortunately, this is syntactically legal, so the compiler
-will not warn you.  The effect of this statement is to leave
-the value of {\tt index} unchanged.  This is often a difficult
-bug to track down.
+The first line is a simple variable declaration;
+the second line is an assignment, and the third line is a
+combination of a declaration and as assignment, 
+called an initialization.
 
-Remember, you can write {\tt index = index +1;}, or you
-can write {\tt index++;}, but you shouldn't mix them.
+\index{initialization}
+\index{statement!initialization}
 
-\section{Tables}
-\index{table}
-\index{logarithm}
-
-One of the things loops are good for is generating
-tabular data.  For example, before computers were readily available,
-people had to calculate logarithms, sines and cosines, and other
-common mathematical functions by hand.
-To make that easier, there were books containing long tables
-where you could find the values of various functions.
-Creating these tables was slow and boring, and the result
-tended to be full of errors.
-
-When computers appeared on the scene, one of the initial reactions
-was, ``This is great!  We can use the computers to generate the
-tables, so there will be no errors.''  That turned out to be true
-(mostly), but shortsighted.  Soon thereafter computers and
-calculators were so pervasive that the tables became obsolete.
-
-Well, almost.  It turns out that for some operations, computers
-use tables of values to get an approximate answer, and then
-perform computations to improve the approximation.  In some
-cases, there have been errors in the underlying tables, most
-famously in the table the original Intel Pentium used to perform
-floating-point division.
-
-\index{division!floating-point}
-
-Although a ``log table'' is not as useful as it once was, it still
-makes a good example of iteration.  The following program outputs a
-sequence of values in the left column and their logarithms in the
-right column:
+As I mentioned, the result of a comparison operator is a boolean,
+so you can store it in a {\tt bool} variable
 
 \begin{verbatim}
-  double x = 1.0;
-  while (x < 10.0) {
-    cout << x << "\t" << log(x) << "\n";
-    x = x + 1.0;
+  bool evenFlag = (n%2 == 0);     // true if n is even
+  bool positiveFlag = (x > 0);    // true if x is positive
+\end{verbatim}
+%
+and then use it as part of a conditional statement later
+
+\begin{verbatim}
+  if (evenFlag) {
+    cout << "n was even when I checked it" << endl;
   }
 \end{verbatim}
 %
-The sequence \verb+\t+ represents a {\bf tab} character.
-The
-sequence \verb+\n+ represents a newline character.  These sequences
-can be included anywhere in a string, although in these examples
-the sequence is the whole string.
+A variable used in this way is called a {\bf flag},
+since it flags the presence or absence of some condition.
 
-A tab character causes the cursor to shift to the right until
-it reaches one of the {\bf tab stops}, which are normally every
-eight characters.  As we will see in a minute, tabs are useful
-for making columns of text line up.
+\index{flag}
 
-A newline character has exactly the same effect as {\tt endl};
-it causes the cursor to move on to the next line.  Usually if
-a newline character appears by itself, I use {\tt endl}, but
-if it appears as part of a string, I use \verb+\n+.
+\section{Logical operators}
+\index{logical operator}
+\index{operator!logical}
+We have looked at logical operators 
+FIXME -- show how the and/or and NOT were using booleans
 
-The output of this program is
+\section{Bool functions}
+\label{bool}
+\index{bool}
+\index{function!bool}
+
+Functions can return {\tt bool} values just like any other type,
+which is often convenient for hiding complicated tests inside
+functions.  For example:
 
 \begin{verbatim}
-1      0
-2      0.693147
-3      1.09861
-4      1.38629
-5      1.60944
-6      1.79176
-7      1.94591
-8      2.07944
-9      2.19722
+bool isSingleDigit (int x)
+{
+  if (x >= 0 && x < 10) {
+    return true;
+  } else {
+    return false;
+  }
+}
 \end{verbatim}
 %
-If these values seem odd, remember that the {\tt log} function uses
-base $e$.  Since powers of two are so important in computer science,
-we often want to find logarithms with respect to base 2.  To do that,
-we can use the following formula:
+The name of this function is {\tt isSingleDigit}.  It is common
+to give boolean functions names that sound like yes/no questions.
+The return type is {\tt bool}, which means that every return
+statement has to provide a {\tt bool} expression.
 
-\[ \log_2 x = \frac {log_e x}{log_e 2} \]
-%
-Changing the output statement to
+The code itself is straightforward, although it is a bit longer than
+it needs to be.  Remember that the expression {\tt x >= 0 \&\& x < 10}
+has type {\tt bool}, so there is nothing wrong with returning it
+directly, and avoiding the {\tt if} statement altogether:
 
 \begin{verbatim}
-      cout << x << "\t" << log(x) / log(2.0) << endl;
+bool isSingleDigit (int x)
+{
+  return (x >= 0 && x < 10);
+}
 \end{verbatim}
 %
-yields
+In {\tt main} you can call this function in the usual ways:
 
 \begin{verbatim}
-1      0
-2      1
-3      1.58496
-4      2
-5      2.32193
-6      2.58496
-7      2.80735
-8      3
-9      3.16993
+  cout << isSingleDigit (2) << endl;
+  bool bigFlag = !isSingleDigit (17);
 \end{verbatim}
 %
-We can see that 1, 2, 4 and 8 are powers of two, because
-their logarithms base 2 are round numbers.  If we wanted to find
-the logarithms of other powers of two, we could modify the
-program like this:
+The first line outputs the value {\tt true} because 2 is a
+single-digit number.  Unfortunately, when C++ outputs {\tt bool}s, it
+does not display the words {\tt true} and {\tt false}, but rather the
+integers {\tt 1} and {\tt 0}.\footnote{There is a way to fix that
+using the {\tt boolalpha} flag, but it is too hideous to mention.}
+
+The second line assigns the value {\tt true} to {\tt bigFlag}
+only if 17 is {\em not} a single-digit number.
+
+The most common use of {\tt bool} functions is inside conditional
+statements
 
 \begin{verbatim}
-  double x = 1.0;
-  while (x < 100.0) {
-    cout << x << "\t" << log(x) / log(2.0) << endl;
-    x = x * 2.0;
+  if (isSingleDigit (x)) {
+    cout << "x is little" << endl;
+  } else {
+    cout << "x is big" << endl;
   }
 \end{verbatim}
-%
-Now instead of adding something to {\tt x} each time through
-the loop, which yields an arithmetic sequence, we multiply
-{\tt x} by something, yielding a {\bf geometric} sequence.
-The result is:
+
+\section {Returning from {\tt main}}
+
+Now that we have functions that return values, I can let you in
+on a secret.  {\tt main} is not really supposed to be a {\tt void}
+function.  It's supposed to return an integer:
 
 \begin{verbatim}
-1      0
-2      1
-4      2
-8      3
-16     4
-32     5
-64     6
+int main ()
+{
+  return 0;
+}  
 \end{verbatim}
 %
-Because we are using tab characters between the columns, the
-position of the second column does not depend on the number
-of digits in the first column.
+The usual return value from {\tt main} is 0, which indicates that
+the program succeeded at whatever it was supposed to to.  If something
+goes wrong, it is common to return -1, or some other value that
+indicates what kind of error occurred.
 
-Log tables may not be useful any more, but for computer scientists,
-knowing the powers of two is!  As an exercise, modify this program
-so that it outputs the powers of two up to 65536
-(that's $2^{16}$).  Print it out and memorize it.
+Of course, you might wonder who this value gets returned to, since
+we never call {\tt main} ourselves.  It turns out that when the
+system executes a program, it starts by calling {\tt main}
+in pretty much the same way it calls all the other functions.
 
-\section{Two-dimensional tables}
-\index{table!two-dimensional}
+There are even some parameters that are passed to {\tt main}
+by the system, but we are not going to deal with them for a little
+while.
 
-A two-dimensional table is a table where you choose a row and
-a column and read the value at the intersection.  A multiplication
-table is a good example.  Let's say you wanted to print a
-multiplication table for the values from 1 to 6.
+\section {More recursion}
+\index{recursion}
+\index{language!complete}
 
-A good way to start is to write a simple loop that prints
-the multiples of 2, all on one line.
+So far we have only learned a small subset of C++, but you
+might be interested to know that this subset is now
+a {\bf complete} programming language, by which I
+mean that anything that can be computed can be expressed in this
+language.  Any program ever written could be rewritten
+using only the language features we have used so far (actually, we
+would need a few commands to control devices like the keyboard, mouse,
+disks, etc., but that's all).
+
+\index{Turing, Alan}
+
+Proving that claim is a non-trivial exercise first
+accomplished by Alan Turing, one of the first computer scientists
+(well, some would argue that he was a mathematician, but a lot of the
+early computer scientists started as mathematicians).  Accordingly, it
+is known as the Turing thesis.  If you take a course on the Theory of
+Computation, you will have a chance to see the proof.
+
+To give you an idea of what you can do with the tools we have learned
+so far, we'll evaluate a few recursively-defined
+mathematical functions.  A recursive definition is similar to a
+circular definition, in the sense that the definition contains a
+reference to the thing being defined.  A truly circular definition is
+typically not very useful:
+
+\begin{description}
+
+\item[frabjuous:] an adjective used to describe
+something that is frabjuous.
+
+\index{frabjuous}
+
+\end{description}
+
+If you saw that definition in the dictionary, you might be
+annoyed.  On the other hand, if you looked up the definition
+of the mathematical function {\bf factorial}, you might
+get something like:
+
+\begin{eqnarray*}
+&&  0! = 1 \\
+&&  n! = n \cdot (n-1)!
+\end{eqnarray*}
+
+(Factorial is usually denoted with the symbol $!$, which is
+not to be confused with the C++ logical operator {\tt !} which
+means NOT.)  This definition says that the factorial of 0 is 1,
+and the factorial of any other value, $n$, is $n$ multiplied
+by the factorial of $n-1$.  So $3!$ is 3 times $2!$, which is 2 times
+$1!$, which is 1 times 0!.  Putting it all together, we get
+$3!$ equal to 3 times 2 times 1 times 1, which is 6.
+
+If you can write a recursive definition of something, you can usually
+write a C++ program to evaluate it.  The first step is to decide what
+the parameters are for this function, and what the return type is.
+With a little thought, you should conclude that factorial takes an
+integer as a parameter and returns an integer:
+
+\begin{verbatim}
+int factorial (int n)
+{
+}
+\end{verbatim}
+%
+If the argument happens to be zero, all we have to do is
+return 1:
+
+\begin{verbatim}
+int factorial (int n)
+{
+  if (n == 0) {
+    return 1;
+  }
+}
+\end{verbatim}
+%
+Otherwise, and this is the interesting part, we have to make
+a recursive call to find the factorial of $n-1$, and then
+multiply it by $n$.
+
+\begin{verbatim}
+int factorial (int n)
+{
+  if (n == 0) {
+    return 1;
+  } else {
+    int recurse = factorial (n-1);
+    int result = n * recurse;
+    return result;
+  }
+}
+\end{verbatim}
+%
+If we look at the flow of execution for this program,
+it is similar to {\tt nLines} from the previous chapter.
+If we call {\tt factorial} with the value 3:
+
+Since 3 is not zero, we take the second branch and calculate
+the factorial of $n-1$...
+
+\begin{quote}
+Since 2 is not zero, we take the second branch and calculate
+the factorial of $n-1$...
+
+\begin{quote}
+Since 1 is not zero, we take the second branch and calculate
+the factorial of $n-1$...
+
+\begin{quote}
+Since 0 {\em is} zero, we take the first branch and return
+the value 1 immediately without making any more recursive
+calls.
+
+\end{quote}
+
+The return value (1) gets multiplied by {\tt n}, which is 1,
+and the result is returned.
+
+\end{quote}
+
+The return value (1) gets multiplied by {\tt n}, which is 2,
+and the result is returned.
+
+\end{quote}
+
+\noindent The return value (2) gets multiplied by {\tt n}, which is 3,
+and the result, 6, is returned to {\tt main}, or whoever
+called {\tt factorial (3)}.
+
+\index{stack}
+\index{diagram!state}
+\index{diagram!stack}
+
+Here is what the stack diagram looks like for this sequence of
+function calls:
+
+\vspace{0.1in}
+\centerline{\epsfig{figure=stack3.eps}}
+\vspace{0.1in}
+%
+The return values are shown being passed back up the stack.
+
+Notice that in the last instance of {\tt factorial}, the local
+variables {\tt recurse} and {\tt result} do not exist because
+when {\tt n=0} the branch that creates them does not execute.
+
+\section{Leap of faith}
+\index{leap of faith}
+
+Following the flow of execution is one way to read programs, but as
+you saw in the previous section, it can quickly become labarynthine.
+An alternative is what I call the ``leap of faith.''  When you come to
+a function call, instead of following the flow of execution, you
+{\em assume} that the function works correctly and returns the
+appropriate value.
+
+In fact, you are already practicing this leap of faith
+when you use built-in functions.  When you call {\tt cos}
+or {\tt exp}, you don't examine the implementations of 
+those functions.  You just assume that they work, because the people
+who wrote the built-in libraries were good programmers.
+
+Well, the same is true when you call one of your own functions.
+For example, in Section~\ref{bool} we wrote a function called
+{\tt isSingleDigit} that determines whether a number is between
+0 and 9.  Once we have convinced ourselves that this function
+is correct---by testing and examination of the code---we can
+use the function without ever looking at the code again.
+
+The same is true of recursive programs.  When you get to the recursive
+call, instead of following the flow of execution, you should {\em
+assume} that the recursive call works (yields the correct result), and
+then ask yourself, ``Assuming that I can find the factorial of $n-1$,
+can I compute the factorial of $n$?''  In this case, it is clear that
+you can, by multiplying by $n$.
+
+Of course, it is a bit strange to assume that the function works
+correctly when you have not even finished writing it, but that's why
+it's called a leap of faith!
+
+\section{One more example}
+\index{factorial}
+
+In the previous example I used temporary variables to spell out the
+steps, and to make the code easier to debug, but I could have saved a
+few lines:
+
+\begin{verbatim}
+int factorial (int n) {
+  if (n == 0) {
+    return 1;
+  } else {
+    return n * factorial (n-1);
+  }
+}
+\end{verbatim}
+%
+From now on I will tend to use the more concise version, but
+I recommend that you use the more explicit version while you
+are developing code.   When you have it working, you can
+tighten it up, if you are feeling inspired.
+
+After {\tt factorial}, the classic example of a recursively-defined
+mathematical function is {\tt fibonacci}, which has the
+following definition:
+
+\begin{eqnarray*}
+&& fibonacci(0) = 1 \\
+&& fibonacci(1) = 1 \\
+&& fibonacci(n) = fibonacci(n-1) + fibonacci(n-2);
+\end{eqnarray*}
+%
+Translated into C++, this is
+
+\begin{verbatim}
+int fibonacci (int n) {
+  if (n == 0 || n == 1) {
+    return 1;
+  } else {
+    return fibonacci (n-1) + fibonacci (n-2);
+  }
+}
+\end{verbatim}
+%
+If you try to follow the flow of execution here, even for fairly small
+values of {\tt n}, your head explodes.  But according to the leap of
+faith, if we assume that the two recursive calls (yes, you can make
+two recursive calls) work correctly, then it is clear that we get the
+right result by adding them together.
+
+
+\section {Encapsulation and generalization}
+
+Encapsulation usually means taking a piece of code and wrapping it up
+in a function, allowing you to take advantage of all the things functions
+are good for.  We have seen two examples of encapsulation, when we
+wrote {\tt printParity} in Section~\ref{printparity} and {\tt
+isSingleDigit} in Section~\ref{bool}.
+
+Generalization means taking something specific, like printing
+multiples of 2, and making it more general, like printing the
+multiples of any integer.
+
+\index{encapsulation}
+\index{generalization}
+
+Here's a function that encapsulates the loop from the previous
+section and generalizes it to print multiples of {\tt n}.
+
+\begin{verbatim}
+void printMultiples (int n)
+{
+  int i = 1;
+  while (i <= 6) {
+    cout << n*i << "   ";
+    i = i + 1;
+  }
+  cout << endl;
+}
+\end{verbatim}
+%
+To encapsulate, all I had to do was add the first line,
+which declares the name, parameter,
+and return type.  To generalize, all I had to do was replace
+the value 2 with the parameter {\tt n}.
+
+If we call this function with the argument 2, we get the same
+output as before.  With argument 3, the output is:
+
+\begin{verbatim}
+3   6   9   12   15   18
+\end{verbatim}
+%
+and with argument 4, the output is
+
+\begin{verbatim}
+4   8   12   16   20   24 
+\end{verbatim}
+%
+By now you can probably guess how we are going to print a
+multiplication table: we'll call {\tt printMultiples} repeatedly with
+different arguments.  In fact, we are going to use another loop to
+iterate through the rows.
 
 \begin{verbatim}
   int i = 1;
   while (i <= 6) {
-    cout << 2*i << "   ";
+    printMultiples (i);
     i = i + 1;
-  }
-  cout << endl;
+  }    
 \end{verbatim}
 %
-The first line initializes a variable named {\tt i}, which is
-going to act as a counter, or {\bf loop variable}.  As the
-loop executes, the value of {\tt i} increases from 1 to 6,
-and then when {\tt i} is 7, the loop terminates.  Each
-time through the loop, we print the value {\tt 2*i} followed
-by three spaces.  By omitting the {\tt endl} from the
-first output statement, we get 
-all the output on a single line.
+First of all, notice how similar this loop is to the one inside {\tt
+printMultiples}.  All I did was replace the print statement with a
+function call.
+
+The output of this program is
+
+\begin{verbatim}
+1   2   3   4   5   6   
+2   4   6   8   10   12   
+3   6   9   12   15   18   
+4   8   12   16   20   24   
+5   10   15   20   25   30   
+6   12   18   24   30   36   
+\end{verbatim}
+%
+which is a (slightly sloppy) multiplication table.  If the
+sloppiness bothers you, try replacing the spaces between
+columns with tab characters and see what you get.
+
+\section{Functions}
+\index{function}
+
+In the last section I mentioned ``all the things functions
+are good for.''  About this time, you might be wondering
+what exactly those things are.  Here are some of the reasons
+functions are useful:
+
+\begin{itemize}
+
+\item By giving a name to a sequence of statements, you make
+your program easier to read and debug.
+
+\item Dividing a long program into functions allows you to
+separate parts of the program, debug them in isolation, and
+then compose them into a whole.
+
+\item Functions facilitate both recursion and iteration.
+
+\item Well-designed functions are often useful for many programs.
+Once you write and debug one, you can reuse it.
+
+\end{itemize}
+
+\section{More encapsulation}
+\index{encapsulation}
+\index{program development!encapsulation}
+
+To demonstrate encapsulation again, I'll take the code
+from the previous section and wrap it up in a function:
+
+\begin{verbatim}
+void printMultTable () {
+  int i = 1;
+  while (i <= 6) {
+    printMultiples (i);
+    i = i + 1;
+  }
+}
+\end{verbatim}
+%
+The process I am demonstrating is a common 
+development plan.  You develop code gradually by adding
+lines to {\tt main} or someplace else, and then when you get
+it working, you extract it and wrap it up in a function.
+
+The reason this is useful is that you sometimes don't know
+when you start writing exactly how to divide the program into
+functions.  This approach lets you design as you go along.
+
+\section{Local variables}
+
+About this time, you might be wondering how we can use the same
+variable {\tt i} in both {\tt printMultiples} and {\tt
+printMultTable}.  Didn't I say that you can only declare a variable
+once?  And doesn't it cause problems when one of the functions changes
+the value of the variable?
+
+The answer to both questions is ``no,'' because the {\tt i} in {\tt
+printMultiples} and the {\tt i} in {\tt printMultTable} are
+{\em not the same variable}.  They have the same name, but
+they do not refer to the same storage location, and changing
+the value of one of them has no effect on the other.
+
+\index{local variable}
+\index{variable!local}
+
+Remember that variables that are declared inside a function definition
+are local.  You cannot access a local variable from outside its
+``home'' function, and you are free to have multiple variables with
+the same name, as long as they are not in the same function.
+
+The stack diagram for this program shows clearly that the
+two variables named {\tt i} are not in the same storage location.
+They can have different values, and changing one does not affect
+the other.
+
+\vspace{0.1in}
+\centerline{\epsfig{figure=stack4.eps}}
+\vspace{0.1in}
+%
+Notice that the value of the parameter {\tt n} in
+{\tt printMultiples} has to be the same as the value
+of {\tt i} in {\tt printMultTable}.  On the other hand,
+the value of {\tt i} in {\tt printMultiple} goes
+from 1 up to {\tt n}.  In the diagram, it happens to be 3.
+The next time through the loop it will be 4.
+
+It is often a good idea to use different variable names in
+different functions, to avoid confusion, but there are good
+reasons to reuse names.  For example, it is common to
+use the names {\tt i}, {\tt j} and {\tt k} as loop variables.
+If you avoid using them in one function just because you
+used them somewhere else, you will probably make the program
+harder to read.
 
 \index{loop variable}
 \index{variable!loop}
 
-The output of this program is:
+\section{More generalization}
+\index{generalization}
+
+As another example of generalization, imagine you wanted
+a program that would print a multiplication table of any
+size, not just the 6x6 table.  You could add a parameter to
+{\tt printMultTable}:
 
 \begin{verbatim}
-2   4   6   8   10   12
+void printMultTable (int high) {
+  int i = 1;
+  while (i <= high) {
+    printMultiples (i);
+    i = i + 1;
+  }
+}
 \end{verbatim}
 %
-So far, so good.  The next step is to {\bf encapsulate} and {\bf
-generalize}.
-
-\section{{\tt do-while} loop}
-FIXME
-
-\section{{\tt for} loops}
-FIXME
-
-The loops we have written so far have a number of elements
-in common.  All of them start by initializing a variable;
-they have a test, or condition, that depends on that variable;
-and inside the loop they do something to that variable,
-like increment it.
-
-\index{loop!for}
-\index{for}
-\index{statement!for}
-
-This type of loop is so common that there is an alternate
-loop statement, called {\tt for}, that expresses it more
-concisely.  The general syntax looks like this:
+I replaced the value 6 with the parameter {\tt high}.  If I
+call {\tt printMultTable} with the argument 7, I get
 
 \begin{verbatim}
-  for (INITIALIZER; CONDITION; INCREMENTOR) {
-    BODY
-  }
+1   2   3   4   5   6   
+2   4   6   8   10   12   
+3   6   9   12   15   18   
+4   8   12   16   20   24   
+5   10   15   20   25   30   
+6   12   18   24   30   36   
+7   14   21   28   35   42   
 \end{verbatim}
 %
-This statement is exactly equivalent to
+which is fine, except that I probably want the table to
+be square (same number of rows and columns), which means
+I have to add another parameter to {\tt printMultiples},
+to specify how many columns the table should have.
+
+Just to be annoying, I will also call this parameter {\tt high},
+demonstrating that different functions can have parameters
+with the same name (just like local variables):
 
 \begin{verbatim}
-  INITIALIZER;
-  while (CONDITION) {
-    BODY
-    INCREMENTOR
+void printMultiples (int n, int high) {
+  int i = 1;
+  while (i <= high) {
+    cout << n*i << "   ";
+    i = i + 1;
+  }    
+  cout << endl;
+}
+
+void printMultTable (int high) {
+  int i = 1;
+  while (i <= high) {
+    printMultiples (i, high);
+    i = i + 1;
   }
+}
 \end{verbatim}
 %
-except that it is more concise and, since it puts all the
-loop-related statements in one place, it is easier to read.
-For example:
+Notice that when I added a new parameter, I had to change the first
+line of the function (the interface or prototype), and I also had to
+change the place where the function is called in {\tt printMultTable}.
+As expected, this program generates a square 7x7 table:
 
 \begin{verbatim}
-  int i;
-  for (i = 0; i < 4; i++) {
-    cout << count[i] << endl;
-  }
+1   2   3   4   5   6   7   
+2   4   6   8   10   12   14   
+3   6   9   12   15   18   21   
+4   8   12   16   20   24   28   
+5   10   15   20   25   30   35   
+6   12   18   24   30   36   42   
+7   14   21   28   35   42   49
 \end{verbatim}
 %
-is equivalent to 
+When you generalize a function appropriately, you often find
+that the resulting program has capabilities you did not intend.
+For example, you might notice that the multiplication table
+is symmetric, because $ab = ba$, so all the entries in the
+table appear twice.  You could save ink by printing only
+half the table.  To do that, you only have to change one
+line of {\tt printMultTable}.  Change
 
 \begin{verbatim}
-  int i = 0;
-  while (i < 4) {
-    cout << count[i] << endl;
-    i++;
-  }
+      printMultiples (i, high);
 \end{verbatim}
+%
+to
 
-FIXME - example of for loop with a decrement instead
-FIXME - example of for loop with a step of 5
+\begin{verbatim}
+      printMultiples (i, i);
+\end{verbatim}
+%
+and you get
 
-\section{Break and Continue}
-FIXME add examples of how this works
+\begin{verbatim}
+1   
+2   4   
+3   6   9   
+4   8   12   16   
+5   10   15   20   25   
+6   12   18   24   30   36   
+7   14   21   28   35   42   49  
+\end{verbatim}
+%
+I'll leave it up to you to figure out how it works.
+
 \section{Glossary}
 
 \begin{description}
 
-\item[loop:]  A statement that executes repeatedly while a
-condition is true or until some condition is satisfied.
+\item[return type:]  The type of value a function returns.
 
-\item[infinite loop:]  A loop whose condition is always true.
+\item[return value:]  The value provided as the result of a function
+call.
 
-\item[body:]  The statements inside the loop.
+\item[dead code:]  Part of a program that can never be executed,
+often because it appears after a {\tt return} statement.
 
-\item[iteration:]  One pass through (execution of) the body
-of the loop, including the evaluation of the condition.
+\item[scaffolding:]  Code that is used during program development
+but is not part of the final version.
 
-\item[tab:] A special character, written as \verb+\t+ in C++,
-that causes the cursor to move to the next tab stop on the
-current line.
+\item[void:]  A special return type that indicates a void function;
+that is, one that does not return a value.
 
-\item[encapsulate:]  To divide a large complex program into
-components (like functions) and isolate the components from
-each other (for example, by using local variables).
+\item[overloading:]  Having more than one function with the same name
+but different parameters.  When you call an overloaded function,
+C++ knows which version to use by looking at the arguments you
+provide.
 
-\item[local variable:]  A variable that is declared inside
-a function and that exists only within that function.  Local variables
-cannot be accessed from outside their home function, and do not
-interfere with any other functions.
+\item[boolean:]  A value or variable that can take on one of
+two states, often called $true$ and $false$.  In C++, boolean
+values can be stored in a variable type called {\tt bool}.
 
-\item[generalize:]  To replace something unnecessarily specific
-(like a constant value) with something appropriately general
-(like a variable or parameter).  Generalization makes code more
-versatile, more likely to be reused, and sometimes even easier
-to write.
+\item[flag:]  A variable (usually type {\tt bool}) that records
+a condition or status information.
 
-\item[development plan:]  A process for developing a program.
-In this chapter, I demonstrated a style of development based on
-developing code to do simple, specific things, and then encapsulating
-and generalizing.
+\item[comparison operator:]  An operator that compares two values
+and produces a boolean that indicates the relationship between the
+operands.
 
-\index{loop}
-\index{infinite loop}
-\index{body}
-\index{tab}
-\index{loop!infinite}
-\index{iteration}
-\index{encapsulation}
-\index{generalization}
-\index{local variable}
-\index{variable!local}
-\index{program development}
+\item[logical operator:]  An operator that combines boolean values
+in order to test compound conditions.
+
+\index{return type}
+\index{return value}
+\index{dead code}
+\index{scaffolding}
+\index{void}
+\index{overloading}
+\index{bool}
+\index{operator!conditional}
+\index{operator!logical}
 
 \end{description}
 
