@@ -97,6 +97,7 @@ the program is getting harder and harder to read.  Newlines and
 spaces are useful for organizing your program visually, making
 it easier to read the program and locate syntax errors.
 
+FIXME - escape characters like n
 \section{Values}
 \index{value}
 \index{type}
@@ -687,9 +688,71 @@ FIXME
 Parson problems - print hello, get a value
 modulus problems (with auto answer)
 print something cool and gamelike
-Ethics?
-\section{Glossary}
+\subsection{Validation}
+% Checksums with UPC numbers
+Computers have to deal with numbers a lot. There are messages that are sent to and from the internet. In order to make sure the numbers were entered or received properly, programs usually
+run the values through a "validator". This makes sure that the
+number that the program has makes sense. One method to 
+do validation is called a "check digit". This is an extra number
+put at the end of an ID number to see if the number could
+be valid. These digits were originally made to check if a 
+person typed in an ID correctly, but has been used by programs
+to see if a data file or message was corrupted. The check digit
+method we are going to use has to do with UPC's. UPC numbers are IDs that are connected to products. It is a way to uniquely identify an item that is sold.
 
+Your friend has a website where people can list the games that
+they are willing to let other people borrow or purchase. He
+originally let people type in the UPC numbers, but a few of 
+them do not seem to be correct. He has asked you to make a 
+UPC validator program so he does not have to look up as many 
+numbers.
+
+You found out the following information. UPC's have 12 digits.
+The first 11 digits are the product number and the number to the
+far right is the "check" digit. To calculate the digit, it does
+the following:
+\begin{enumerate}
+    \item Take the odd number digits (first, third, fifth, etc.), add them together and multiply them by three.
+    \item Take the even number digits and add them together
+    \item Add those two numbers together
+    \item Mod that number by 10. (Use the remainder operator)
+    \item Take 10 and subtract the number you have and mod it by 10. 
+\end{enumerate}
+The number that results is the check digit.
+
+Here is an example: A game (Teenage Mutant Ninja Turtles: The Cowabunga Collection - PlayStation 4) has the UPC number of:
+083717203469
+\begin{enumerate}
+    \item The odd digits are: 0+3+1+2+3+6. The sum is 15. 3*15 is 45
+    \item The even digits are: 8+7+7+0+4. (We do not use the check digit in the calculation). The sum is 26.
+    \item 45+26 = 71
+    \item 71 \% 10 = 1
+    \item (10-1) \% 10 = 9
+\end{enumerate}
+9 was the digit that was the last number, so it IS a valid UPC 
+number.
+
+For your program, the first version will ask for each digit
+of the UPC and put it in a different variable. (For example,
+the first number can be placed in an int variable named dig1, 
+the second in dig2). Using those variables, create the code
+to do the math described above and have it print the check
+digit you calculated. Try putting the example UPC
+and see if it also comes up with the number 9. Then, try a
+UPC number that you have around the house. Did it work?
+
+For an extra challenge, have the user enter the number as
+an integer (instead of 12 integers) and from that number
+calculate the digits and put the results in your variables.
+The program can then use the equation you have already made.
+HINT: You can use division and modulus operators to get
+each digit.
+
+This program can be made even better if you could tell the
+user if the value that was entered as the check digit was 
+correct. This type of branching code will be introduced in 
+the next chapter (\ref{conditional}).
+\section{Glossary}
 \begin{description}
 
 \item[variable:] A named storage location for values.  All

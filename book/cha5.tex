@@ -440,12 +440,15 @@ draw a {\bf stack diagram}.  Like state diagrams, stack diagrams
 show the value of each variable, but the variables are contained
 in larger boxes that indicate which function they belong to.
 
-For example, the state diagram for {\tt printTwice} looks 
-like this:
+For example, the stack diagram for {\tt printTwice} looks like this in figure \ref{fig:stack}:
 
 \vspace{0.1in}
-\centerline{\epsfig{figure=stack.eps}}
-\vspace{0.1in}
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=6cm]{images/stack.png}
+    \caption{Stack diagram from when printTwice is called}
+    \label{fig:stack}
+\end{figure}
 %
 Whenever a function is called, it creates a new {\bf instance}
 of that function.  Each instance of a function contains the
