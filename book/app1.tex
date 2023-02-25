@@ -3,10 +3,60 @@
 
 
 \chapter{Integrated Development Environments}
-Most Integrated Development Environments work well as soon as you install them. They are designed so you do not have to worry about all the various options the compiler and linker can use. This chapter will explain options you may want to set on your IDE to help you code. NOTE: Your IDE will work fine without these changes. They are the ones that I have found particularly helpful.  
-\section{Replit}
+C++ has standards so code should work in different compilers. But, the 
+environments that can compile and run your code can be different. Here
+are some descriptions on how to use some of the popular development
+environments. This appendix has information on Replit.
+\section{Installing}
+Before you use a compiler, there is usually some setup. Some need to
+be installed on your computer. Others need an account to be created.
+Here are the steps to get your compiler ready to be used.
+\subsection{Replit}
+Replit does not need to be installed. It is an online coding environment.
+This IDE will work well for those using a Chrome book. The one thing that you will need to do is go to \url{http://replit.com} and create an 
+account there.
+\subsection{Visual Studio Code}
+There are many steps to get C++ to work with Visual Studio code. Visual Studio Code works in Windows, macOS and Linux. First,
+download and install the tool. The tool is available at this 
+website: \url{https://code.visualstudio.com/}. Click the appropriate
+down button for your computer.
+
+Next, you will need to install the appropriate items to allow it
+to compile and run C++ code. This is the information \url{https://code.visualstudio.com/docs/cpp/config-msvc }
+
+\section{Setting up a project}
+Want to code on your own? This section will some helpful instructions on
+how to start coding with some common coding environments.
+\subsection{Replit}
+Once you log in to you account, you should be able to see the full
+menu. Look for the "Create" button that is on the top left. The button
+should look like figure \ref{fig:createreplit}:
+\begin{figure}[h]
+    \centering
+    \includegraphics{images/CreateButtonReplit.PNG}
+    \caption{The Create button for Replit}
+    \label{fig:createreplit}
+\end{figure}
+Once you click that button, another menu will open. Here you will have a chance to choose the language
+that you will be using. Click on the area under the "Template" in the left top section of the menu. Look for the C++ template. Once the template is chosen, click on the "Title" area and choose a name 
+for your project. If you have the template and the name, the next step 
+is to click the "Create Repl" button. Soon after, you will be in the
+development environment.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width = 10cm]{images/createreplitmenu.PNG}
+    \caption{Template and Naming your Replit}
+    \label{fig:replitmenu}
+\end{figure}
+
+
+For more information, there is the documentation from replit which explains the startup in more detail. 
+\url{https://docs.replit.com/programming-ide/introduction-to-the-workspace}
+\section{Settings}
+Most Integrated Development Environments work well as soon as you install them. They are designed so you do not have to worry about all the various options the compiler and linker can use. This section will explain options you may want to set on your IDE to help you code. NOTE: Your IDE will work fine without these changes. They are the ones that I have found particularly helpful.
+\subsection{Replit}
 \index{replit}
-\subsection{Turning on warnings}
+\subsubsection{Turning on warnings}
 \index{warnings}
 \label{showwarning}
 One particular feature I like to use is to "show all warnings". If you remember, warnings are a way that the compiler can show you that it noticed some code that could be an error. The code does not have a problem with it's syntax, but many times code in this pattern is a logic error.
@@ -46,7 +96,7 @@ The -Wno-everything flag is telling the compiler to ignore all warnings. That is
 
 Instead of hiding all the warnings, it will show them instead. There are other flags that do not show as many warnings, but I prefer to see all the possible problems with my code.
 
-\subsection{Using a certain version of the C++ standard}
+\subsubsection{Using a certain version of the C++ standard}
 \label{changestandard}
 Although Replit does compile C++ code, it defaults to an older version of the language. C++ has continually added new features as the years have gone on. For example, smart pointers were not added to the language until 2011.
 
@@ -57,3 +107,15 @@ override CXXFLAGS += -g -std=c++20 -Weverything -Wno-c++98-compat
 \end{verbatim}
 
 The important part is the {\tt -std=} part of the line. That is telling the compiler what standard to use. c++20 is telling it to use the 2020 version of the standard. I also added the {\tt -Wnoc++98-compat"} to the line. That shuts off any warnings complaining that the code is not compatible with the 1998 version of C++. That isn't necessary to get the 2020 version to run, but I found it helpful to remove the warnings that were no longer pertinent. If I am using the 2020 version of the standard because I want to use the new language features, I am not worried about if my code works with a 1998 version of the compiler.
+
+\subsection{Visual Studio Code}
+At the time of the writing of this book, Visual Studio Code defaults to C++14, If you want to use any of the newer features, you need to tell
+the compiler. To turn on the different standard, open the tasks.json file. There will be a section listed as: "args". Put the following in the list of items in that section.
+\begin{verbatim}
+"/std:c++20",    
+\end{verbatim}
+That should turn on the C++20 standard. If you want the latest that is
+available, you can use this instead:
+\begin{verbatim}
+"/std:c++latest",
+\end{verbatim}

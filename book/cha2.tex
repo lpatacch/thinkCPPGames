@@ -97,7 +97,45 @@ the program is getting harder and harder to read.  Newlines and
 spaces are useful for organizing your program visually, making
 it easier to read the program and locate syntax errors.
 
-FIXME - escape characters like n
+\subsection{Escape Sequences}
+There are special character sequences that can be put in a string
+that will act differently than other characters. They are called
+escape sequences. One popular escape sequence is '\textbackslash n'. This character
+is very similar to std::endl. When printed, it goes to the next line.
+For example, this code:
+\begin{lstlisting}
+#include <iostream>
+
+// main: generate some simple output
+
+int main ()
+{
+  // This prints in 2 lines
+  std::cout << "Hello, world. \n How are you?" << std::endl;  
+  return 0;
+}
+\end{lstlisting}
+Displays the following:
+\begin{verbatim}
+Hello, world.
+ How are you?
+\end{verbatim}
+There are other characters that can be helpful. I put some of the most
+popular in the table below.
+\begin{table}[h]
+\centering
+\begin{tabular}{ | c | l | }
+\hline
+ Escape Character & Behavior \\\hline
+ \textbackslash n & Goes to the next line \\ 
+ \textbackslash t & Creates a horizontal tab \\  
+ \textbackslash\textbackslash &  Displays the slash character \\
+ \textbackslash" & Displays the double quote character \\
+\hline
+\end{tabular}
+    \caption{Escape characters and behavior}
+    \label{tab:escapechar}
+\end{table}
 \section{Values}
 \index{value}
 \index{type}
