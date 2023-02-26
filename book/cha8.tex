@@ -58,7 +58,7 @@ later.
 
 It is a common error to leave off the semi-colon at the end of a
 structure definition.  It might seem odd to put a semi-colon after a
-squiggly-brace, but you'll get used to it.
+curly-brace, but you'll get used to it.
 
 Once you have defined the new structure, you can create variables
 with that type:
@@ -139,7 +139,7 @@ structure to another.  An initialization looks like this:
   Point blank = { 3.0, 4.0 };
 \end{verbatim}
 %
-The values in squiggly braces get assigned to the instance variables of
+The values in curly braces get assigned to the instance variables of
 the structure one by one, in order.  So in this case, {\tt x}
 gets the first value and {\tt y} gets the second.
 
@@ -381,7 +381,7 @@ out that you can, in fact, create the {\tt Point} and the
   Rectangle box = { { 0.0, 0.0 }, 100.0, 200.0 };
 \end{verbatim}
 %
-The innermost squiggly braces are the coordinates of the
+The innermost curly braces are the coordinates of the
 corner point; together they make up the first of the three
 values that go into the new {\tt Rectangle}.  This statement
 is an example of {\bf nested structure}.
