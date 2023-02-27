@@ -592,21 +592,47 @@ Here are some examples of switch statements:
 \url{https://replit.com/@lpatacch/SwitchStatements#switchstatement.cpp}
 \section{Pseudocode}
 \index{pseudocode}
-FIXME
-One important point is to not make your pseudocode too technical. You are not trying to write the code itself, just a plan on how the code could be written.
+You may have noticed several examples of code 
+logic written in this chapter. Those are examples of Pseudocode.
+Pseudocode is a way to explain your code in whatever language you speak. This can allow
+you to work through the logic before having to
+deal with the syntax of the coding language. I
+have found over the years that I tend to work
+out my logic first in pseudocode. Languages come and go, but logic is here to stay.
+
+In order to make things easier to follow, there
+are several rules that people use when writing
+pseudocode. First, keywords are capitalized. Some keywords are IF, THEN, ELSE and ENDIF. The ENDIF
+keyword is used to show when an if statement is over. If there is no else statement, the ENDIF
+is placed after the statement is finished. 
+\begin{verbatim}
+IF x is greater than 0 THEN
+   Output "x is positive" and then go to the next line
+ENDIF
+\end{verbatim}
+Another thing that should be noticed is the indentation. Items inside an IF or ELSE should
+be indented to make it easier to see when the statement is over.
+
+One important point is to not make your pseudocode too technical. You are not trying to write the code itself, just a plan on how the code could be written. The pseudocode should be more understandable for those who do not know code.
 
 \section{Flowcharts}
 \index{flowchart}
-Just like pseudocode, I have put a few figure of flowcharts around the if and if else statements. Flowcharts are another way to show how code is running. Instead of using just words, flowcharts add shapes and arrows to help people understand the logic of the code. There are some specifics of how flowcharts generally work.
+Just like pseudocode, I have put a few figures of flowcharts around the if and if else statements. Flowcharts are another way to show how code is running. Instead of using just words, flowcharts add shapes and arrows to help people understand the logic of the code. There are some specifics of how flowcharts generally work. Each shape has a certain meaning.
+\subsection{Oval}
+The oval shape is used for the beginning and
+ending of the program. Inside the oval is the word "start" or the word "end". Most full flowcharts will have two ovals.
 
-FIXME
-\subsection{shapes}
-selection (if statements)
-processing (math)
-input and output
-Start/Stop
-part of a large algorithm start/stop
+There is an exception to this. If the flowchart
+is a small part of a larger algorithm, the ovals could be replaced with small circles. These small circles have information about where they connect to the larger drawing.
+\subsection{diamond}
+A diamond is used for selection statements (if statements). It shows where a decision is made. Inside the diamond shape is the condition that is being checked. The flowlines off the decision should have a label to explain if they are the path for true or false. 
+\subsection{rectangle}
+Rectangle shapes are used for any processing statements (math). The equations are placed inside the rectangle.
+\subsection{parallelogram}
+If there is any input or output, these statements are placed in a parallelogram. The
+item that will be printed or requested is placed in the shape.
 \subsection{How they connect}
+FIXME
 Each section is a component and it should not jump from one section to another
 "spaghetti code"
 Picture of a flowchart with the improper shared middle section
