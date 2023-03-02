@@ -373,6 +373,52 @@ concise:
 On one line, this program outputs a string, two integers, a character,
 and the special value {\tt endl}.  Very impressive!
 
+\subsection{Format}
+There is a new way to output values in C++20\footnote{There are different
+versions of C++, named for the year that they were approved. C++20 was
+approved in 2020.} called Format. It is a
+more recent method (so new that at the time of this writing, it was not
+supported by some compilers, including Replit.) If 
+you try this code and get a compiler error that "error: no member 
+named 'format' in namespace 'std'," it may not be supported in your development environment yet.
+
+If this is supported \footnote{If you are looking for a development
+environment that supports format, the following code 
+was tested on Visual Studio Code using the Microsoft compiler.}, this is a different way for you to be able
+to output variables. To get the following code to work,
+you will need to have the line:
+\begin{lstlisting}
+#include <format>  
+\end{lstlisting}
+up where your "\#include \textless iostream\textgreater" line is.
+
+To use format, you will be putting \{\} where you want your values
+to be placed. The above example could be changed to this:
+\begin{lstlisting}
+int hour, minute;
+char colon;
+
+hour = 11;
+minute = 59;
+colon = ':';
+
+std::cout << std::format(
+ "The battle will start at {}{}{}.\n", 
+    hour, colon, minute);
+\end{lstlisting}
+The first variable will be put where the first {} is, the second in
+the second {} and so on. If you want, you can even number the 
+braces, to make it easier to see what variable will be output where.
+\begin{lstlisting}
+std::cout << std::format(
+  "The battle will start at {0}{2}{1}.\n", 
+    hour, minute, colon);  
+\end{lstlisting}
+The first variable will be at the 0 slot, the second will be at the
+1 slot, and the third with be at the 2 slot. 
+
+This method is an excellent way to output values, but because it is yet to be available
+for all environments, the following examples in the book will not use it. If you prefer this method, it is perfectly fine to use this instead of the one in the other examples.
 
 \section{Variable Naming Rules}
 \index{variable naming rules}
@@ -414,7 +460,10 @@ These words, called {\bf keywords}, include {\tt int},
 
 The complete list of keywords is included in the C++ Standard, which
 is the official language definition adopted by the the International
-Organization for Standardization (ISO) on September 1, 1998.  You
+Organization for Standardization (ISO) \footnote{There are many versions
+of this standard. The language has been adding more and more features over
+time. There is information in the Appendix on how to switch the version of the
+standard you are using.}.  You
 can download a copy electronically from
 \bigskip
 
