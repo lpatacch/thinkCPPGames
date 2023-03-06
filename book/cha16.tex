@@ -1,0 +1,111 @@
+% LaTeX source for textbook ``ThinkCPP , a game perspective''
+% Copyright (C) 2023  Lisa Patacchiola
+
+\chapter{Advanced Topics}
+
+\section {Function Objects}
+\index {function objects}
+\index{functor}
+Function Objects, also called functors are a way to create a function via a class.
+FIXME
+
+\section{Lambda Expressions}
+\index{lambda expressions}
+Lambda expressions, also known as Lambda functions, and lambda were introduced to C++ in C++11.
+This feature allows for inline unnamed functions that can be passed as parameters to other functions, or called where it was defined. Lambdas tend to be used when sending code to algorithms (like a sorting algorithm), or to asynchronous functions (code that will run at a different time.)
+
+Here is an the format that many lambda expressions take:
+\begin{verbatim}
+ [capture](parameters){
+    function body
+ }
+\end{verbatim}
+
+Here is an example of a lambda expression being used to discover the smallest item in a range.\footnote{Normally you would not need this lambda expression because the default compare (using \textless) or the standard library compare function object would have been fine with this example. Lambda expressions or functors are usually needed when the default comparison would not work.} The code takes the vector, named v, and finds the smallest
+item in the vector. It uses the expression in order to compare each item. Min\_Element
+takes each element in turn and passes it as a parameter to the lambda expression. The
+expression returns the result of the comparison.
+
+\begin{lstlisting}
+
+  std::vector<int> v{1, 7, 3, 4, 0};
+
+  auto l = std::min_element(v.begin(), v.end(), 
+              [](int x, int y) { return x < y; }); // lambda
+  std::cout << "Min is " << *l << "\n";
+  
+\end{lstlisting}
+
+\subsection{Generic Lambda}
+In C++14, that can be changed to a generic lambda by using "auto" for the parameter types. This will allow this call to be used by many different types, not just int. \footnote{Internally, this turns this code to an unnamed, templated functor.}:
+
+\begin{lstlisting}
+ [](auto x, auto y) { return x < y; }    
+\end{lstlisting}
+
+\subsection{Constant expressions}
+\index{constexpr}
+C++17 allows lambda expressions to be constexpr if it can be evaluated at compile time. If the compiler discovers that it can, the lambda will automatically be changed to constexpr. But, you can declare it explicitly.
+
+\begin{verbatim}
+ []() constexpr {
+     function body
+ }    
+\end{verbatim}
+
+If you want, you can set a variable to a lambda expression. 
+
+\begin{lstlisting}
+auto var = [] () { std::cout << "Hello, I'm in a lambda expression"; };
+var(); // This is how you call it
+\end{lstlisting}
+
+\subsection{Return Values}
+In simple cases, the return value of a lambda expression can be deduced by the compiler so it does not need to be specified. But, more complex code needs to be explicitly listed. That is possible by using " -\textgreater ". This would be the format with the return type added.
+
+\begin{verbatim}
+ [capture](parameters)->returntype {
+    function body
+ }    
+\end{verbatim}
+
+\subsection{Captures}
+
+\section{std::function}
+C++ introduced a different ways to do function pointers since C++11. In order to use this
+technique, the code needs to: 
+\begin{lstlisting}
+#include <functional>
+\end{lstlisting}
+The variables that are created this way can store function pointers, lambda expressions, 
+function objects, and bind expressions. Once those are stored, these are now callable.
+
+FIXME - split up and explain each one
+\begin{lstlisting}
+void print_num(int i) { std::cout << i << '\n'; }
+
+struct PrintNum {
+  void operator()(int i) const { std::cout << i << '\n'; }
+};
+
+int main() {
+ 
+  // store a free function
+  std::function<void(int)> f_display = print_num;
+  f_display(35);
+
+  // store a lambda
+  std::function<void()> f_display_89 = []() { print_num(89); };
+  f_display_89();
+
+  // store a functor
+  std::function<void(int)> f_functor = PrintNum();
+  f_functor(75);
+\end{lstlisting}
+ 
+\section{Glossary}
+
+\begin{description}
+\item[lambda expression:] A technique to create a function inline without naming it.
+\item[functor:] FIXME
+\end{description}
