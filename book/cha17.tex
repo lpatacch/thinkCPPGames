@@ -1,0 +1,198 @@
+% LaTeX source for textbook ``ThinkCPP , a game perspective''
+% Copyright (C) 2023  Lisa Patacchiola
+
+\chapter{Advanced Topics}
+
+\section{Function Pointer}
+Just like you have pointers to variables, you can even have pointers to functions. (C++ uses this behind the scenes to implement object member and virtual functions.)
+
+Function pointers are pointers that instead of pointing to data, point to a certain location in the executable code. Initializing a function pointer looks very similar to creating a function:
+
+int (*match)(int key1, int key2);
+
+The big difference is the extra * before the function name and that the function name and the star are surrounded by parentheses. 
+
+This definition is a little tricky to understand. It gets even harder to understand when you have a function pointer returned from another function.
+\begin{verbatim}
+int (*HowToMatch(const int type)) (int, int) { 
+ if (type = = 1) return &match1; 
+    else return &match2; 
+} 
+\end{verbatim}
+
+Most people use a typedef when they create a function pointer to make it look more like a variable. For example, you can create match like:
+
+\begin{verbatim}
+typedef int (*Match)(int,int);
+
+Match match;    
+\end{verbatim}
+
+ And, the function that returns a function pointer would just be:
+ \begin{verbatim}
+Match HowToMatch(const int type) { 
+ if (type = = 1) return &match1; 
+    else return &match2; 
+} 
+\end{verbatim}
+
+You may have noticed in the earlier code, to initialize the function pointer to a function, just use =. For example, assuming match\_int is a function that will be later in the program.
+
+\begin{verbatim}
+int match_int(int key1, int key2);
+
+match = match_int;    
+or
+match = &match_int;
+\end{verbatim}
+
+
+To call a function using a function pointer, dereference the pointer using the asterisk symbol or simply use the pointer variable name as if it were the function name:
+
+\begin{verbatim}
+retval = (*match)(x, y);
+
+or
+
+retval = match(x, y);    
+\end{verbatim}
+
+ 
+Pointers to functions can be passed to functions, returned from functions, stored in arrays, and assigned to other function pointers. They are often used for callback functions and in algorithms. They are quite powerful, but they do have some problems. The definition of the pointers can be confusing \footnote{std::function, described in Section ~\ref{stdfunction}, was created in C++11 to avoid the need to use typedef.} The functions can not keep any state information, so a new function would have to be created for each individual use. Each function would be taking up a namespace. Also, the compiler will not know what function will be set inside the pointer, so will not be able to call the function inline. 
+
+For all those reasons, more recent versions of C++ have improved methods for the same or similar behavior. 
+
+\section{Function Objects}
+\index{function objects}
+\index{functor}
+Function Objects, also called functors, are a way to create a function via a class. This subject was introduced when we introduced overloading operators in \ref{functionobjects}. This particular object uses the overloaded parenthesis operator in order to allow the function object to be "called".
+
+\begin{lstlisting}
+//this creates the function object
+class SayYayNumPlus {
+  int num;  // This allows the function to have a "state"
+public:
+  SayYayNumPlus(int t):num(t){}
+  void operator()(int i) const { 
+        std::cout << "Yay "<< i+num << '\n'; 
+        }
+};
+
+// The following would be in main
+  SayYayNumPlus plus25(25);  // create the function object
+                             // and put 25 in the "num"
+  plus25(10);   // Output "Yay 35"
+\end{lstlisting}
+The above example shows the power of this object.
+The constructor allows this class to keep a value that can
+be used later. Then, in main, the object was created
+and then can later be used. 
+
+These objects can be passed into functions like a function
+pointer. Unlike function pointers, the compiler know what
+function it will call and can inline the function call.
+\section{Lambda Expressions}
+\index{lambda expressions}
+Lambda expressions, also known as Lambda functions, and lambda were introduced to C++ in C++11.
+This feature allows for inline unnamed functions that can be passed as parameters to other functions, or called where it was defined. Lambdas tend to be used when sending code to algorithms (like a sorting algorithm), or to asynchronous functions (code that will run at a different time.)
+
+Here is an the format that many lambda expressions take:
+\begin{verbatim}
+ [capture](parameters){
+    function body
+ }
+\end{verbatim}
+
+Here is an example of a lambda expression being used to discover the smallest item in a range.\footnote{Normally you would not need this lambda expression because the default compare (using \textless) or the standard library compare function object would have been fine with this example. Lambda expressions or functors are usually needed when the default comparison would not work.} The code takes the vector, named v, and finds the smallest
+item in the vector. It uses the expression in order to compare each item. Min\_Element
+takes each element in turn and passes it as a parameter to the lambda expression. The
+expression returns the result of the comparison.
+
+\begin{lstlisting}
+
+  std::vector<int> v{1, 7, 3, 4, 0};
+
+  auto l = std::min_element(v.begin(), v.end(), 
+              [](int x, int y) { return x < y; }); // lambda
+  std::cout << "Min is " << *l << "\n";
+  
+\end{lstlisting}
+
+\subsection{Generic Lambda}
+In C++14, that can be changed to a generic lambda by using "auto" for the parameter types. This will allow this call to be used by many different types, not just int. \footnote{Internally, this turns this code to an unnamed, templated functor.}:
+
+\begin{lstlisting}
+ [](auto x, auto y) { return x < y; }    
+\end{lstlisting}
+
+\subsection{Constant expressions}
+\index{constexpr}
+C++17 allows lambda expressions to be constexpr if it can be evaluated at compile time. If the compiler discovers that it can, the lambda will automatically be changed to constexpr. But, you can declare it explicitly.
+
+\begin{verbatim}
+ []() constexpr {
+     function body
+ }    
+\end{verbatim}
+
+If you want, you can set a variable to a lambda expression. 
+
+\begin{lstlisting}
+auto var = [] () { 
+    std::cout << "Hello, I'm in a lambda expression"; 
+    };
+var(); // This is how you call it
+\end{lstlisting}
+
+\subsection{Return Values}
+In simple cases, the return value of a lambda expression can be deduced by the compiler so it does not need to be specified. But, more complex code needs to be explicitly listed. That is possible by using " -\textgreater ". This would be the format with the return type added.
+
+\begin{verbatim}
+ [capture](parameters)->returntype {
+    function body
+ }    
+\end{verbatim}
+
+\subsection{Captures}
+
+\section{std::function}
+\label{stdfunction}
+C++ introduced different ways to do function pointers since C++11. In order to use this
+technique, the code needs to: 
+\begin{lstlisting}
+#include <functional>
+\end{lstlisting}
+The variables that are created this way can store function pointers, lambda expressions, 
+function objects, and bind expressions. Once those are stored, these are now callable.
+
+FIXME - split up and explain each one
+\begin{lstlisting}
+void print_num(int i) { std::cout << i << '\n'; }
+
+struct PrintNum {
+  void operator()(int i) const { std::cout << i << '\n'; }
+};
+
+int main() {
+ 
+  // store a free function
+  std::function<void(int)> f_display = print_num;
+  f_display(35);
+
+  // store a lambda
+  std::function<void()> 
+    f_display_89 = []() { print_num(89); };
+  f_display_89();
+
+  // store a functor
+  std::function<void(int)> f_functor = PrintNum();
+  f_functor(75);
+\end{lstlisting}
+ 
+\section{Glossary}
+
+\begin{description}
+\item[lambda expression:] A technique to create a function inline without naming it.
+\item[functor:] FIXME
+\item[function pointer:] FIXME
+\end{description}
