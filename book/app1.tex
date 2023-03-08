@@ -22,8 +22,18 @@ download and install the tool. The tool is available at this
 website: \url{https://code.visualstudio.com/}. Click the appropriate
 down button for your computer.
 
-Next, you will need to install the appropriate items to allow it
-to compile and run C++ code. This is the information \url{https://code.visualstudio.com/docs/cpp/config-msvc }
+Once it is installed, you will need to install the C/C++ extension for VS Code. You can install the C/C++ extension by searching for 'c++' in the Extensions view (Ctrl+Shift+X).
+
+The next steps are to get it working with the Microsoft compiler.
+If you have a recent version of the compiler installed, you can use the tools and you are done with the installation. If not, you will need to do the following:
+
+Go online to the Visual Studio Downloads page. On that page, scroll
+down until you see {\tt Tools for Visual Studio} under the All Downloads section and click the download button for "Build Tools for Visual Studio 2022".
+
+This will download and launch the Visual Studio Installer, which will bring up a dialog showing the available Visual Studio Build Tools workloads. Check the Desktop development with C++ workload and select Install. Once it is done, you should be ready to create a project.
+
+For more information, check this page:
+\url{https://code.visualstudio.com/docs/cpp/config-msvc }
 
 \section{Setting up a project}
 \label{setupproject}
@@ -54,6 +64,17 @@ development environment.
 
 For more information, there is the documentation from replit which explains the startup in more detail. 
 \url{https://docs.replit.com/programming-ide/introduction-to-the-workspace}
+\subsection{Visual Studio Code}
+First, run the "Developer Command Prompt for Visual Studio". That will open up a command line. From there, go to the area where you want your project to be. Then, make the directory (mkdir), go into the directory (cd) and run visual studio code from that location (code). For example, if you want a "newproj" project.
+
+\begin{verbatim}
+mkdir newproj
+cd newproj
+code .    
+\end{verbatim}
+
+Visual Studio Code will now be running. You can click the "new file" button and it will add a file to your project.
+
 \section{Settings}
 Most Integrated Development Environments work well as soon as you install them. They are designed so you do not have to worry about all the various options the compiler and linker can use. This section will explain options you may want to set on your IDE to help you code. NOTE: Your IDE will work fine without these changes. They are the ones that I have found particularly helpful.
 \subsection{Replit}
@@ -121,3 +142,7 @@ available, you can use this instead:
 \begin{verbatim}
 "/std:c++latest",
 \end{verbatim}
+to use the most recent version.
+
+That will change the way the tool compiles, but it will not change the IntelliSense (this is what makes the red squiggles underneath errors). That setting is found in the c\_cpp\_properties.json file. If your project does not have that yet, Visual Studio Code can make one for you. First, type Ctrl-Shft-P to get the menu. Then, choose C/C++: Edit Configurations (UI). That will open up a C/C++ Configurations menu. Scroll down until you get to the "C++ standard" section. From there, you can change it to whatever standard you want. The code in this book has been tested with the C++23 Intellisense.
+
