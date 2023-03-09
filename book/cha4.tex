@@ -2,72 +2,6 @@
 % Copyright (C) 2023  Lisa Patacchiola and Allen B Downey
 
 \chapter{Iteration}
-
-
-\section{Multiple assignment}
-\index{assignment}
-\index{statement!assignment}
-\index{multiple assignment}
-
-I haven't said much about it, but it is legal in C++ to
-make more than one assignment to the same variable.  The
-effect of the second assignment is to replace the old value
-of the variable with a new value.
-
-\begin{verbatim}
-  int fred = 5;
-  cout << fred;
-  fred = 7;
-  cout << fred;
-\end{verbatim}
-%
-The output of this program is {\tt 57}, because the first
-time we print {\tt fred} his value is 5, and the second time
-his value is 7.
-
-This kind of {\bf multiple assignment} is the reason I
-described variables as a {\em container} for values.  When
-you assign a value to a variable, you change the contents of
-the container, as shown in the figure:
-
-\vspace{0.1in}
-\centerline{\epsfig{figure=assign2.eps}}
-\vspace{0.1in}
-
-When there are multiple assignments to a variable, it is especially
-important to distinguish between an assignment statement and a
-statement of equality.  Because C++ uses the {\tt =} symbol for
-assignment, it is tempting to interpret a statement like {\tt a = b}
-as a statement of equality.  It is not!
-
-First of all, equality is commutative, and assignment is not.
-For example, in mathematics if $a = 7$ then $7 = a$.  But in
-C++ the statement {\tt a = 7;} is legal, and {\tt 7 = a;}
-is not.
-
-Furthermore, in mathematics, a statement of equality is true
-for all time.  If $a = b$ now, then $a$ will always equal $b$.
-In C++, an assignment statement can make two variables equal,
-but they don't have to stay that way!
-
-\begin{verbatim}
-  int a = 5;
-  int b = a;     // a and b are now equal
-  a = 3;         // a and b are no longer equal
-\end{verbatim}
-%
-The third line changes the value of {\tt a} but it does not
-change the value of {\tt b}, and so they are no longer equal.
-In many programming languages an alternate symbol is used
-for assignment, such as {\tt <-} or {\tt :=}, in order to
-avoid confusion.
-
-Although multiple assignment is frequently useful, you should
-use it with caution.  If the values of variables are changing
-constantly in different parts of the program, it can make
-the code difficult to read and debug.
-
-\section{Iteration}
 \index{iteration}
 
 One of the things computers are often used for is the automation
@@ -75,39 +9,48 @@ of repetitive tasks.  Repeating identical or similar tasks without
 making errors is something that computers do well and people do
 poorly.
 
-FIXME - remove recusion info from here
-We have seen programs that use recursion to perform
-repetition, such as {\tt nLines} and {\tt countdown}.  This
-type of repetition is called {\bf iteration}, and C++ provides
+The
+type of repetition we will be looking at now is called {\bf iteration}, and C++ provides
 several language features that make it easier to write iterative
 programs.
 
-FIXME
-The two features we are going to look at are the {\tt while}
-statement and the {\tt for} statement.
+The three features we are going to look at are the {\tt while}
+statement, the {\tt do-while} statement, and the {\tt for} statement. There is another feature, the for-each (ranged loop), that we will cover in another chapter.
 
 \section{The {\tt while} statement}
 \index{statement!while}
 \index{while statement}
 
-Using a {\tt while} statement, we can rewrite {\tt countdown}:
+Using a {\tt while} statement, we can write a countdown. What we would want to do is start with a certain number, then have the number go down (and print it out) while it is above zero. Then, print Blastoff!.
 
+Here is pseudocode for that:
 \begin{verbatim}
-int countdown (int n) {
+Set n to 3
+WHILE n is more than zero
+    print n
+    subtract 1 from n
+ENDWHILE
+print "Blastoff!"
+\end{verbatim}
+
+Next, we can convert this to C++ code.
+\begin{lstlisting}
+  n = 3;
   while (n > 0) {
-    cout << n << endl;
+    std::cout << n << std::endl;
     n = n-1;
   }
-  cout << "Blastoff!" << endl;
-  return 0;
-}
-\end{verbatim}
+  std::cout << "Blastoff!" << std::endl;
+\end{lstlisting}
 %
 You can almost read a {\tt while} statement as if it were
 English.  What this means is, ``While {\tt n} is greater than
 zero, continue displaying the value of {\tt n} and then reducing
 the value of {\tt n} by 1.  When you get to zero, output the
 word `Blastoff!'''
+
+This can be drawn as the following flowchart. 
+FIXME: WHILE FLOWCHART
 
 More formally, the flow of execution for a {\tt while} statement
 is as follows:
@@ -131,11 +74,7 @@ first time through the loop, the statements inside the loop are
 never executed.  The statements inside the loop are called
 the {\bf body} of the loop.
 
-Here is a while loop simulator. \url{https://lpatacch.github.io/thinkCPPGamesEx/WhilePractice.html}. 
-With this, you can change the 
-initial value, the condition it is checking (\textless, \textgreater, ==, !=, \textgreater=, \textless=), the value checked,
-and how the variable will change. Feel free to use this
-to understand how while loops work.
+
 \index{loop}
 \index{loop!body}
 \index{loop!infinite}
@@ -158,7 +97,6 @@ eventually we have to get to zero.  In other cases it is not
 so easy to tell:
 
 \begin{verbatim}
-  void sequence (int n) {
     while (n != 1) {
       cout << n << endl;
       if (n%2 == 0) {           // n is even
@@ -167,7 +105,7 @@ so easy to tell:
         n = n*3 + 1;
       }
     }
-  }
+
 \end{verbatim}
 %
 The condition for this loop is {\tt n != 1}, so the loop
@@ -193,10 +131,11 @@ Particular values aside, the interesting question is whether
 we can prove that this program terminates for {\em all} values of n.
 So far, no one has been able to prove it {\em or} disprove it!
 
-\section{Definite loop}
-FIXME count example
-\section{Indefinite loop}
-FIXME sentinel example
+Here is a while loop simulator. \url{https://lpatacch.github.io/thinkCPPGamesEx/WhilePractice.html}. 
+With this, you can change the 
+initial value, the condition it is checking (\textless, \textgreater, ==, !=, \textgreater=, \textless=), the value checked,
+and how the variable will change. Feel free to use this
+to understand how while loops work.
 \section{New Operators}
 FIXME
 Things like the += operator
@@ -251,182 +190,12 @@ bug to track down.
 
 Remember, you can write {\tt index = index +1;}, or you
 can write {\tt index++;}, but you shouldn't mix them.
-
-\section{Tables}
-\index{table}
-\index{logarithm}
-
-One of the things loops are good for is generating
-tabular data.  For example, before computers were readily available,
-people had to calculate logarithms, sines and cosines, and other
-common mathematical functions by hand.
-To make that easier, there were books containing long tables
-where you could find the values of various functions.
-Creating these tables was slow and boring, and the result
-tended to be full of errors.
-
-When computers appeared on the scene, one of the initial reactions
-was, ``This is great!  We can use the computers to generate the
-tables, so there will be no errors.''  That turned out to be true
-(mostly), but shortsighted.  Soon thereafter computers and
-calculators were so pervasive that the tables became obsolete.
-
-Well, almost.  It turns out that for some operations, computers
-use tables of values to get an approximate answer, and then
-perform computations to improve the approximation.  In some
-cases, there have been errors in the underlying tables, most
-famously in the table the original Intel Pentium used to perform
-floating-point division.
-
-\index{division!floating-point}
-
-Although a ``log table'' is not as useful as it once was, it still
-makes a good example of iteration.  The following program outputs a
-sequence of values in the left column and their logarithms in the
-right column:
-
-\begin{verbatim}
-  double x = 1.0;
-  while (x < 10.0) {
-    cout << x << "\t" << log(x) << "\n";
-    x = x + 1.0;
-  }
-\end{verbatim}
-%
-The sequence \verb+\t+ represents a {\bf tab} character.
-The
-sequence \verb+\n+ represents a newline character.  These sequences
-can be included anywhere in a string, although in these examples
-the sequence is the whole string.
-
-A tab character causes the cursor to shift to the right until
-it reaches one of the {\bf tab stops}, which are normally every
-eight characters.  As we will see in a minute, tabs are useful
-for making columns of text line up.
-
-A newline character has exactly the same effect as {\tt endl};
-it causes the cursor to move on to the next line.  Usually if
-a newline character appears by itself, I use {\tt endl}, but
-if it appears as part of a string, I use \verb+\n+.
-
-The output of this program is
-
-\begin{verbatim}
-1      0
-2      0.693147
-3      1.09861
-4      1.38629
-5      1.60944
-6      1.79176
-7      1.94591
-8      2.07944
-9      2.19722
-\end{verbatim}
-%
-If these values seem odd, remember that the {\tt log} function uses
-base $e$.  Since powers of two are so important in computer science,
-we often want to find logarithms with respect to base 2.  To do that,
-we can use the following formula:
-
-\[ \log_2 x = \frac {log_e x}{log_e 2} \]
-%
-Changing the output statement to
-
-\begin{verbatim}
-      cout << x << "\t" << log(x) / log(2.0) << endl;
-\end{verbatim}
-%
-yields
-
-\begin{verbatim}
-1      0
-2      1
-3      1.58496
-4      2
-5      2.32193
-6      2.58496
-7      2.80735
-8      3
-9      3.16993
-\end{verbatim}
-%
-We can see that 1, 2, 4 and 8 are powers of two, because
-their logarithms base 2 are round numbers.  If we wanted to find
-the logarithms of other powers of two, we could modify the
-program like this:
-
-\begin{verbatim}
-  double x = 1.0;
-  while (x < 100.0) {
-    cout << x << "\t" << log(x) / log(2.0) << endl;
-    x = x * 2.0;
-  }
-\end{verbatim}
-%
-Now instead of adding something to {\tt x} each time through
-the loop, which yields an arithmetic sequence, we multiply
-{\tt x} by something, yielding a {\bf geometric} sequence.
-The result is:
-
-\begin{verbatim}
-1      0
-2      1
-4      2
-8      3
-16     4
-32     5
-64     6
-\end{verbatim}
-%
-Because we are using tab characters between the columns, the
-position of the second column does not depend on the number
-of digits in the first column.
-
-Log tables may not be useful any more, but for computer scientists,
-knowing the powers of two is!  As an exercise, modify this program
-so that it outputs the powers of two up to 65536
-(that's $2^{16}$).  Print it out and memorize it.
-
-\section{Two-dimensional tables}
-\index{table!two-dimensional}
-
-A two-dimensional table is a table where you choose a row and
-a column and read the value at the intersection.  A multiplication
-table is a good example.  Let's say you wanted to print a
-multiplication table for the values from 1 to 6.
-
-A good way to start is to write a simple loop that prints
-the multiples of 2, all on one line.
-
-\begin{verbatim}
-  int i = 1;
-  while (i <= 6) {
-    cout << 2*i << "   ";
-    i = i + 1;
-  }
-  cout << endl;
-\end{verbatim}
-%
-The first line initializes a variable named {\tt i}, which is
-going to act as a counter, or {\bf loop variable}.  As the
-loop executes, the value of {\tt i} increases from 1 to 6,
-and then when {\tt i} is 7, the loop terminates.  Each
-time through the loop, we print the value {\tt 2*i} followed
-by three spaces.  By omitting the {\tt endl} from the
-first output statement, we get 
-all the output on a single line.
-
-\index{loop variable}
-\index{variable!loop}
-
-The output of this program is:
-
-\begin{verbatim}
-2   4   6   8   10   12
-\end{verbatim}
-%
-So far, so good.  The next step is to {\bf encapsulate} and {\bf
-generalize}.
+\section{Parts of a loop}
+FIXME: Initialization, Condition, Modification
+\section{Definite loop}
+FIXME count example
+\section{Indefinite loop}
+FIXME sentinel example
 
 \section{{\tt do-while} loop}
 FIXME
@@ -504,41 +273,13 @@ condition is true or until some condition is satisfied.
 \item[iteration:]  One pass through (execution of) the body
 of the loop, including the evaluation of the condition.
 
-\item[tab:] A special character, written as \verb+\t+ in C++,
-that causes the cursor to move to the next tab stop on the
-current line.
-
-\item[encapsulate:]  To divide a large complex program into
-components (like functions) and isolate the components from
-each other (for example, by using local variables).
-
-\item[local variable:]  A variable that is declared inside
-a function and that exists only within that function.  Local variables
-cannot be accessed from outside their home function, and do not
-interfere with any other functions.
-
-\item[generalize:]  To replace something unnecessarily specific
-(like a constant value) with something appropriately general
-(like a variable or parameter).  Generalization makes code more
-versatile, more likely to be reused, and sometimes even easier
-to write.
-
-\item[development plan:]  A process for developing a program.
-In this chapter, I demonstrated a style of development based on
-developing code to do simple, specific things, and then encapsulating
-and generalizing.
 
 \index{loop}
 \index{infinite loop}
 \index{body}
-\index{tab}
 \index{loop!infinite}
 \index{iteration}
-\index{encapsulation}
-\index{generalization}
-\index{local variable}
-\index{variable!local}
-\index{program development}
+
 
 \end{description}
 

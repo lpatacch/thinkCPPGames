@@ -24,6 +24,7 @@ down button for your computer.
 
 Once it is installed, you will need to install the C/C++ extension for VS Code. You can install the C/C++ extension by searching for 'c++' in the Extensions view (Ctrl+Shift+X).
 
+\subsubsection{Microsoft Compiler}
 The next steps are to get it working with the Microsoft compiler.
 If you have a recent version of the compiler installed, you can use the tools and you are done with the installation. If not, you will need to do the following:
 
@@ -34,7 +35,9 @@ This will download and launch the Visual Studio Installer, which will bring up a
 
 For more information, check this page:
 \url{https://code.visualstudio.com/docs/cpp/config-msvc }
-
+\subsubsection{GNU compiler}
+FIXME
+The information can be found here: \url{https://code.visualstudio.com/docs/cpp/config-mingw}
 \section{Setting up a project}
 \label{setupproject}
 Want to code on your own? This section will some helpful instructions on
@@ -65,7 +68,9 @@ development environment.
 For more information, there is the documentation from replit which explains the startup in more detail. 
 \url{https://docs.replit.com/programming-ide/introduction-to-the-workspace}
 \subsection{Visual Studio Code}
-First, run the "Developer Command Prompt for Visual Studio". That will open up a command line. From there, go to the area where you want your project to be. Then, make the directory (mkdir), go into the directory (cd) and run visual studio code from that location (code). For example, if you want a "newproj" project.
+If you are running the Microsoft compiler, you will need to run the "Developer Command Prompt for Visual Studio". That will open up a command line. If you have a GNU compiler, a regular command line will work instead. 
+
+From there, go to the area where you want your project to be. Then, make the directory (mkdir), go into the directory (cd) and run visual studio code from that location (code). For example, if you want a "newproj" project.
 
 \begin{verbatim}
 mkdir newproj
