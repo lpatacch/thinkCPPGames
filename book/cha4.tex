@@ -51,7 +51,13 @@ the value of {\tt n} by 1.  When you get to zero, output the
 word `Blastoff!'''
 
 This can be drawn as the following flowchart. 
-FIXME: WHILE FLOWCHART
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=9cm]{images/countdownwhileflow.png}
+    \caption{Flowchart for the countdown program}
+    \label{fig:countdownwhile}
+\end{figure}
+It is a little easier to understand how the code is looping by looking at the flowchart. Notice how after the n has one subtracted from it, the condition is checked again. That is the spot where it decides if the program will continue with the loop or end the loop.
 
 More formally, the flow of execution for a {\tt while} statement
 is as follows:
@@ -132,10 +138,10 @@ Particular values aside, the interesting question is whether
 we can prove that this program terminates for {\em all} values of n.
 So far, no one has been able to prove it {\em or} disprove it!
 
-Here is a while loop simulator. \url{https://lpatacch.github.io/thinkCPPGamesEx/WhilePractice.html}. 
+This book has a while loop simulator in order to help you understand while loops, \url{https://lpatacch.github.io/thinkCPPGamesEx/WhilePractice.html}. 
 With this, you can change the 
 initial value, the condition it is checking (\textless, \textgreater, ==, !=, \textgreater=, \textless=), the value checked,
-and how the variable will change. Feel free to use this
+and how the variable will change. Use this as many times as you wish
 to understand how while loops work.
 \section{New Operators}
 Before we get more into loops, I want to cover some more math operators that we have not seen yet. In the countdown program, we had the counter change values with this equation:
