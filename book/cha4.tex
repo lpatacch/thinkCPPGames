@@ -33,7 +33,8 @@ ENDWHILE
 print "Blastoff!"
 \end{verbatim}
 
-Next, we can convert this to C++ code.
+Next, we can convert this to C++ code. It is not that much different than the pseudocode. Just like if statements, while statements use conditions to know when to continue and when to end. As long as the condition after the {\tt while} is true, the loop will continue to run. Once it is false, the loop will stop.
+
 \begin{lstlisting}
   n = 3;
   while (n > 0) {
@@ -137,17 +138,51 @@ initial value, the condition it is checking (\textless, \textgreater, ==, !=, \t
 and how the variable will change. Feel free to use this
 to understand how while loops work.
 \section{New Operators}
-FIXME
-Things like the += operator
+Before we get more into loops, I want to cover some more math operators that we have not seen yet. In the countdown program, we had the counter change values with this equation:
+\begin{verbatim}
+    n = n-1;
+\end{verbatim}
+That equation took whatever was in n, subtracted 1, and placed it back in n. That behavior is very typical with loops. One variable 
+is changed until it reaches the end value. It is so common that there is a short cut for this behavior. The above equation can be rewritten to this:
+\begin{verbatim}
+    n -= 1;
+\end{verbatim}
+This equation means the same as above, the value n has 1 subtracted from it, and then the result is put in n. Similar equations are available for many other math operators:
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|c|}
+    \hline
+ Math Operator & What it does & sample equation \\\hline
+    +=     &  addition & {\tt n += 3;} \\
+    -=      & subtraction & {\tt n -= 5;}\\
+    {\tt *=}  &   multiplication & {\tt n *= 4;} \\
+    \textbackslash=  &    division  & {\tt n \textbackslash= 2;}\\
+    \%=  &  modulus & {\tt n \%= 7;}\\
+\hline
+    \end{tabular}
+    \caption{New operators}
+    \label{tab:newoperators}
+\end{table}
 \section{Increment and decrement operators}
 \index{operator!increment}
 \index{operator!decrement}
 
-Incrementing and decrementing are such common operations that C++
+Incrementing and decrementing by one are such common operations that C++
 provides special operators for them.  The {\tt ++} operator adds one
 to the current value of an {\tt int}, {\tt char} or {\tt double}, and
 {\tt --} subtracts one.  Neither operator works on {\tt string}s,
 and neither {\em should} be used on {\tt bool}s.
+
+The equation we modified in the last section:
+\begin{verbatim}
+    n -= 1;
+\end{verbatim}
+
+If you notice, the n was decremented by one. So, we can use the even shorter form here:
+\begin{verbatim}
+    --n;
+\end{verbatim}
+This subtracts 1 from n. This makes a very small line of code. All you need is the increment or the decrement operator, and the variable you will be changing.
 
 Technically, it is legal to increment a variable and use it
 in an expression at the same time.  For example, you might see
@@ -190,6 +225,14 @@ bug to track down.
 
 Remember, you can write {\tt index = index +1;}, or you
 can write {\tt index++;}, but you shouldn't mix them.
+
+The ++ and -- does not work on a complex expression either. For example, 
+
+\begin {verbatim}
+( n + 7 )++;
+\end{verbatim}
+would not compile. The ++ and -- should be used only on a variable, not an expression.
+
 \section{Parts of a loop}
 FIXME: Initialization, Condition, Modification
 \section{Definite loop}
