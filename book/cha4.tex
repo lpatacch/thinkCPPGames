@@ -190,47 +190,68 @@ If you notice, the n was decremented by one. So, we can use the even shorter for
 \end{verbatim}
 This subtracts 1 from n. This makes a very small line of code. All you need is the increment or the decrement operator, and the variable you will be changing.
 
+You may have noticed that on some lines I put the ++ before the variable, and some after the variable. Both are legal. When it is on it's own line, it seems like it is doing the same thing. But, it is doing something slightly different. The ++ before the variable is called a pre-incrementor. It means that it will be doing the adding before anything else in the line. The ++ after the variable is called a post-incrementor. It means that it will be doing the adding after most of the things on the line. 
+
 Technically, it is legal to increment a variable and use it
 in an expression at the same time.  For example, you might see
 something like:
 
 \begin{verbatim}
-  cout << i++ << endl;
+  std::cout << i++ << std::endl;
 \end{verbatim}
 %
 Looking at this, it is not clear whether the increment will
 take effect before or after the value is displayed.  Because
 expressions like this tend to be confusing, I would discourage
 you from using them.  In fact, to discourage you even more,
-I'm not going to tell you what the result is.  If you really
+I'm not going to tell you what the result is, other than letting you know it is a post-incrementor.  If you really
 want to know, you can try it.
 
-Using the increment operators, we can rewrite the letter-counter:
+Using the increment operators, we can calculate the average weight of a person's inventory:
 
-FIXME - change example. no arrays yet.
-\begin{verbatim}
-  int index = 0;
-  while (index < length) {
-    if (fruit[index] == 'a') {
-      count++;
-    }
-    index++;
+\begin{lstlisting}
+  
+  int num = 0;
+  int weight = 0;
+  int total = 0;
+  std::cout << "Enter the weight of the item.\n"
+  std::cout << "When done, enter -1\n";
+  std::cin >> weight;
+  while (weight >= 0) {
+    //if it is a valid weight, add it to the total
+    total += weight;
+    
+    //add one to the number of items
+    ++num;
+    
+    //ask for the next weight
+    std::cout << "Enter the weight of the item.\n"
+    std::cout << "When done, enter -1\n";
+    std::cin >> weight;    
   }
-\end{verbatim}
+  
+  if (num != 0)
+  {
+    std::cout << "The average is" << total/num <<".\n"; 
+  }
+  else {
+    std::cout << "No items to average.\n";
+  }
+\end{lstlisting}
 %
 It is a common error to write something like
 
 \begin{verbatim}
-  index = index++;             // WRONG!!
+  num = num++;             // WRONG!!
 \end{verbatim}
 %
 Unfortunately, this is syntactically legal, so the compiler
 will not warn you.  The effect of this statement is to leave
-the value of {\tt index} unchanged.  This is often a difficult
+the value of {\tt num} unchanged.  This is often a difficult
 bug to track down.
 
-Remember, you can write {\tt index = index +1;}, or you
-can write {\tt index++;}, but you shouldn't mix them.
+Remember, you can write {\tt num = num +1;}, or you
+can write {\tt num++;}, but you shouldn't mix them.
 
 The ++ and -- does not work on a complex expression either. For example, 
 
@@ -240,7 +261,20 @@ The ++ and -- does not work on a complex expression either. For example,
 would not compile. The ++ and -- should be used only on a variable, not an expression.
 
 \section{Parts of a loop}
-FIXME: Initialization, Condition, Modification
+The loops we have written so far have a number of elements
+in common.  All of them start by initializing a variable;
+they have a test, or condition, that depends on that variable;
+and inside the loop they do something to that variable,
+like increment it. This can be described by the following pseudocode:
+\begin{verbatim}
+  INITIALIZER;
+  while (CONDITION) {
+    BODY
+    MODIFICATION
+  }
+\end{verbatim}
+Loops, in order to work properly, need to have all three parts. If there is no modification section, the loop would never be able to leave the loop. If the initialization is wrong (or missing), the loop may loop the wrong amount of times (or never loop). And last, if the condition is wrong, the loop will never end properly. Whenever you loop is not working properly, if you look at those three parts, you will find the problem.
+
 \section{Definite loop}
 FIXME count example
 \section{Indefinite loop}
@@ -250,18 +284,10 @@ FIXME sentinel example
 FIXME
 
 \section{{\tt for} loops}
-FIXME
-
-The loops we have written so far have a number of elements
-in common.  All of them start by initializing a variable;
-they have a test, or condition, that depends on that variable;
-and inside the loop they do something to that variable,
-like increment it.
-
 \index{loop!for}
 \index{for}
 \index{statement!for}
-
+We have had many examples of definite or counting loops.
 This type of loop is so common that there is an alternate
 loop statement, called {\tt for}, that expresses it more
 concisely.  The general syntax looks like this:
@@ -289,7 +315,7 @@ For example:
 \begin{verbatim}
   int i;
   for (i = 0; i < 4; i++) {
-    cout << count[i] << endl;
+    cout << i << endl;
   }
 \end{verbatim}
 %
@@ -298,7 +324,7 @@ is equivalent to
 \begin{verbatim}
   int i = 0;
   while (i < 4) {
-    cout << count[i] << endl;
+    cout << i << endl;
     i++;
   }
 \end{verbatim}
