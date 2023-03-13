@@ -134,6 +134,7 @@ C++17 allows lambda expressions to be constexpr if it can be evaluated at compil
      function body
  }    
 \end{verbatim}
+FIXME show example
 
 If you want, you can set a variable to a lambda expression. 
 
@@ -152,8 +153,25 @@ In simple cases, the return value of a lambda expression can be deduced by the c
     function body
  }    
 \end{verbatim}
+FIXME show example
 
 \subsection{Captures}
+[] No variables in the surrounding area are used in the lambda body
+
+[\&] All variables listed in the body are captured by reference. This means that 
+that if the variable is changed in the lambda expression, it will be changed outside the expression.
+One thing that you need to watch out is when you run a lambda that captures a variable by reference and it runs asynchronously. It is very important that the variable that is captured does not leave scope before the lambda is called. If it does, you may get an access violation error.
+
+[=] All variables listed in the body are captured by value. All the variables that were captured are copied and will work in parallel or asynchronously. It is acceptable for the variables that were captured by value to have left scope before the expression runs.
+
+FIXME add example
+\subsubsection{Generalized captures}
+C++14 added the capability to create and initialize a variable in the capture section. 
+
+FIXME add example
+
+\subsection{Mutable}
+FIXME show example
 
 \section{std::function}
 \label{stdfunction}
@@ -165,30 +183,61 @@ technique, the code needs to:
 The variables that are created this way can store function pointers, lambda expressions, 
 function objects, and bind expressions. Once those are stored, these are now callable.
 
-FIXME - split up and explain each one
+To use the template, it follows this pattern:
+\begin{verbatim}
+ std::function<retval(params)> fvar;    
+\end{verbatim}
+The format is a lot easier than a typical function pointer. The
+return value (in the pattern it is retval) is the first thing listed.
+The items inside the parentheses are the parameter types. The parameters
+do not need to be named here, only the types.
+
+Here is an example using a function pointer:
 \begin{lstlisting}
+// This is a normal function
 void print_num(int i) { std::cout << i << '\n'; }
 
+// Here it uses the printnum function, and f_display 
+// is set to that function.
+  std::function<void(int)> f_display = print_num;
+  
+// Using the variable, it can now call 
+// the print_num function
+  f_display(35);
+\end{lstlisting}
+
+This tool also works with function objects.
+\begin{lstlisting}
+// Here is the functor's definition
 struct PrintNum {
   void operator()(int i) const { std::cout << i << '\n'; }
 };
 
-int main() {
- 
-  // store a free function
-  std::function<void(int)> f_display = print_num;
-  f_display(35);
+  // store a functor
+  std::function<void(int)> f_functor = PrintNum();
+  // call the functor
+  f_functor(75);
+\end{lstlisting}
 
+And this shows how it can work with a Lambda expression.
+\begin{lstlisting}
+
+int main() {
   // store a lambda
   std::function<void()> 
     f_display_89 = []() { print_num(89); };
   f_display_89();
 
-  // store a functor
-  std::function<void(int)> f_functor = PrintNum();
-  f_functor(75);
 \end{lstlisting}
- 
+
+\subsection{Problems with returned reference}
+FIXME show examples
+
+\subsection{Predefined functions}
+normal compares
+ranges compares
+FIXME explain and show examples
+
 \section{Glossary}
 
 \begin{description}
