@@ -1,0 +1,105 @@
+% LaTeX source for textbook ``Think C++, a game perspective''
+% Copyright (C) 2023  Lisa Patacchiola, Allen B. Downey
+
+
+\DocumentMetadata{}
+\documentclass{book}
+\usepackage[pdftex,
+            pdfauthor={Lisa Patacchiola and Allen B Downey},
+            pdftitle={ThinkCPP, a game perspective},
+            pdfsubject={Programming},
+            pdfkeywords={c++, programming, games},
+            pdfproducer={Latex with hyperref, or other system},
+            pdfcreator={pdflatex, or other tool}]{hyperref}
+\usepackage{makeidx}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\pssilent
+%\usepackage[tagged, highstructure]{accessibility}
+%\usepackage{tagpdf}
+\usepackage{color}
+\definecolor{dkgreen}{RGB}{46,133,64}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{lightblue}{rgb}{0.5, 0.6, 0.8}
+\lstset{language=[ANSI]C++,
+keywordstyle=\color{blue}\bfseries, % style for keywords
+showstringspaces=false,
+   commentstyle=\color{dkgreen},
+   stringstyle=\color{mauve},
+   basicstyle={\small\ttfamily},
+  % backgroundcolor=\color{lightblue}
+}   
+%\renewcommand\cftsecnumwidth{2em}
+
+\title{Think C++, a game perspective}
+
+\author{Lisa Patacchiola, Allen B. Downey (original author)}
+\date{2/11/2023}
+
+\sloppy
+\setlength{\topmargin}{0.75in}
+\setlength{\headsep}{0.5in}
+\setlength{\oddsidemargin}{1.0in}
+\setlength{\evensidemargin}{.95in}
+\makeindex
+
+\begin{document}
+
+\title {Think C++, a game perspective}
+\author {Lisa Patacchiola, Allen B. Downey(original author)}
+\date {Version 2.0 alpha 0.6}
+\maketitle
+
+\vspace{2in}
+\begin{center}
+{\Large Think C++, a game perspective}
+
+\vspace{0.25in}
+
+Copyright (C) 2023 Lisa Patacchiola and Allen B. Downey
+\end{center}
+\vspace{0.25in}
+
+Permission is granted to copy, distribute, transmit and adapt this
+work under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+International License: \url{https://creativecommons.org/licenses/by-nc/4.0/}.
+
+If you are interested in distributing a commercial version of this
+work, please contact the author.
+
+\bigskip
+The \LaTeX\ source and code for this version of the book are available from
+
+\bigskip
+\url{https://github.com/lpatacch/thinkCPPGames}
+
+\bigskip
+The \LaTeX\ source and code for the original book is available from
+
+\bigskip
+\url{https://github.com/AllenDowney/ThinkCPP}
+
+
+
+\frontmatter
+\include{contrib}
+\tableofcontents
+
+\mainmatter
+\include{cha1}
+\include{cha2}
+\include{cha3}
+\include{cha4}
+\include{cha16}
+\include{cha17}
+
+\appendix
+\include{app1}
+
+\printindex
+
+\end{document}
+
