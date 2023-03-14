@@ -15,7 +15,7 @@ The big difference is the extra * before the function name and that the function
 This definition is a little tricky to understand. It gets even harder to understand when you have a function pointer returned from another function.
 \begin{verbatim}
 int (*HowToMatch(const int type)) (int, int) { 
- if (type = = 1) return &match1; 
+ if (type == 1) return &match1; 
     else return &match2; 
 } 
 \end{verbatim}
@@ -119,7 +119,7 @@ expression returns the result of the comparison.
 \end{lstlisting}
 
 \subsection{Generic Lambda}
-In C++14, that can be changed to a generic lambda by using "auto" for the parameter types. This will allow this call to be used by many different types, not just int. \footnote{Internally, this turns this code to an unnamed, templated functor.}:
+In C++14, the above expression can be changed to a generic lambda by using "auto" for the parameter types. This will allow this call to be used by many different types, not just int. \footnote{Internally, this turns this code to an unnamed, templated functor.}:
 
 \begin{lstlisting}
  [](auto x, auto y) { return x < y; }    
@@ -134,14 +134,21 @@ C++17 allows lambda expressions to be constexpr if it can be evaluated at compil
      function body
  }    
 \end{verbatim}
-FIXME show example
+For example, if there is something that will always return the same value:
+\begin{lstlisting}
+auto w = []() constexpr { return 7;}
+\end{lstlisting}
+This should automatically be set to a constexpr, but it will not hurt for you
+to declare it anyway.
 
-If you want, you can set a variable to a lambda expression. 
+
+You may have noticed in some of the above examples that you can set a variable to a lambda expression. 
 
 \begin{lstlisting}
 auto var = [] () { 
     std::cout << "Hello, I'm in a lambda expression"; 
     };
+    
 var(); // This is how you call it
 \end{lstlisting}
 
@@ -153,25 +160,65 @@ In simple cases, the return value of a lambda expression can be deduced by the c
     function body
  }    
 \end{verbatim}
-FIXME show example
+Below is an example when you would need to set the return type explicitly. If you notice,
+one return could be returning an integer, and another could be returning a double. The return value needs to be set explicitly because the compiler might not be able to guess what was expected:
+
+\begin{lstlisting}
+auto whattodo = []  (int num1, int num2,  
+        string whichmath) -> double {
+
+  if (whichmath == "avg") {
+    // returns double here
+    return (num1 + num2) / 2.0;
+  } 
+  else {
+    // returns int here
+    return num1 + num2;
+  }
+};
+\end{lstlisting}
 
 \subsection{Captures}
-[] No variables in the surrounding area are used in the lambda body
+Normally, the code in the lambda body can not access variables from the
+functions that are around it. If the body needs to access one of those variables,
+they can be listed in the capture clause. There are many ways that this can be done.
 
-[\&] All variables listed in the body are captured by reference. This means that 
-that if the variable is changed in the lambda expression, it will be changed outside the expression.
+ \textbf{[]} No variables in the surrounding area are used in the lambda body. This is what we had in previous examples.
+ 
+ \textbf{[varname]} The variable listed will be captured by value. This means that it will make a copy of the value where it can be used later.
+ 
+ \textbf{[\& varname]} The variable listed will be captured by reference. That means that the lambda
+ expression can change the value of the variable
+ 
+ \textbf{[\&]} All variables listed in the body are captured by reference. Instead of having an empty [], the \& symbol is put there. This means that 
+that if the variable is changed in the lambda expression, it will be changed outside the expression. No variables need to be listed specifically.
+
 One thing that you need to watch out is when you run a lambda that captures a variable by reference and it runs asynchronously. It is very important that the variable that is captured does not leave scope before the lambda is called. If it does, you may get an access violation error.
 
-[=] All variables listed in the body are captured by value. All the variables that were captured are copied and will work in parallel or asynchronously. It is acceptable for the variables that were captured by value to have left scope before the expression runs.
+ \textbf{[=]} All variables listed in the body are captured by value. All the variables that were captured are copied and will work in parallel or asynchronously. It is acceptable for the variables that were captured by value to have left scope before the expression runs.
+ 
+ It is also possible to list variables that will be using a different method of capture. For example: [=, \&varname]. That would capture everything but varname by value. Varname would be by reference. [\&, varname] would capture everything by reference except varname, which 
+ would be by value.
 
-FIXME add example
 \subsubsection{Generalized captures}
-C++14 added the capability to create and initialize a variable in the capture section. 
+C++14 added the capability to create and initialize a variable in the capture section. This
+is great for something that you wanted to be able to change, but it would have no longer
+been in scope by the time the expression ran. For example:
 
-FIXME add example
+\begin{lstlisting}
+// make a int array of size 7
+auto ptr = std::make_unique<int[]>(7); 
+
+auto lambda = [value = std::move(ptr)] {
+    /* Something in here that uses "value"*/
+    };
+\end{lstlisting}
 
 \subsection{Mutable}
-FIXME show example
+If a variable is captured by value, it is treated like a constant. If code in the lambda
+body changes the value, the compile flags it as an error. You can put the word "mutable"
+in your lambda expression definition. This allows you to change the variables that were 
+captured by value. NOTE: It will not be changed outside the lambda, only inside the lambda.
 
 \section{std::function}
 \label{stdfunction}
@@ -231,17 +278,30 @@ int main() {
 \end{lstlisting}
 
 \subsection{Problems with returned reference}
-FIXME show examples
+If you are using std::function that has a returned reference with a lambda expression that does not specify a return value, there can be problems. Quite often it will connect the
+return value to a variable that will lose scope as soon as the expression is over. This
+will not flag an error with the compiler until C++23.
 
 \subsection{Predefined functions}
-normal compares
-ranges compares
-FIXME explain and show examples
+Before you create your own lambda expression or functor, you may want to check if what
+you were planning on making already exists. There are many simple checks, like less, greater, equal\_to and more defined in the functional header.
+
+Here is an example:
+\begin{lstlisting}
+template <typename X, typename Y, typename Z = std::less<>>
+bool isless(X x, Y y, Z l = Z{})
+{
+    return l(x, y);
+}
+ 
+// and in a function, you can have:
+std::cout << std::boolalpha << isless(1, 2);
+\end{lstlisting}
 
 \section{Glossary}
 
 \begin{description}
 \item[lambda expression:] A technique to create a function inline without naming it.
-\item[functor:] FIXME
-\item[function pointer:] FIXME
+\item[functor:] A function object. This is a class (or a struct) that has overloaded the parenthesis operator in order to allow it to act like a function.
+\item[function pointer:] a variable that is connected to a function instead of data.
 \end{description}
