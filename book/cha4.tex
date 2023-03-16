@@ -318,7 +318,58 @@ FIXME: add an example
 
 FIXME: code blocks
 \section{{\tt do-while} loop}
-FIXME
+The second type of loop that C++ supports is called a do-while loop.
+It works very similarly to the while loop. It should be initialized
+before the loop starts, it should be modified inside the loop, and
+it has a condition it checks. The difference is where it checks the
+condition. The do-while loop checks the condition at the end of the
+loop, guaranteeing the loop always runs at least once. The while loop
+checks the condition at the beginning, which could mean the loop
+might not run at all. The general syntax looks like the following:
+
+\begin{verbatim}
+  INITIALIZER;
+   do {
+    BODY
+    MODIFICATION
+  } while (CONDITION);
+\end{verbatim}
+%
+
+For example, the multiplication table could be changed to a do-while:
+\begin{lstlisting}
+  int val = 7;
+  std::cout << "Here is a multiplication table for ";
+  std::cout << val <<"\n";
+  
+  int x = 1;
+  do {
+     std::cout << x << "\t" << x * val << "\n";
+     x++;
+  } while (x <= 10);
+\end{lstlisting}
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=10cm]{images/do-whileflow.png}
+    \caption{Flowchart for the do-while multiplication table}
+    \label{fig:do-while}
+\end{figure}
+By now, you may be wondering, "Why should I use this approach instead of a while loop?" The main advantage is that the code within the loop is guaranteed to execute at least once. I often use this type of loop when obtaining input from the user. In many programs, we ask a question. Unfortunately, the user may not always provide a valid response. While we know that we need to ask the question once, we cannot be certain if we will need to repeat it if the user provides an incorrect response. For instance, let's consider an example where we ask the user whether they want to turn left or right. The only correct answer is 'l' or 'r'. \footnote{Technically, we should have changed the answer to lowercase to allow for L and R,
+but I wanted this example to be simpler than that.}
+\begin{lstlisting}
+  char direction = '\0';
+  do {
+     std::cout << "Do you want to go (l)eft or (r)ight?\n");
+     std::cin >> direction;
+     if ((direction != 'l')&&(direction != 'r'))
+     {
+        std::cout << "Please enter l or r\n";
+     }
+  } while ((direction != 'l')&&(direction != 'r'));
+\end{lstlisting}
+If we decided to do this with a while, we would have needed to ask 
+the question both outside and inside the loop. This reduces the 
+amount of times the same code is written in the program.
 
 \section{{\tt for} loops}
 \index{loop!for}
