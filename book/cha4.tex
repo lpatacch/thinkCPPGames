@@ -19,6 +19,7 @@ statement, the {\tt do-while} statement, and the {\tt for} statement. There are 
 
 \section{The {\tt while} statement}
 \index{statement!while}
+\index{loop!while}
 \index{while statement}
 
 Using a {\tt while} statement, we can write a countdown. What we would want to do is start with a certain number, then have the number go down (and print it out) while it is above zero. Then, print Blastoff!.
@@ -317,7 +318,10 @@ called a sentinel loop.
 FIXME: add an example
 
 FIXME: code blocks
-\section{{\tt do-while} loop}
+\section{{\tt do-while} statement}
+\index{statement!do-while}
+\index{loop!do-while}
+\index{do-while statement}
 The second type of loop that C++ supports is called a do-while loop.
 It works very similarly to the while loop. It should be initialized
 before the loop starts, it should be modified inside the loop, and
@@ -368,12 +372,11 @@ but I wanted this example to be simpler than that.}
   } while ((direction != 'l')&&(direction != 'r'));
 \end{lstlisting}
 If we decided to do this with a while, we would have needed to ask 
-the question both outside and inside the loop. This reduces the 
-amount of times the same code is written in the program.
+the question both outside and inside the loop. The do-while reduces the amount of times the same code is duplicated in the program.
 
-\section{{\tt for} loops}
+\section{{\tt for} statement}
 \index{loop!for}
-\index{for}
+\index{for statement}
 \index{statement!for}
 We have had many examples of definite or counting loops.
 This type of loop is so common that there is an alternate
@@ -435,6 +438,12 @@ condition is true or until some condition is satisfied.
 
 \item[iteration:]  One pass through (execution of) the body
 of the loop, including the evaluation of the condition.
+
+\item[definite loop:]  A loop where you know how many times
+it will run before the loop starts.
+
+\item[indefinite loop:]  A loop where you do not know how many
+times it will run before the loop starts.
 
 
 \index{loop}
