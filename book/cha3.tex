@@ -233,8 +233,42 @@ The two sides of a condition operator have to be the same
 type.  You can only compare {\tt ints} to {\tt ints} and
 {\tt doubles} to {\tt doubles}. 
 
-FIXME: Explain unbraced if statements
-FIXME: Define code-block
+All the examples of if statements that we have seen so far is using curly
+braces. But, if statements do work without the curly braces. For example, the
+following if statement would work:
+\begin{lstlisting}
+int x = -1;
+if (x < 0)
+    std::cout << "negative";
+\end{lstlisting}
+The above if statement would print "negative". It does lead to some confusion though. 
+If you have the following if statement, it may not print what you expect.
+\begin{lstlisting}
+int x = 1;
+if (x < 0)
+    std::cout << "negative. ";
+    std::cout << "this is below zero"; // WRONG!
+\end{lstlisting}
+This would print "this is below zero" even though the second line is indented. 
+The second line is not part of the if statement. It was finished after the
+line that printed "negative".  
+\begin{lstlisting}
+int x = 1;
+if (x < 0)
+{
+    std::cout << "negative. ";
+    std::cout << "this is below zero"; // Fixed!
+}
+\end{lstlisting}
+\index{code block}
+By adding the curly braces, the second std::cout is now part of the if statement.
+The curly braces and the cout statements inside of them is a {\bf code block}. A code
+block (also called a compound statement) is one or statements surrounded by curly braces.
+They act as a logical unit. An if statement can run one statement conditionally, or
+one code block. This allows you to do one or more things if a condition is true.
+
+Even though it is possible for it to work without curly braces, it is suggested that you
+always use them. Most programmers will expect them to be there, and it is easy for bugs to be introduced because of the confusion.
 
 \section {Alternative execution}
 \label{alternative}
@@ -734,6 +768,7 @@ rough drafts in a combination of keywords and English.
 
 \item[flowchart:] A way of designing programs with shapes and arrows used to show the flow of the program. 
 
+\item[code block:] One or more statements surrounded by curly braces. This group of statements can act as a logical unit for conditionals and loops.
 \index{conditional}
 \index{conditional!chained}
 \index{conditional!nested}
@@ -741,6 +776,7 @@ rough drafts in a combination of keywords and English.
 \index{switch statement}
 \index{pseudocode}
 \index{flowchart}
+\index{code block}
 
 \end{description}
 

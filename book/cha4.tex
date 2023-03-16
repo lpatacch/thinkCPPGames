@@ -276,10 +276,47 @@ like increment it. This can be described by the following pseudocode:
 Loops, in order to work properly, need to have all three parts. If there is no modification section, the loop would never be able to leave the loop. If the initialization is wrong (or missing), the loop may loop the wrong amount of times (or never loop). And last, if the condition is wrong, the loop will never end properly. Whenever you loop is not working properly, if you look at those three parts, you will find the problem.
 
 \section{Definite loop}
-FIXME count example
-\section{Indefinite loop}
-FIXME sentinel example
+There are two different ways that loops can usually be identified. The first type 
+is one where you know how many times the loop will repeat. These type of loops tend to
+have a counter that is either counting down or up, and the counter is modified by a
+constant value each time through the loop. These loops are sometimes called definite loops,
+or counting loops. We have seen example with the countdown loop. The count down started at
+three and the counter went down by one each time through the loop. Here is another example:
 
+\begin{lstlisting}
+  int val = 7;
+  std::cout << "Here is a multiplication table for ";
+  std::cout << val <<"\n";
+  
+  int x = 1;
+  while (x <= 10)
+  {
+     std::cout << x << "\t" << x * val << "\n";
+     x++;
+  }
+\end{lstlisting}
+This loop has the condition as x<=10. If you look in the loop, you will notice that
+x is being modified by 1 each time through the loop. Also, x is initialized to 1
+when the loop starts. That means that the loop will repeat 10 times. Every time you
+run this code, it will repeat 10 times.
+
+In case you are interested, the \textbackslash t is one of the escape sequences that
+we mentioned in \ref{tab:escapechar}. This spaces out each column by a tab stop. There 
+are better ways to format tables, but we will not cover those methods for a while.
+
+\section{Indefinite loop}
+There is a different type of loop where you will not know how many times the loop
+will run. The loop is checking a condition that will change, but it is different every
+time we run the loop. We showed an example in the weight of the inventory code. This 
+loop may have not repeated at all, or it could have repeated a thousand times. Since
+you can not tell how many times it will repeat, it can be called an "indefinite loop". 
+The number of repeats depended on what the user was entering. That code was waiting on a particular value (a negative number).
+When a loop is waiting for a particular value, that value is called a flag, or a sentinel, which is why this loop may be
+called a sentinel loop. 
+
+FIXME: add an example
+
+FIXME: code blocks
 \section{{\tt do-while} loop}
 FIXME
 

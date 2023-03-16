@@ -1,7 +1,5 @@
 /research
-book/httex/
-book/main/
-book/mainold/
+/docs/
 
 *.paux
 book/html/

@@ -67,7 +67,12 @@ program and does what it says.  In effect, it translates the program
 line-by-line, alternately reading lines and carrying out commands.
 
 \vspace{0.1in}
-\centerline{\epsfig{figure=oldimages/interpret.eps}}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=9cm]{oldimages/interpret.png}
+    \caption{From source code to Result}
+    \label{fig:throughinterpret}
+\end{figure}
 \vspace{0.1in}
 
 A compiler is a program that reads a high-level program and
@@ -129,7 +134,6 @@ different programming languages, but there are a few basic functions
 that appear in just about every language:
 
 \begin{description}
-
 \index{input}
 \item[input:] Get data from the keyboard, or a file, or some
 other device.
@@ -153,7 +157,6 @@ appropriate sequence of statements. (Sometimes called "Selection")
 \index{loop}
 \item[repetition:] Perform some action repeatedly, usually with
 some variation. (Sometimes called "Iteration" or "looping")
-
 \end{description}
 
 Believe it or not, that's pretty much all there is to it.
