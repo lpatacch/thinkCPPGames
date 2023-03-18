@@ -315,9 +315,16 @@ The number of repeats depended on what the user was entering. That code was wait
 When a loop is waiting for a particular value, that value is called a flag, or a sentinel, which is why this loop may be
 called a sentinel loop. 
 
-FIXME: add an example
+\index{code blocks}
+Just like if statements do not require curly braces to run, while loops don't either. A while loop without curly braces will only repeat the line right after the while condition. That is because the definition of a while loop is:
 
-FIXME: code blocks
+\begin{verbatim}
+while (condition)
+   statement or code block
+\end{verbatim}
+
+It is suggested that you always use code blocks with while loops to
+prevent confusion and bugs.
 \section{{\tt do-while} statement}
 \index{statement!do-while}
 \index{loop!do-while}
@@ -420,8 +427,27 @@ is equivalent to
   }
 \end{verbatim}
 
-FIXME - example of for loop with a decrement instead
-FIXME - example of for loop with a step of 5
+Although using for loops when incrementing is common, it can
+also be used when decrementing. Here is the countdown program
+using a for loop instead:
+
+\begin{lstlisting}
+  for (n = 3; n > 0, n--) {
+    std::cout << n << std::endl;
+  }
+  std::cout << "Blastoff!" << std::endl;
+\end{lstlisting}
+
+Also, the counter does not need to only change by one. You can use
+any math operation that you want. Here is an example of a for loop
+that modifies the counter by five every time through the loop.
+\begin{lstlisting}
+std::cout << "Counting to 100 by 5's \n";
+for (n = 0; n < 100, n += 5 ) {
+    std::cout << n << " ";
+  }
+std::cout << std::endl
+\end{lstlisting}
 
 \section{Break and Continue}
 FIXME add examples of how this works
