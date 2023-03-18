@@ -215,7 +215,7 @@ Using the increment operators, we can calculate the average weight of a person's
   int num = 0;
   int weight = 0;
   int total = 0;
-  std::cout << "Enter the weight of the item.\n"
+  std::cout << "Enter the weight of the item.\n";
   std::cout << "When done, enter -1\n";
   std::cin >> weight;
   while (weight >= 0) {
@@ -226,14 +226,14 @@ Using the increment operators, we can calculate the average weight of a person's
     ++num;
     
     //ask for the next weight
-    std::cout << "Enter the weight of the item.\n"
+    std::cout << "Enter the weight of the item.\n";
     std::cout << "When done, enter -1\n";
     std::cin >> weight;    
   }
   
   if (num != 0)
   {
-    std::cout << "The average is" << total/num <<".\n"; 
+    std::cout << "The average is " << total/num <<".\n"; 
   }
   else {
     std::cout << "No items to average.\n";
@@ -370,7 +370,7 @@ but I wanted this example to be simpler than that.}
 \begin{lstlisting}
   char direction = '\0';
   do {
-     std::cout << "Do you want to go (l)eft or (r)ight?\n");
+     std::cout << "Do you want to go (l)eft or (r)ight?\n";
      std::cin >> direction;
      if ((direction != 'l')&&(direction != 'r'))
      {
@@ -380,6 +380,7 @@ but I wanted this example to be simpler than that.}
 \end{lstlisting}
 If we decided to do this with a while, we would have needed to ask 
 the question both outside and inside the loop. The do-while reduces the amount of times the same code is duplicated in the program.
+
 
 \section{{\tt for} statement}
 \index{loop!for}
