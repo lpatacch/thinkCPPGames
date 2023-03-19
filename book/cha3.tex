@@ -682,19 +682,47 @@ ending of the program. Inside the oval is the word "start" or the word "end". Mo
 
 There is an exception to this. If the flowchart
 is a small part of a larger algorithm, the ovals could be replaced with small circles. These small circles have information about where they connect to the larger drawing.
-\subsection{diamond}
+\subsection{Diamond}
 A diamond is used for selection statements (if statements). It shows where a decision is made. Inside the diamond shape is the condition that is being checked. The flowlines off the decision should have a label to explain if they are the path for true or false. 
-\subsection{rectangle}
+\subsection{Rectangle}
 Rectangle shapes are used for any processing statements (math). The equations are placed inside the rectangle.
-\subsection{parallelogram}
+\subsection{Parallelogram}
 If there is any input or output, these statements are placed in a parallelogram. The
 item that will be printed or requested is placed in the shape.
 \subsection{How they connect}
-FIXME
-Each section is a component and it should not jump from one section to another
-"spaghetti code"
-Picture of a flowchart with the improper shared middle section
+When you are putting together a flowchart, you will be connecting the
+different sections. Each section is a component and it should not jump from one section to another. The figure at \ref{fig:if_connect} shows the locations
+where a if statement can connect to another section.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=7cm]{images/ifconnect.png}
+    \caption{The spots where items can be placed with an if statement}
+    \label{fig:if_connect}
+\end{figure}
+You can have if statements inside if statements (as we saw when we reviewed "Nested conditionals"). But, you should never link from inside an if statement to inside another. It does not matter if the
+inside of both if statements are doing the same thing. For example, the chart at Figure \ref{fig:bad_ifflow} is a incorrect flowchart:
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm]{images/incorrectifflow.PNG}
+    \caption{Incorrect If Flowchart}
+    \label{fig:bad_ifflow}
+\end{figure}
+There a couple of reasons why this flowchart is incorrect. First, that
+is not how the code will be flowing. It will not jump to the other if
+statement, it is staying in the original if statement. Second, each 
+part of the flowchart tends to be a line of code. If you created code following the incorrect flowchart, you would expect there to only be 
+one line with that print statement. But, the code would actually have
+two print statements. For both those reasons, the chart at Figure \ref{fig:correctifflow} is what the flowchart should look like:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=12cm]{images/correctedif.png}
+    \caption{What the if statement should look like}
+    \label{fig:correctifflow}
+\end{figure}
+
+% "spaghetti code"
 \section{Testing Techniques}
 Now that we have code with if statements, we can't just run the 
 code once to make sure it works. To be truly sure that the entire

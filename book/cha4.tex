@@ -106,7 +106,7 @@ so easy to tell:
 
 \begin{verbatim}
     while (n != 1) {
-      cout << n << endl;
+      std::cout << n << std::endl;
       if (n%2 == 0) {           // n is even
         n = n / 2;
       } else {                  // n is odd
@@ -116,6 +116,7 @@ so easy to tell:
 
 \end{verbatim}
 %
+To run the countdown code or the flipping around code, see \href{https://replit.com/@lpatacch/While-Loop-Examples#whilestatement.cpp}{While loop examples}
 The condition for this loop is {\tt n != 1}, so the loop
 will continue until {\tt n} is 1, which will make the condition
 false.
@@ -240,6 +241,8 @@ Using the increment operators, we can calculate the average weight of a person's
   }
 \end{lstlisting}
 %
+To run this code, try this \href{https://replit.com/@lpatacch/inventory#inventory.cpp}{Inventory Project}.
+
 It is a common error to write something like
 
 \begin{verbatim}
@@ -296,6 +299,7 @@ three and the counter went down by one each time through the loop. Here is anoth
      x++;
   }
 \end{lstlisting}
+To run this code, see the \href{https://replit.com/@lpatacch/definiteloop#definiteloop.cpp}{Definite loop project}
 This loop has the condition as x<=10. If you look in the loop, you will notice that
 x is being modified by 1 each time through the loop. Also, x is initialized to 1
 when the loop starts. That means that the loop will repeat 10 times. Every time you
@@ -365,6 +369,8 @@ For example, the multiplication table could be changed to a do-while:
     \caption{Flowchart for the do-while multiplication table}
     \label{fig:do-while}
 \end{figure}
+
+
 By now, you may be wondering, "Why should I use this approach instead of a while loop?" The main advantage is that the code within the loop is guaranteed to execute at least once. I often use this type of loop when obtaining input from the user. In many programs, we ask a question. Unfortunately, the user may not always provide a valid response. While we know that we need to ask the question once, we cannot be certain if we will need to repeat it if the user provides an incorrect response. For instance, let's consider an example where we ask the user whether they want to turn left or right. The only correct answer is 'l' or 'r'. \footnote{Technically, we should have changed the answer to lowercase to allow for L and R,
 but I wanted this example to be simpler than that.}
 \begin{lstlisting}
@@ -381,6 +387,7 @@ but I wanted this example to be simpler than that.}
 If we decided to do this with a while, we would have needed to ask 
 the question both outside and inside the loop. The do-while reduces the amount of times the same code is duplicated in the program.
 
+To try either of the do-while examples, try the \href{https://replit.com/@lpatacch/dowhileexamples#dowhile.cpp}{Do-while project}.
 
 \section{{\tt for} statement}
 \index{loop!for}
