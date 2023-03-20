@@ -1,8 +1,6 @@
 % LaTeX source for textbook ``ThinkCPP , a game perspective''
 % Copyright (C) 2023 Lisa Patacchiola, Allen B. Downey
 
-
-
 \chapter{Function}
 
 \section{Math functions}
@@ -35,9 +33,9 @@ The math functions are invoked using a syntax that is similar to
 mathematical notation:
 
 \begin{verbatim}
-     double log = log (17.0);
+     double log = std::log (17.0);
      double angle = 1.5;
-     double height = sin (angle);
+     double height = std::sin (angle);
 \end{verbatim}
 %
 The first example sets {\tt log} to the logarithm of 17, base
@@ -57,13 +55,13 @@ calculate it using the {\tt acos} function.  The arccosine
 $\pi$ is -1.
 
 \begin{verbatim}
-  double pi = acos(-1.0);
+  double pi = std::acos(-1.0);
   double degrees = 90;
   double angle = degrees * 2 * pi / 360.0;
 \end{verbatim}
 %
 Before you can use any of the math functions, you have to
-include the math {\bf header file}.  Header files contain
+include the cmath {\bf header file}.  Header files contain
 information the compiler needs about functions that are defined
 outside your program.  For example, in the ``Hello, world!''
 program we included a header file named {\tt iostream} using
@@ -85,13 +83,34 @@ To convey this to the compiler, we use the line
 using namespace std;
 \end{verbatim}
 
-As a rule of the thumb, you should write {\tt using namespace std;} whenever
-you use {\tt iostream}.
+To save yourself some typing, you can write {\tt using namespace std;} whenever
+you use {\tt iostream}. This allows a shorthand where you can skip
+typing the std:: in your code. For example, the hello world program
+could be shortened to the following:
+\begin{lstlisting}
+#include <iostream>
+using namespace std;
+
+// main: generate some simple output
+int main ()
+{
+  cout << "Hello, world." << endl;
+  return 0;
+}
+\end{lstlisting}
+%
+However, in general it is not good practice, since it imports the 
+entirety of std into your program.  This can become a problem when your programs get 
+more complicated, and it takes over some of the namespace you would
+want to use.
+For this course it is an acceptable time-saving device, but I would
+suggest you remove it for any portfolio projects. 
+
 \index{header file}
 \index{cmath}
 \index{iostream}
 
-Similarly, the math header file contains information
+Just like iostream, the math header file contains information
 about the math functions.  You can include it at the beginning
 of your program along with {\tt iostream}:
 
@@ -102,16 +121,28 @@ of your program along with {\tt iostream}:
 Such header files have an initial `c' to signify that these
 header files have been derived from the {\bf C} language.
 \section{Math constants}
-FIXME
+Although you can calculate PI using acos, C++ has done the calculation
+ahead of time for you. If you are using C++20 or later, you can use the values in std::numbers. 
+
+\begin{verbatim}
+double mypi = std::numbers::pi;
+\end{verbatim}
+There are many other values available too, like e and phi.
+
+If you are using an older version of the compilers, you may need to 
+use a different technique to get PI. If you are including <cmath>, you should also have M\_PI defined.
+
+\begin{verbatim}
+double mypi = M_PI;
+\end{verbatim}
+
+If you have a very old version of C++, it may need a special line above the include cmath in order for M\_PI to work. But, I suggest you try the above versions
+first before using this:
+
 \begin{verbatim}
 #define _USE_MATH_DEFINES
 #include <cmath>
-double mypi = M_PI;
-
-or, modern method --
-double mypi = std::numbers::pi;
 \end{verbatim}
-
 
 \section {Composition}
 \label{composition}
@@ -167,13 +198,13 @@ parameters specifies what information, if any, you have to
 provide in order to use (or {\bf call}) the new function.
 
 {\tt main} doesn't take any parameters, as indicated by
-the empty parentheses {\tt ()} in it's definition.  The first couple
+the empty parentheses {\tt ()} in it's definition\footnote{You can add parameters in main to get access to the command line parameters. We will show how to use them much later in the book. For now, it is OK to use main without parameters. }.  The first couple
 of functions we are going to write also have no parameters, so the
 syntax looks like this:
 
 \begin{verbatim}
   void newLine () {
-    cout << endl;
+    std::cout << std::endl;
   }
 \end{verbatim}
 %
@@ -187,9 +218,9 @@ is similar to the way we call the built-in C++ commands:
 \begin{verbatim}
 int main ()
 {
-  cout << "First Line." << endl;
+  std::cout << "First Line." << std::endl;
   newLine ();
-  cout << "Second Line." << endl;
+  std::cout << "Second Line." << std::endl;
   return 0;
 }
 \end{verbatim}
@@ -209,15 +240,29 @@ function repeatedly:
 \begin{verbatim}
 int main ()
 {
-  cout << "First Line." << endl;
+  std::cout << "First Line." << std::endl;
   newLine ();
   newLine ();
   newLine ();
-  cout << "Second Line." << endl;
+  std::cout << "Second Line." << std::endl;
   return 0;
 }
 \end{verbatim}
 %
+
+We could use a for loop to call it multiple times:
+\begin{verbatim}
+int main ()
+{
+  std::cout << "First Line." << std::endl;
+  for (int x = 0; x < 3; x++) {
+     newLine ();
+  }
+  std::cout << "Second Line." << std::endl;
+  return 0;
+}
+\end{verbatim}
+It is acceptable to have a function inside a loop. 
 Or we could write a new function, named {\tt threeLine}, that 
 prints three new lines:
 
@@ -229,9 +274,9 @@ void threeLine ()
 
 int main ()
 {
-  cout << "First Line." << endl;
+  std::cout << "First Line." << std::endl;
   threeLine ();
-  cout << "Second Line." << endl;
+  std::cout << "Second Line." << std::endl;
   return 0;
 }
 \end{verbatim}
@@ -499,7 +544,7 @@ as arguments.  The correct
 syntax is {\tt printTime (hour, minute)}.
 
 \label{printparity}
-Do you remember the if/else code we did in the last chapter to check if something was even or odd? If you think you might want to check the parity
+Do you remember the if/else code we did in the Chapter \ref{alternative} to check if something was even or odd? If you think you might want to check the parity
 (evenness or oddness) of numbers often, you might want to
 ``wrap'' this code up in a function, as follows:
 
@@ -594,7 +639,7 @@ I used a floating-point value on the right side of the condition
 because there is a floating-point variable on the left.
 
 Remember that any time you want to use one a function from the math
-library, you have to include the header file {\tt math.h}.
+library, you have to include the header file {\tt cmath}.
 
 \section{Recursion}
 \label{recursion}
