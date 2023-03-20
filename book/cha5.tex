@@ -311,7 +311,7 @@ of reasons, but this example only demonstrates two:
 give a name to a group of statements.  Functions can simplify a program
 by hiding a complex computation behind a single command, and by using
 English words in place of arcane code.  Which is clearer, {\tt
-newLine} or {\tt cout << endl}?
+newLine} or {\tt std::cout << std::endl}?
 
 \item Creating a new function can make a program smaller by eliminating
 repetitive code.  For example, a short way to print nine consecutive
@@ -361,9 +361,57 @@ appear before (above) the first use of the function.  You
 should try compiling this program with the functions in a
 different order and see what error messages you get.
 
+\section{Function Prototypes}
+\label{function_proto}
+You may have realized that it is possible for code flow to
+be written in a way that there is no possible way to have the
+function that you call be defined above the one that called it.
+For example:
+\begin{verbatim}
+    void functionA(char letter)
+    {
+        if (letter == 'A')
+        {
+            std::cout << "A";
+        }
+        else {
+            if (letter == 'B') {
+                functionB(letter);
+            }
+        }
+    }
+    void functionB(char letter)
+    {
+        if (letter == 'B')
+        {
+            std::cout << "B";
+        }
+        else {
+            if (letter == 'A') {
+                functionA(letter);
+            }
+        }
+    }    
+\end{verbatim}
+That (mostly pointless) bit of code can never be ordered in a way
+for it to work. So, there is a different feature -- function prototypes. It is the first line of the function, with a semicolon
+instead of the body after it. To get the above code to compile, you just need this line at the top of the file:
+\begin{verbatim}
+     void functionB(char letter);
+\end{verbatim}
+When C++ compiles, it reads from the top of the file to the bottom.
+When it gets to a function that is being called, it needs to have
+seen it before to know how to call it. The function prototype is a 
+way to let it know "They will be a function, this is it's name and
+these are the parameters". It will use that information if it sees
+a call to that function before it sees the definition.
+
+Many people find function prototyping confusing. It is OK to not
+make a function prototype if you do not need it. But, it is good
+to know that this feature is available if you ever do need it.
 \section {Programs with multiple functions}
 
-When you look at a class definition that contains several functions, it
+When you look at program code listing that contains several functions, it
 is tempting to read it from top to bottom, but that is likely to be
 confusing, because that is not the {\bf order of execution} of the
 program.
@@ -406,12 +454,12 @@ which takes two {\tt doubles}, the base and the exponent.
 Notice that in each of these cases we have to specify not
 only how many parameters there are, but also what type they
 are.  So it shouldn't surprise you that when you write a
-class definition, the parameter list indicates the type of
+function definition, the parameter list indicates the type of
 each parameter.  For example:
 
 \begin{verbatim}
   void printTwice (char phil) {
-    cout << phil << phil << endl;
+    std::cout << phil << phil << std::endl;
   }
 \end{verbatim}
 %
@@ -509,7 +557,7 @@ parameter, named {\tt phil}.
 \section {Functions with multiple parameters}
 \index{parameter!multiple}
 \index{function!multiple parameter}
-\index{class!Time}
+\index{function!Time}
 
 The syntax for declaring and invoking functions with multiple
 parameters is a common source of errors.  First, remember
@@ -518,9 +566,9 @@ example
 
 \begin{verbatim}
   void printTime (int hour, int minute) {
-    cout << hour;
-    cout << ":";
-    cout << minute;
+    std::cout << hour;
+    std::cout << ":";
+    std::cout << minute;
   }
 \end{verbatim}
 %
@@ -618,12 +666,12 @@ is if you detect an error condition:
 
 void printLogarithm (double x) {
   if (x <= 0.0) {
-    cout << "Positive numbers only, please." << endl;
+    std::cout << "Positive numbers only, please." << std::endl;
     return;
   }
 
   double result = log (x);
-  cout << "The log of x is " << result;
+  std::cout << "The log of x is " << std::result;
 }
 \end{verbatim}
 %
@@ -645,20 +693,21 @@ library, you have to include the header file {\tt cmath}.
 \label{recursion}
 \index{recursion}
 
-I mentioned in the last chapter that it is legal for one function to
+I mentioned earlier that it is legal for one function to
 call another, and we have seen several examples of that.  I neglected
 to mention that it is also legal for a function to call itself.  It
 may not be obvious why that is a good thing, but it turns out to be
 one of the most magical and interesting things a program can do.
 
-For example, look at the following function:
+For example, we can take our countdown while loop and change it
+to be recursive:
 
 \begin{verbatim}
 void countdown (int n) {
   if (n == 0) {
-    cout << "Blastoff!" << endl;
+    std::cout << "Blastoff!" << std::endl;
   } else {
-    cout << n << endl;
+    std::cout << n << std::endl;
     countdown (n-1);
   }
 }
@@ -676,15 +725,6 @@ What happens if we call this function like this:
 #include <iostream>
 #include <cmath>
 using namespace std;
-void printLogarithm (double x) {
-  if (x <= 0.0) {
-    cout << "Positive numbers only, please." << endl;
-    return;
-  }
-
-  double result = log (x);
-  cout << "The log of x is " << result;
-}
 
 void countdown (int n) {
   if (n == 0) {
@@ -747,7 +787,7 @@ As a second example, let's look again at the functions
 
 \begin{verbatim}
 void newLine () {
-  cout << endl;
+  std::cout << std::endl;
 }
 
 void threeLine () {
@@ -756,12 +796,13 @@ void threeLine () {
 \end{verbatim}
 %
 Although these work, they would not be much help if I wanted
-to output 2 newlines, or 106.  A better alternative would be
+to output 2 newlines, or 106.  We could solve it with a loop,
+or we could try a recursive solution.
 
 \begin{verbatim}
 void nLines (int n) {
   if (n > 0) {
-    cout << endl;
+    std::cout << std::endl;
     nLines (n-1);
   }
 }
@@ -801,7 +842,8 @@ In most programming environments, a program with an infinite
 recursion will not really run forever.  Eventually, something
 will break and the program will report an error.  This is the
 first example we have seen of a run-time error (an error that
-does not appear until you run the program).
+does not appear until you run the program). The error that 
+would normally happen is called a "stack overflow".
 
 You should write a small program that recurses forever and run
 it to see what happens.
@@ -835,7 +877,6 @@ are no more instances of {\tt countdown}.
 The instance of {\tt main} is empty because {\tt main} does not
 have any parameters or local variables.  As an exercise, draw a
 stack diagram for {\tt nLines}, invoked with the parameter {\tt n=4}.
-
 
 
 \section{Glossary}
