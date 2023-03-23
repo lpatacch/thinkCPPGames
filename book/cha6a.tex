@@ -1,0 +1,123 @@
+We have seen many types of variables so far. We have seen integers, characters and booleans. The next type of variable
+is a bit different than the others. It allows you to have
+many variables of the same type grouped together under the
+same variable name. This type of variable is called an array.
+\section{Traditional array}
+First, we will be looking at the type of array that came from
+the language "C". Traditional arrays can be found in some legacy programs, or code that has to interface with modules written in C.
+
+This type is defined with square brackets ([]). The definition explains what type of array it is, and that it
+is an array. For example, here is an array of integers:
+
+\begin{verbatim}
+    int weights[5];
+\end{verbatim}
+The above code created an array of type integer. It can hold
+5 values, and the variable is named "weights". When the array is created, it does not set values in the array, so the numbers could be anything. To initialize the values to 0, 
+you can do the following:
+\begin{verbatim}
+    int weights[5]{};
+\end{verbatim}
+That would set all 5 slots to 0. If you have certain values that you want to be initialized,
+you can do something similar:
+\begin{verbatim}
+    int weights[5]{1,2,3,4,5};
+\end{verbatim}
+That will set the first element to 1, the second to 2 and so on. The great thing about this method is that it catches if you
+put too many numbers:
+\begin{verbatim}
+    int weights[5]{1,2,3,4,5,6}; // WRONG!
+\end{verbatim}
+This will cause an error and not compile because this code
+is attempting to place 6 items in 5 slots.
+
+Next step is how to get to the values, and change the values.
+These 5 values are indexed. You can access the variables by
+using an index number. Let's say I want to know what the first weight is. I can print it out like:
+
+\begin{verbatim}
+    std::cout << "Weight 1 is "<< weight[0];
+\end{verbatim}
+You may have noticed that this first index is 0. When computers index arrays, the first item is at zero. Also,
+the second is at 1 index, and the last item is at index
+size-1. For example, in the weights array, which has a size
+of 5, the last item is at index 4. I can print it like this:
+\begin{verbatim}
+    std::cout << "Weight 5 is "<< weight[4];
+\end{verbatim}
+If I want to change the value, I can use the index. Here
+is an example of me setting the first element of weights
+to 15.
+\begin{verbatim}
+    weight[0] = 15;
+    std::cout << "Weight 1 is "<< weight[0];
+\end{verbatim}
+
+It is possible to send this type of variable into a
+function, but I am not going to cover how to do that
+in this book. (When a traditional array is sent to a function, it loses information about it's size and is
+converted into a pointer.) Instead, I suggest you use some of the
+other helper functions to convert an array to and from
+one of the other types available. 
+
+
+Although this type of variable does work, it
+can be hard to understand how to use. If you are not careful, 
+it is possible to access memory beyond where you are supposed to and could cause a memory corruption
+The \href{https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#p7-catch-run-time-errors-early}{Guidelines} show many ways that this can cause a problem. . For this reason, Modern C++ suggests avoiding the traditional array if you can and use some of the 
+newer array types\footnote{As of this books writing, the current standard is to avoid using the "pointer" types. So,items to avoid -- traditional arrays, c-strings, and pointers.}. We will cover the first one now.
+
+\section{std::array}
+In C++11, {\tt std::array} was made to have an array that works like
+some of the other C++ containers do. They keep the information about their size when sent into a function, and
+copying code works the way that you would expect. There is
+also some safety code that checks to make sure you are not 
+accessing memory that you shouldn't be. In order to use this
+type of array, you need to \#include<array>. That command can
+be up the top of your file, with your other include statements. Here is an example of making a similar weights array, but with std::array instead:
+
+\begin{lstlisting}
+  std::array<int, 5> weight; //create an array of size 5
+\end{lstlisting}
+This code used the less than and greater than as part of
+the definition. The first thing that is listed is the type 
+of std::array we are making. This is making an integer array.
+There is a comma, then we list the number of items in the 
+std::array. The name of the variable is listed after the greater than sign. We can initialize in similar ways to
+the traditional array:
+\begin{lstlisting}
+  std::array<int, 5> weight{}; //This sets all the values to 0
+  // weights2 has index 1 to be 0 and so on.
+  std::array<int, 5> weight2{1, 2, 3, 4, 5}; 
+\end{lstlisting}
+Note, in some older versions of the compiler (older than C++14), you would need the following syntax:
+\begin{lstlisting}
+  // weights2 has index 0 to be 1 and so on.
+  std::array<int, 5> weight2{ {1, 2, 3, 4, 5} }; 
+\end{lstlisting}
+
+The code that we used for the traditional arrays to get
+or set values will work for std::arrays too. But, there
+are even better calls that checks the index and creates
+an error (called an exception) if we try to access something
+beyond where we should. This code uses a function named "at".
+\begin{lstlisting}
+  std::array<int, 5> weight; //create an array of size 5
+
+  // The new commands to set and view
+  weight.at(0) = 7;  // sets the 0 index to 7
+  std::cout << weight.at(0); //prints the 0 index
+  
+  std::cout << weight.at(6); // WRONG -- Too far! 
+\end{lstlisting}
+Each time you use the "at" command, it checks to make sure the index you are using is valid. If it is, the code allows you to see or set what is at the index. If it is an invalid index, it will cause an error. In the above code, trying to view the value at the seventh item would cause an
+error. This is another run time error. 
+
+std::to\_array
+.data
+spans
+\section{And wait, there is more!}
+The new array, std::array solved many problems, but it
+still has some of the drawbacks. A std::array has a certain 
+size, and there is no way to change it while it is running. There is an even better version of arrays that is flexible about it's size called "Vectors". We will cover vectors in Chapter~\ref{vectors}.
+FIXME
