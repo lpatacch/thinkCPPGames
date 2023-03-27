@@ -3,6 +3,8 @@ is a bit different than the others. It allows you to have
 many variables of the same type grouped together under the
 same variable name. This type of variable is called an array.
 \section{Traditional array}
+\index{array}
+\index{array!traditional}
 First, we will be looking at the type of array that came from
 the language "C". Traditional arrays can be found in some legacy programs, or code that has to interface with modules written in C.
 
@@ -68,6 +70,8 @@ The \href{https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#p7-catch-
 newer array types\footnote{As of this books writing, the current standard is to avoid using the "pointer" types. So,items to avoid -- traditional arrays, c-strings, and pointers.}. We will cover the first one now.
 
 \section{std::array}
+\index{std::array}
+\index{array!std}
 In C++11, {\tt std::array} was made to have an array that works like
 some of the other C++ containers do. They keep the information about their size when sent into a function, and
 copying code works the way that you would expect. There is
@@ -96,6 +100,15 @@ Note, in some older versions of the compiler (older than C++14), you would need 
   std::array<int, 5> weight2{ {1, 2, 3, 4, 5} }; 
 \end{lstlisting}
 
+Also, if you are using C++17 or above, std::array can
+figure out the size and type from the initialization. So
+this could work instead:
+\begin{lstlisting}
+  // C++17 and later can figure out the size and type
+  // by the values that are initialized
+  std::array weight3{ 1, 2, 3, 4, 5 }; 
+\end{lstlisting}
+
 The code that we used for the traditional arrays to get
 or set values will work for std::arrays too. But, there
 are even better calls that checks the index and creates
@@ -113,11 +126,84 @@ beyond where we should. This code uses a function named "at".
 Each time you use the "at" command, it checks to make sure the index you are using is valid. If it is, the code allows you to see or set what is at the index. If it is an invalid index, it will cause an error. In the above code, trying to view the value at the seventh item would cause an
 error. This is another run time error. 
 
-std::to\_array
-.data
-spans
+\subsection{Conversions to and from traditional arrays}
+There are occasional times where you will need to deal with traditional arrays.
+One way to handle this is to convert the traditional array to a std::array.
+You could copy each item with a for loop, but there are is an even easier method.
+
+\subsubsection{std::to\_array}
+\index{to\_array}
+std::to\_array was added to the language in C++20. By using this command, you
+can use a traditional array to initialize a std::array. After it is created, you 
+can use the safer array for the rest of your code:
+\begin{lstlisting}
+  // create a traditional array
+  int gems[]{75, 67, 50};
+  
+  //convert it over to a std::array
+  std::array gemarray{std::to_array(gems)};
+  
+  // look! It worked!
+  std::cout << gemarray.size();  
+\end{lstlisting}
+\subsubsection{.data()}
+If you need to use a C library that expects a parameter to be a traditional array,
+you can get the pointer to the std::array data with the data() method. Here is an
+example:
+\begin{lstlisting}
+    // This will send an array, and the array size to the 
+    // function that requires a traditional array
+    pointerFunction(gemarray.data(), gemarray.size());
+\end{lstlisting}
+\section{A new way to send an array into a function}
+C++20 added a different way to send an array into a function. This particular
+method works for traditional arrays, std::arrays, and vectors. It is called
+a span.
+\index{spans}
+A span does not own the memory, it just has access to it. That means that
+it can not delete the memory, but it can read and write to it. So, if
+you are using code that has a traditional array, you can use the array
+through span. It will not create more memory, just allow you to use it
+differently. Here is an example of code that takes some type of int array
+and calculates the average of what was sent.
+\begin{lstlisting}
+int average(std::span<int> items){
+  int avg;
+  int total{0};
+  // if there is nothing in the span, the avg is 0
+  if (items.size() == 0)
+  {
+    return 0;
+  }
+  // loop through the items, add them together
+  for (const auto &item:items){
+      total += item;
+    }
+    // calculate the average
+  int valsize = static_cast< int >(items.size());
+  avg = total/valsize;
+  return avg;
+}
+\end{lstlisting}
+The average code above can be used with a traditional array, std::array or even a 
+std::vector. The following code shows how to call average.
+\begin{lstlisting}
+  std::array weight{1, 2, 3, 4, 5}; // a std::array
+  int gems[]{75, 67, 50}; // a traditional array
+ 
+  std::cout << "Avg Gems " << average(gems) << std::endl;
+  std::cout << "Avg weight "<< average(weight) << std::endl;    
+\end{lstlisting}
+Note: this only works with traditional arrays if it hasn't decayed into a pointer.
+(This can happen if you send it into another function.) If that happened, you will 
+need to create a span with the size information.
+\begin{lstlisting}
+    average(std::span{pointerArray,10});
+\end{lstlisting}
+Spans have a lot more features. You can select just part of a span to create
+another smaller span, and much more. But, we will not be covering that material
+right now.
 \section{And wait, there is more!}
 The new array, std::array solved many problems, but it
 still has some of the drawbacks. A std::array has a certain 
 size, and there is no way to change it while it is running. There is an even better version of arrays that is flexible about it's size called "Vectors". We will cover vectors in Chapter~\ref{vectors}.
-FIXME
