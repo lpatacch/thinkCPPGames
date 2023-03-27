@@ -71,12 +71,20 @@ newer array types\footnote{As of this books writing, the current standard is to 
 
 \section{std::array}
 \index{std::array}
+\label{stdarray}
 \index{array!std}
 In C++11, {\tt std::array} was made to have an array that works like
-some of the other C++ containers do. They keep the information about their size when sent into a function, and
+some of the other C++ containers do. They keep the information about 
+their size when sent into a function, and
 copying code works the way that you would expect. There is
 also some safety code that checks to make sure you are not 
-accessing memory that you shouldn't be. In order to use this
+accessing memory that you shouldn't be. std::array is a templated class
+that is part of the C++ Standard Library. \footnote{Templates and classes
+are both keywords we didn't talk about yet. I will be talking about both
+later on in the book. For now, know that templates are a way that you can
+get different types to work with the same code. Classes are a way to organize
+functions and data together.}
+In order to use this
 type of array, you need to \#include<array>. That command can
 be up the top of your file, with your other include statements. Here is an example of making a similar weights array, but with std::array instead:
 
@@ -158,7 +166,7 @@ example:
 \section{A new way to send an array into a function}
 C++20 added a different way to send an array into a function. This particular
 method works for traditional arrays, std::arrays, and vectors. It is called
-a span.
+a span. It is also a templated class.
 \index{spans}
 A span does not own the memory, it just has access to it. That means that
 it can not delete the memory, but it can read and write to it. So, if

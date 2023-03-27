@@ -17,14 +17,15 @@ operations on strings.
 In fact, there are several kinds of variables in C++ that
 can store strings.  One is a basic type that is part of the C++
 language, sometimes called ``a native C string.''  The syntax
-for C strings is a bit ugly, and using them requires some concepts
-we have not covered yet, so for the most part we are going to
-avoid them.
+for C strings is a bit ugly, and using them requires using similar
+methods as traditional arrays, so for the most part we are going to
+avoid them. But, here are the basics:
 \section{C-Strings}
 FIXME
-
+\section{C++ strings}
 The string type we are going to use is called {\tt string}, which is
-one of the classes that belong to the C++ Standard Library.\footnote{You might be wondering what I mean by {\bf class}.It will be a few
+one of the classes that belong to the C++ Standard Library.
+\footnote{You might be wondering what I mean by {\bf class}.It will be a few
 more chapters before I can give a complete definition, but for now a
 class is a collection of functions that defines the operations we
 can perform on some type.  The {\tt string} class contains all
@@ -40,9 +41,9 @@ You can create a variable with type {\tt string} in the usual
 ways:
 
 \begin{verbatim}
-  string first;
+  std::string first;
   first = "Hello, ";
-  string second = "world.";
+  std::string second = "world.";
 \end{verbatim}
 %
 The first line creates a {\tt string} without giving it a value.
@@ -58,15 +59,13 @@ to {\tt string} values.
 We can output strings in the usual way:
 
 \begin{verbatim}
-  cout << first << second << endl;
+  std::cout << first << second << std::endl;
 \end{verbatim}
 %
 
 In order to compile this code, you will have to include the
-header file for the {\tt string} class, and you will have
-to add the file {\tt string} to the list of files you
-want to compile.  The details of how to do this depend on your
-programming environment.
+header file for the {\tt string} class, which means you will need to
+add the line \#include<string> to your file.  
 
 Before proceeding, you should type in the program above and make
 sure you can compile and run it.
@@ -76,7 +75,7 @@ sure you can compile and run it.
 Strings are called ``strings'' because they are made up of a sequence,
 or string, of characters.  The first operation we are going to
 perform on a string is to extract one of the characters.  C++
-uses square brackets ({\tt [} and {\tt ]}) for this operation:
+can use square brackets ({\tt [} and {\tt ]}) for this operation:
 
 \begin{verbatim}
   string fruit = "banana";
@@ -84,7 +83,14 @@ uses square brackets ({\tt [} and {\tt ]}) for this operation:
   cout << letter << endl;
 \end{verbatim}
 %
-The expression {\tt fruit[1]} indicates that I want character number 1
+You can also use the "at" command that we learned about when we were 
+learning about std::arrays in Section ~\ref{stdarray}.
+\begin{verbatim}
+  std::string fruit = "banana";
+  char letter = fruit.at(1);
+  std::cout << letter << std::endl;
+\end{verbatim}
+The expression {\tt fruit[1]} and {\tt fruit.at(1)} both indicate that I want character number 1
 from the string named {\tt fruit}.  The result is stored in a {\tt
 char} named {\tt letter}.  When I output the value of {\tt letter}, I
 get a surprise:
@@ -104,6 +110,10 @@ zero in the square brackets:
 
 \begin{verbatim}
   char letter = fruit[0];
+\end{verbatim}
+or
+\begin{verbatim}
+  char letter = fruit.at(0);
 \end{verbatim}
 
 \section{Length}
@@ -149,6 +159,34 @@ you have to subtract 1 from {\tt length}.
   char last = fruit[length-1];
 \end{verbatim}
 
+Also, if you did this code with the at method, there would have
+been an error when you ran the code:
+\begin{verbatim}
+  int length = fruit.length();
+  char last = fruit.at(length);       // WRONG!!
+\end{verbatim}
+
+\section{A run-time error}
+\index{error!run-time}
+\index{run-time error}
+
+Way back in Section~\ref{run-time} I talked about run-time errors,
+which are errors that don't appear until a program has started
+running.
+
+So far, you probably haven't seen many run-time errors, because we
+haven't been doing many things that can cause one.  Well, now we are.
+If you use the {\tt at} method and you provide an index that is
+negative or greater than {\tt length-1}, you will get a run-time
+error and a message something like this:
+
+\begin{verbatim}
+index out of range: 6, string: banana
+\end{verbatim}
+%
+Try it in your development environment and see how it looks.
+
+
 \section{Traversal}
 \index{traverse}
 
@@ -189,26 +227,39 @@ refers to a single character.
 As an exercise, write a function that takes a {\tt string}
 as an argument and that outputs the letters backwards, all on
 one line.
+\section{Range based for loop}
+\index{for loop!range based}
+A C++ string is considered a container class, so you can
+use a different type of loop - a ranged based for loop. 
+We showed an example when we covered std::arrays and std::spans, but we
+didn't explain what it was doing. I am a fan of these types of
+loops because it reduces the amount of things we need to type.
 
-\section{A run-time error}
-\index{error!run-time}
-\index{run-time error}
-
-Way back in Section~\ref{run-time} I talked about run-time errors,
-which are errors that don't appear until a program has started
-running.
-
-So far, you probably haven't seen many run-time errors, because we
-haven't been doing many things that can cause one.  Well, now we are.
-If you use the {\tt []} operator and you provide an index that is
-negative or greater than {\tt length-1}, you will get a run-time
-error and a message something like this:
-
+Here is an example of a ranged based loop that does the same
+thing as the while loop we saw earlier.
 \begin{verbatim}
-index out of range: 6, string: banana
+  for (const auto &letter:fruit){
+    std::cout << letter << std::endl;
+  }
 \end{verbatim}
-%
-Try it in your development environment and see how it looks.
+Let's go into each part of this loop. 
+\begin{enumerate}
+    \item The "for" lets the code know there will be a for loop
+    \item Parentheses surround the information about the loop
+    \item The const is letting the code know that the information should not change
+    \item auto is an easy way to create a variable. The compile sees what value it
+    will be set to, and makes sure it is that type. In this case, std::strings are
+    made of characters, so it makes letter be a character.
+    \item The \& makes the variable a reference. \footnote{We have not covered references yet. The short version of the explanation is that it is a way to set a value without
+    creating more memory. We will cover this in more depth later in Section \ref{reference}}
+    \item letter - This is the variable that it is using in the loop. Each time the 
+    loop runs, it takes the next character from fruit and places it in letter
+    \item : fruit - This is showing where it should be getting the values to 
+    put into letter.
+\end{enumerate}
+This code works because the code knows so much about the "fruit" object. It knows
+how many letters are in it, and it knows how to take each character in turn and place it
+in letter. No need to keep track of the index. It is doing it for you.
 
 \section{The {\tt find} function}
 \index{find}
@@ -455,7 +506,7 @@ It is often useful to examine a character and test whether
 it is upper or lower case, or whether it is a character or
 a digit.  C++ provides a library of functions that perform
 this kind of character classification.  In order to use these
-functions, you have to include the header file {\tt ctype.h}.
+functions, you have to include the header file {\tt cctype}.
 
 \begin{verbatim}
   char letter = 'a';
