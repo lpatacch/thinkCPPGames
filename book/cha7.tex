@@ -279,7 +279,7 @@ This example finds the index of the letter {\tt 'a'} in the string.
 In this case, the letter appears three times, so it is not obvious
 what {\tt find} should do.  According to the documentation, it returns
 the index of the {\em first} appearance, so the result is 1.  If the
-given letter does not appear in the string, {\tt find} returns -1.
+given letter does not appear in the string, {\tt find} returns "std::string::npos".
 
 In addition, there is a
 version of {\tt find} that takes another {\tt string} as
@@ -314,7 +314,7 @@ int find (string s, char c, int i)
     if (s[i] == c) return i;
     i = i + 1;
   }
-  return -1;
+  return string::npos;
 }
 \end{verbatim}
 %
@@ -562,15 +562,29 @@ This chapter does not cover all the {\tt string} functions.
 Two additional ones, {\tt c\_str} and {\tt substr}, are covered
 in Section~\ref{finput} and Section~\ref{parsing}.
 
-\section{Passing to functions}
-FIXME: Prefer std::string\_view function parameters (over const std::string\&) 
+\section{string\_view}
+In C++17, string\_view was added to the language. String
+views are another way that we can use strings. This version
+of strings are good for strings that we are not planning on
+changing. It is a "view" of a string in memory that is
+somewhere else.
+FIXME: Prefer std::string\_view function parameters (over const std::string\&)
+string\_view handles string literals better.
+
+\begin{verbatim}
+void printme(std::string_view yum)
+{
+  std::cout << yum << std::endl;
+}
+
+\end{verbatim}
 \section{Glossary}
 
 \begin{description}
 
 \item[object:] A collection of related data that comes with a set of
 functions that operate on it.  The objects we have used so far are the
-{\tt cout} object provided by the system, and {\tt string}s.
+{\tt cout} object provided by the system, std::arrays, spans and {\tt string}s.
 
 \item[index:]  A variable or value used to select one of the
 members of an ordered set, like a character from a string.
