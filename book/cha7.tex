@@ -21,7 +21,21 @@ for C strings is a bit ugly, and using them requires using similar
 methods as traditional arrays, so for the most part we are going to
 avoid them. But, here are the basics:
 \section{C-Strings}
-FIXME
+What people call c-strings are just character arrays:
+\begin{verbatim}
+    char myString[]{ "Hi, I am a string!" };
+\end{verbatim}
+The array is large enough to hold all the characters in the string and an extra
+character at the end. Every native c-string ends with the character '\\0'. This
+is why these strings are sometimes called "null-terminated strings". For example,
+\begin{verbatim}
+    char hellostr[6]{'h', 'e', 'l', 'l', 'o', '\0'};
+\end{verbatim}
+Although the word "hello" only has 5 letters, the array needs to be at least 6 characters
+to hold the extra $'\backslash 0'$.
+
+You can
+use all of the methods you learned with built in arrays with the native c-strings.
 \section{C++ strings}
 The string type we are going to use is called {\tt string}, which is
 one of the classes that belong to the C++ Standard Library.
@@ -565,19 +579,35 @@ in Section~\ref{finput} and Section~\ref{parsing}.
 \section{string\_view}
 In C++17, string\_view was added to the language. String
 views are another way that we can use strings. This version
-of strings are good for strings that we are not planning on
+of strings are good for variables that we are not planning on
 changing. It is a "view" of a string in memory that is
-somewhere else.
-FIXME: Prefer std::string\_view function parameters (over const std::string\&)
-string\_view handles string literals better.
+somewhere else. This type needs the code to "\#include \textless  string\_view \textgreater"
+
+If you are sending a string (or c-string) into a function
+and you do not want it to change in the function, using std::string\_view as the parameter will be the preferred solution over the const std::string\& that 
+was required before C++17.
 
 \begin{verbatim}
 void printme(std::string_view yum)
 {
   std::cout << yum << std::endl;
 }
-
 \end{verbatim}
+
+String views are just a view of a different variables memory. If the
+other variable was changed, the view variable would be changed as well.
+
+\begin{verbatim}
+    std::string hey{"hey "};
+    std::string_view nothey{hey};
+    std::cout << nothey;
+    hey[1]='i';
+    std::cout << nothey;
+    
+This has the output:
+hey hiy
+\end{verbatim}
+
 \section{Glossary}
 
 \begin{description}
