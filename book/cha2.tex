@@ -574,8 +574,8 @@ would generate the following output:
 Try it yourself here: \url{https://replit.com/@lpatacch/IntegerDivision#intdiv.cpp}.
 The first line is what we expected, but the second line is
 odd.  The value of the variable {\tt hitpoints} is 49, and
-49 divided by 50 is 0.98, not 0.  The reason for the
-discrepancy is that C++ is performing {\bf integer division}.
+49 divided by 50 is 0.98, not 0.  The discrepancy is because
+C++ is performing {\bf integer division}.
 
 \index{type!int}
 \index{integer division}
@@ -585,10 +585,10 @@ discrepancy is that C++ is performing {\bf integer division}.
 
 When both of the {\bf operands} are integers (operands are the things
 operators operate on), the result must also be an integer,
-and by definition integer division always rounds {\em down},
+and by definition, integer division always rounds {\em down},
 even in cases like this where the next integer is so close.
 
-A possible alternative in this case is to calculate a percentage
+A possible alternative, in this case, is to calculate a percentage
 rather than a fraction:
 
 \begin{lstlisting}[frame=single]
@@ -604,7 +604,7 @@ The result is:
 \end{verbatim}
 %
 Again the result is rounded down, but at least now the answer
-is approximately correct.  In order to get an even more accurate
+is approximately correct.  To get an even more accurate
 answer, we could use a different type of variable, called
 floating-point, that is capable of storing fractional values.
 We'll get to that soon in Chapter ~\ref{floating-point}.

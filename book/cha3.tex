@@ -11,12 +11,12 @@
 \index{double (floating-point)}
 \label{floating-point}
 
-In the last chapter we had some problems dealing with numbers
+In the last chapter, we had problems dealing with numbers
 that were not integers.  We worked around the problem by measuring
 percentages instead of fractions, but a more general solution is
 to use floating-point numbers, which can represent fractions
 as well as integers.  In C++, there are two floating-point types,
-called {\tt float} and {\tt double}.  In this book we will use
+{\tt float} and {\tt double}.  In this book, we will use
 {\tt double}s exclusively.
 
 You can create floating-point variables and assign values to them
@@ -46,7 +46,7 @@ constant of PI, like the following:
   double mypi = std::numbers::pi;
 \end{lstlisting}
 There are lots of constants available. We will be talking 
-more about them when we talk about the Math library in Section \ref{mathlibrary}.)
+more about them when we discuss the math library in Section \ref{mathlibrary}.)
 
 
 Although floating-point numbers are useful, they are
@@ -58,9 +58,9 @@ a floating-point number, or both?
 Strictly speaking, C++ distinguishes the integer value {\tt 1}
 from the floating-point value {\tt 1.0}, even though they
 seem to be the same number.  They belong to
-different types, and strictly speaking, you are not allowed
+different types; strictly speaking, you are not allowed
 to make assignments between types.  For example, the following
-is illegal
+is illegal:
 
 \begin{lstlisting}
     int checkMe = 1.1;  // WARNING!
@@ -69,15 +69,15 @@ is illegal
 because the variable on the left is an {\tt int}
 and the value on the right is a {\tt double}. If you are
 using the legacy initialization (see above), the compiler
-will give you a warning and let you know that checkMe will
-be set to 1, and not 1.1. But, your code will continue to
+will warn you that checkMe will
+be set to 1 and not 1.1. But your code will continue to
 run. If you want an error to happen 
 instead, you can use the braced initialization:
 \begin{lstlisting}
     int checkMe{1.1};   // ERROR!
 \end{lstlisting}
-Instead of giving a warning, the compiler will create an
-an error, complaining "type 'double' cannot be narrowed to 'int' in initializer list". 
+Instead of a warning, the compiler will create an
+error, complaining, "type 'double' cannot be narrowed to 'int' in initializer list." 
 \index{braced initialization}
 \index{initialization!braced}
 
@@ -100,7 +100,7 @@ convenient, but it can cause problems; for example:
 %
 You might expect the variable {\tt y} to be given the value
 {\tt 0.333333}, which is a legal floating-point value, but in
-fact it will get the value {\tt 0.0}.  The reason is that the
+fact, it will get the value {\tt 0.0}.  The reason is that the
 expression on the right appears to be the ratio of two integers,
 so C++ does {\em integer} division, which yields the integer
 value {\tt 0}.  Converted to floating-point, the result is
@@ -114,7 +114,7 @@ expression:
     double y = 1.0 / 3.0;
 \end{lstlisting}
 %
-This sets {\tt y} to {\tt 0.333333}, as expected.
+As expected, this sets {\tt y} to {\tt 0.333333}.
 
 \index{arithmetic!floating-point}
 
