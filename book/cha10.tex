@@ -8,7 +8,7 @@
 \index{type!vector}
 
 A {\bf vector} is a set of values where each value is identified by a
-number (called an index).  A {\tt string} is similar to a vector,
+number (called an index). It is similar to an array but can get bigger or smaller after it was created.  A {\tt string} is similar to a vector
 since it is made up of an indexed set of characters.  The nice thing
 about vectors is that they can be made up of any type of element,
 including basic types like {\tt int}s and {\tt double}s, 
@@ -16,8 +16,7 @@ and user-defined types like {\tt Point} and {\tt Time}.
 
 The {\tt vector} type is defined in the C++ Standard Template Library (STL).
 In order to use it, you have to include the header file {\tt
-vector}; again, the details of how to do that depend on your
-programming environment.
+vector}.
 
 You can create a vector the same way you create other variable types:
 
@@ -216,7 +215,7 @@ You can try this program as an excercise.
 \index{functions!vector}
 \index{vector!functions}
 
-The best feature of a vector is its resizeability A vector, once declared,
+The best feature of a vector is its resize ability. A vector, once declared,
 can be resized from anywhere within the program. Suppose we have a situation
 where we input numbers from the user and store them in a vector till he
 inputs {\tt -1}, and then display them. In such a case, we do not know the size of the
@@ -246,7 +245,7 @@ function {\tt push\_back()} for that purpose.
 
 \end{verbatim}
 
-\section{Random numbers}
+\section{Random numbers - old school}
 \label{random}
 \label{pseudorandom}
 \index{random number}
@@ -267,15 +266,15 @@ Pseudorandom numbers
 are not truly random in the mathematical sense, but 
 for our purposes, they will do.
 
-C++ provides a function called {\tt random} that generates
+C provided a function called {\tt rand} that generates
 pseudorandom numbers.  It is declared in the
 header file {\tt cstdlib}, which contains a variety of ``standard
 library'' functions, hence the name.
 
-The return value from {\tt random} is an integer between 0 and {\tt
+The return value from {\tt rand} is an integer between 0 and {\tt
 RAND\_MAX}, where {\tt RAND\_MAX} is a large number (about 2 billion
 on my computer) also defined in the header file.  Each time you call
-{\tt random} you get a different randomly-generated number.  To see a
+{\tt rand} you get a different randomly-generated number.  To see a
 sample, run this loop:
 
 \begin{verbatim}
@@ -286,7 +285,7 @@ using namespace std;
 int main ()
 {
   for (int i = 0; i < 4; i++) {
-    int x = random ();
+    int x = rand ();
     cout << x << endl;
   }
   return 0;
@@ -312,7 +311,7 @@ upper bound.  A simple way to do that is with the modulus
 operator.  For example:
 
 \begin{verbatim}
-  int x = random ();
+  int x = rand ();
   int y = x % upperBound;
 \end{verbatim}
 %
@@ -327,14 +326,16 @@ A common way to do that is by dividing by {\tt RAND\_MAX}.  For
 example:
 
 \begin{verbatim}
-  int x = random ();
-  double y = double(x) / RAND_MAX;
+  int x = rand ();
+  double y = static_cast < double >(x) / RAND_MAX;
 \end{verbatim}
 %
 This code sets {\tt y} to a random value between 0.0 and 1.0,
-including both end points.  As an exercise, you might want to
+including both endpoints.  As an exercise, you might want to
 think about how to generate a random floating-point value in
 a given range; for example, between 100.0 and 200.0.
+\section{Random numbers - new school}
+FIXME
 
 \section{Statistics}
 \index{statistics}
@@ -366,7 +367,7 @@ and fills it with random values between 0 and {\tt upperBound-1}.
 vector<int> randomVector (int n, int upperBound) {
   vector<int> vec (n);
   for (int i = 0; i<vec.size(); i++) {
-    vec[i] = random () % upperBound;
+    vec[i] = rand () % upperBound;
   }
   return vec;
 }

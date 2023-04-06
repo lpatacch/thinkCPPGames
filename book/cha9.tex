@@ -221,8 +221,8 @@ will be much shorter.
 \index{operator!increment}
 \index{operator!decrement}
 
-This code demonstrates two operators we have not seen before, {\tt +=}
-and {\tt -=}.  These operators provide a concise way to increment and
+This code demonstrates two operators we talked about in section \ref{plusequal}, {\tt +=}
+and {\tt -=}.  As a reminder, these operators provide a concise way to increment and
 decrement variables.  For example, the statement {\tt sum.second -=
 60.0;} is equivalent to {\tt sum.second = sum.second - 60;}
 
@@ -239,13 +239,12 @@ and the callee are appropriately encapsulated---it is not possible
 for a change in one to affect the other, except by affecting
 the return value.
 
-On the other hand, passing by reference usually is more efficient,
+On the other hand, passing by reference usually is more efficient
 because it avoids copying the argument.  Furthermore, there is a nice
 feature in C++, called {\tt const}, that can make reference parameters
 just as safe as value parameters.
 
-If you are writing a function and you do not intend to modify
-a parameter, you can declare that it is a {\bf constant
+If you are writing a function and you do not intend to modify a parameter, you can declare that it is a {\bf constant
 reference parameter}.  The syntax looks like this:
 
 \begin{verbatim}
@@ -346,7 +345,7 @@ One advantage of this approach is that the caller has the option of
 reusing the same object repeatedly to perform a series of additions.
 This can be slightly more efficient, although it can be confusing
 enough to cause subtle errors.  For the vast majority of programming,
-it is worth a spending a little run time to avoid a lot of debugging
+it is worth spending a little run time to avoid a lot of debugging
 time.
 
 Notice that the first two parameters can be declared {\tt const},
@@ -361,7 +360,7 @@ languages, called {\bf functional} programming languages, that only
 allow pure functions.  Some programmers believe that programs that use
 pure functions are faster to develop and less error-prone than
 programs that use modifiers.  Nevertheless, there are times when
-modifiers are convenient, and cases where functional programs
+modifiers are convenient and cases when functional programs
 are less efficient.
 
 In general, I recommend that you write pure functions whenever
@@ -419,9 +418,9 @@ to a {\tt Time} object:
 \begin{verbatim}
 Time makeTime (double secs) {
   Time time;
-  time.hour = int (secs / 3600.0);
+  time.hour = static_cast < int > (secs / 3600.0);
   secs -= time.hour * 3600.0;
-  time.minute = int (secs / 60.0);
+  time.minute = static_cast < int > (secs / 60.0);
   secs -= time.minute * 60;
   time.second = secs;
   return time;

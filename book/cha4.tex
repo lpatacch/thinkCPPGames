@@ -146,6 +146,12 @@ initial value, the condition it is checking (\textless, \textgreater, ==, !=, \t
 and how the variable will change. Use this as many times as you wish
 to understand how while loops work.
 \section{New Operators}
+\label{plusequal}
+\index{increment}
+\index{decrement}
+\index{operator!increment}
+\index{operator!decrement}
+
 Before we get more into loops, I want to cover some more math operators that we have not seen yet. In the countdown program, we had the counter change values with this equation:
 \begin{verbatim}
     n = n-1;
@@ -385,7 +391,7 @@ but I wanted this example to be simpler than that.}
   } while ((direction != 'l')&&(direction != 'r'));
 \end{lstlisting}
 If we decided to do this with a while, we would have needed to ask 
-the question both outside and inside the loop. The do-while reduces the amount of times the same code is duplicated in the program.
+the question both outside and inside the loop. The do-while reduces the number of times the same code is duplicated in the program.
 
 To try either of the do-while examples, try the \href{https://replit.com/@lpatacch/dowhileexamples#dowhile.cpp}{Do-while project}.
 
@@ -458,12 +464,55 @@ std::cout << std::endl
 \end{lstlisting}
 
 \section{Break and Continue}
-FIXME add examples of how this works
+\index{break}
+\index{continue}
+A couple of keywords can allow the program to leave or skip part of a loop. They are break and continue. The first keyword, break, is used to leave a loop.
+Here is an example:
+\begin{lstlisting}
+    while (true)
+    {
+        std::cout << "Do you want to stop yet?";
+        std::cin >> stop;
+        if (stop == 'y')
+            break;
+        std::cout << "Oh, ok. \n";
+    }
+    std::cout << "Yay! The loop is done.";
+\end{lstlisting}
+The while(true) line means that the loop will
+run forever. Normally, this loop would never
+stop (it would be an infinite loop). But, in this code, the loop will end if someone types 'y'.
+
+The other keyword is continue. The continue 
+would mean that the flow would move to the condition of the loop. The continue does not 
+cause the flow to break out of the loop. It just skips one part of it. Here is an example:
+
+\begin{lstlisting}
+    x = 0;
+    while (x < 5) {
+        x++;
+        if (x == 3){
+            continue;
+        }
+        std::cout << x << " ";
+    }
+\end{lstlisting}
+That code would have the output:
+\begin{verbatim}
+    1 2 4 5 
+\end{verbatim}
+As you can see, the code did not print out
+the number 3. Instead, the flow went to the 
+condition and continued in the loop.
+
+Many programmers have debated whether or not we should use break or continue. The argument against using the keywords is that it can make the logic of the loop hard to follow. These calls allow the flow to leave (or jump over sections of) the loop from areas in the middle instead of at the condition. 
+I usually follow this idea: if it makes the code easier to understand, it should be used. It should be changed to something else if it makes the code harder to understand.
+
 \section{Glossary}
 
 \begin{description}
 
-\item[loop:]  A statement that executes repeatedly while a
+\item[loop:]  A statement that repeatedly executes while a
 condition is true or until some condition is satisfied.
 
 \item[infinite loop:]  A loop whose condition is always true.

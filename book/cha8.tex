@@ -22,7 +22,7 @@ instance variables).  This ambiguity is useful.
 It is also useful to be able to create your own compound values.  C++
 provides two mechanisms for doing that: {\bf structures} and {\bf
 classes}.  We will start out with structures and get to classes in
-Chapter~\ref{class} (there is not much difference between them).
+Chapter~\ref{class} (there is not much difference between them). Note: If you are coming from C, structures have more features in C++.
 
 \section{{\tt Point} objects}
 \index{Point}
@@ -114,7 +114,7 @@ You can use dot notation as part of any C++ expression, so the
 following are legal.
 
 \begin{verbatim}
-  cout << blank.x << ", " << blank.y << endl;
+  std::cout << blank.x << ", " << blank.y << endl;
   double distance = blank.x * blank.x + blank.y * blank.y;
 \end{verbatim}
 %
@@ -128,7 +128,7 @@ Most of the operators we have been using on other types, like
 mathematical operators ( {\tt +}, {\tt \%}, etc.) and comparison
 operators ({\tt ==}, {\tt >}, etc.), do not work on structures.
 Actually, it is possible to define the meaning of these operators
-for the new type, but we won't do that in this book.
+for the new type, but we won't do that until Section \ref{overloadingops}.
 
 On the other hand, the assignment operator {\em does} work for
 structures.  It can be used in two ways: to initialize the instance
@@ -269,9 +269,11 @@ void reflect (Point& p)
 Now we can call the function in the usual way:
 
 \begin{verbatim}
-  printPoint (blank);
-  reflect (blank);
-  printPoint (blank);
+ Point p1 = { 3.0, 4.0 };
+ 
+  printPoint (p1);
+  reflect (p1);
+  printPoint (p1);
 \end{verbatim}
 %
 The output of this program is as expected:
