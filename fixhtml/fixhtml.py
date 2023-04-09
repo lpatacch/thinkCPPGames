@@ -48,7 +48,7 @@ if __name__ == "__main__":
 # check if verbose mode or percentage change
     n = len(sys.argv)
     pverbose = False
-    path = r"D:\\PersonalProjects\\thinkCppGames\\book\\html\\"
+    path = r"..\\book\\html\\"
 
     for i in range(1, n):
         if sys.argv[i] == "v":
