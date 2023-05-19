@@ -25,7 +25,7 @@ this chapter is called ``The Way of the Program.''
 \index{programming language}
 \index{language!programming}
 
-The programming language you will be learning is C++, which is used in many video games and the Unreal Engine. Both C++ and C\# are
+The programming language you will be learning is C++, which is used in many video games, and the Unreal Engine. Both C++ and C\# are
  {\bf high-level languages}; other high-level languages you might have 
 heard of are Java, C, and Python.
 
@@ -50,7 +50,7 @@ it's shorter and easier to read, and it's more likely to be
 correct.  Secondly, high-level languages are {\bf portable},
 meaning that they can run on different kinds of computers with
 few or no modifications.  Low-level programs can only run
-on one kind of computer, and have to be rewritten to run on
+on one kind of computer and have to be rewritten to run on
 another.
 
 Due to these advantages, almost all programs are written in
@@ -90,8 +90,7 @@ a convention that indicates that the file contains C++ source
 code.
 
 Then, depending on what your programming environment is like,
-you might leave the text editor and run the compiler.  The
-compiler would read your source code, translate it, and create
+you might leave the text editor and run the compiler.  The compiler would read your source code, translate it, and create
 a new file named {\tt program.o} or {\tt program.obj} to contain the object code,
 and {\tt program.out} or {\tt program.exe} to contain the executable. 
 
@@ -106,8 +105,7 @@ executing the program.
 
 Although this process may seem complicated, the good news is that in
 most programming environments (sometimes called integrated development
-environments(IDE)), these steps are automated for you.  Usually you will
-only have to write a program and type a single command to compile and
+environments(IDE)), these steps are automated for you.  Usually, you will only have to write a program and type a single command to compile and
 run it.  On the other hand, it is useful to know what the steps are
 that are happening in the background so that if something goes wrong,
 you can figure out what it is.
@@ -133,11 +131,10 @@ different programming languages, but there are a few basic functions
 that appear in just about every language:
 
 \begin{description}
-\item[input:] Get data from the keyboard, or a file, or some
+\item[input:] Get data from the keyboard, game peripheral, a file, or some
 other device.
 
-\item[output:] Display data on the screen or send data to a
-file or other device.
+\item[output:] Display data on the screen, or send data to a file or other device.
 
 \item[math:] Perform basic mathematical operations like addition and
 multiplication. (Sometimes called "Processing")
@@ -165,7 +162,7 @@ Every program you've ever used, no matter how complicated, is
 made up of functions that look more or less like these.  Thus,
 one way to describe programming is the process of breaking a
 large, complex task up into smaller and smaller subtasks
-until eventually the subtasks are simple enough to be performed
+until eventually, the subtasks are simple enough to be performed
 with one of these simple functions.
 
 \section{What is debugging?}
@@ -189,7 +186,7 @@ in order to track them down more quickly.
 \index{syntax error}
 
 The compiler can only translate a program if the program is
-syntactically correct; otherwise, the compilation fails and
+syntactically correct; otherwise, the compilation fails, and
 you will not be able to run your program.  {\bf Syntax}
 refers to the structure of your program and the rules about
 that structure. A mistake with the syntax is often called a {\bf syntax error}.
@@ -200,11 +197,26 @@ For example, in English, a sentence must begin with a capital
 letter and end with a period.  this sentence contains a syntax
 error.  So does this one
 
-For most readers, a few syntax errors are not a significant
-problem, which is why we can read the poetry of e e cummings
-without spewing error messages.
+For most readers, a few syntax errors are not a significant problem, which is why we can read the poetry of e e cummings
+without spewing error messages. Here is an example.\
+\\
+"Tumbling Hair" by e e cummings from {\em Eight Harvard Poets}:
+\begin{verbatim}
+  Tumbling-hair
+                picker of buttercups
+                                     violets
+  dandelions
+  And the big bullying daisies
+                              through the field wonderful
+  with eyes a little sorry
+  Another comes
+                also picking flowers
+\end{verbatim}
+\index{cummings, e e}
 
-Compilers are not so forgiving.  If there is a single syntax
+Although his poem did not follow the typical
+methods of English, most can understand it.
+Compilers do not understand as much.  If there is a single syntax
 error anywhere in your program, the compiler will print an
 error message and quit, and you will not be able to run
 your program.
@@ -217,7 +229,7 @@ spend a lot of time tracking down syntax errors.  As you
 gain experience, though, you will make fewer errors and find
 them faster.
 
-When you get a syntax error, don't think that the compiler is yelling at you for getting something wrong. Think of it ask asking you for help. "Help" it is saying "I have no idea what this means, please help me". Honestly, I like syntax errors more than any of the other types of errors. Syntax errors are one of the few errors where the computer tells you it found a problem and suggests what it thinks is wrong. 
+When you get a syntax error, don't think that the compiler is yelling at you for getting something wrong. Think of it ask asking you for help. "Help," it is saying, "I have no idea what this means, please help me." Honestly, I like syntax errors more than any of the other types of errors. Syntax errors are one of the few errors where the computer tells you it found a problem and suggests what it thinks is wrong. 
 \subsection{Run-time errors}
 \label{run-time}
 \index{run-time error}
@@ -255,10 +267,10 @@ Let's say you have a program that tells the computer to do the following steps:
     \item Pour the water
     \item Get the glass
 \end{enumerate}
-A person would see that list and would assume you meant to get the glass first. The computer would do exactly as you asked and spill water on the table and then put a glass on top. There was an obvious logical error in your program, but it ran without a compile error. As far as the computer was concerned, it ran perfectly. But, you know that was not your original intent.
+A person would see that list and would assume you meant to get the glass first. The computer would do exactly as you asked and spill water on the table and then put a glass on top. There was an obvious logical error in your program, but it ran without a compile error. As far as the computer was concerned, it ran perfectly. But you know that was not your original intent.
 
 Identifying logical errors can be tricky, since
-it requires you to work backwards by looking at the output
+it requires you to work backward by looking at the output
 of the program and trying to figure out what it is doing.
 
 \subsection{Experimental debugging}
@@ -268,13 +280,12 @@ this book is debugging.  Although it can be frustrating, debugging is
 one of the most intellectually rich, challenging, and interesting
 parts of programming.
 
-In some ways debugging is like detective work.  You are
-confronted with clues and you have to infer the processes
+In some ways, debugging is like detective work.  You are
+confronted with clues, and you have to infer the processes
 and events that lead to the results you see.
 
-Debugging is also like an experimental science.  Once you have an idea
-what is going wrong, you modify your program and try again.  If your
-hypothesis was correct, then you can predict the result of the
+Debugging is also like an experimental science.  Once you have an idea of what is going wrong, you modify your program and try again.  If your
+hypothesis is correct, then you can predict the result of the
 modification, and you take a step closer to a working program.  If
 your hypothesis was wrong, you have to come up with a new one.  As
 Sherlock Holmes pointed out, ``When you have eliminated the
@@ -300,7 +311,7 @@ between printing AAAA and BBBB.  This later evolved to Linux''
 
 \index{Linux}
 
-In later chapters I will make more suggestions about debugging
+In later chapters, I will make more suggestions about debugging
 and other programming practices.
 
 \section{Formal and natural languages}
@@ -333,21 +344,19 @@ mathematical statement, but $3=+6\$$ is not.  Also, $H_2O$ is a
 syntactically correct chemical name, but $_2Zz$ is not.
 
 Syntax rules come in two flavors, pertaining to tokens and structure.
-Tokens are the basic elements of the language, like words and numbers
-and chemical elements.  One of the problems with {\tt 3=+6\$} is that
+Tokens are the basic elements of the language, like words and numbers, and chemical elements.  One of the problems with {\tt 3=+6\$} is that
 {\tt \$} is not a legal token in mathematics (at least as far as I
 know).  Similarly, $_2Zz$ is not legal because there is no element with
 the abbreviation $Zz$.
 
-The second type of syntax error pertains to the structure of a
-statement; that is, the way the tokens are arranged.  The statement
+The second type of syntax error pertains to the structure of a statement; that is, the way the tokens are arranged.  The statement
 {\tt 3=+6\$} is structurally illegal, because you can't have a plus
 sign immediately after an equals sign.  Similarly, molecular formulas
 have to have subscripts after the element name, not before.
 
 When you read a sentence in English or a statement in a formal
 language, you have to figure out what the structure of the sentence is
-(although in a natural language you do this unconsciously).  This
+(although in a natural language, you do this unconsciously).  This
 process is called {\bf parsing}.
 
 \index{parse}
@@ -360,7 +369,7 @@ what a shoe is, and what it means to fall, you will understand the
 general implication of this sentence.
 
 Although formal and natural languages have many features in
-common---tokens, structure, syntax and semantics---there are many
+common---tokens, structure, syntax, and semantics---there are many
 differences.
 
 \index{ambiguity}
@@ -388,7 +397,7 @@ exactly what they say.
 \end{description}
 
 People who grow up speaking a natural language (everyone) often have a
-hard time adjusting to formal languages.  In some ways the difference
+hard time adjusting to formal languages.  In some ways, the difference
 between formal and natural language is like the difference between
 poetry and prose, but more so:
 
@@ -432,7 +441,7 @@ is called ``Hello, World.'' because all it does is print the
 words ``Hello, World.''  In C++, this program looks like this:
 
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
 #include <iostream>
 
 // main: generate some simple output
@@ -563,7 +572,7 @@ environments in Appendix \ref{installide}.
 After you have installed your development environment, you will need to create a C++ project. Follow either the instructions from the appendix (\ref{setupproject}), or what comes with
 your development environment to make a new C++ project. Some automatically
 give you a hello world project. If you are one of the lucky ones with the
-pre-made c++ file, you will be using that for this exercise.. Otherwise, copy the hello
+pre-made c++ file, you will be using that for this exercise. Otherwise, copy the hello
 world program from \ref{hello}. First, before you change any of the hello world code, click
 "run". For most development environments, this will compile and execute 
 the program, so you can see what it will output. You should see something
