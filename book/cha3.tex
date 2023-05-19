@@ -62,9 +62,9 @@ different types; strictly speaking, you are not allowed
 to make assignments between types.  For example, the following
 is illegal:
 
-\begin{lstlisting}
+\begin{verbatim}
     int checkMe = 1.1;  // WARNING!
-\end{lstlisting}
+\end{verbatim}
 %
 because the variable on the left is an {\tt int}
 and the value on the right is a {\tt double}. If you are
@@ -73,9 +73,9 @@ will warn you that checkMe will
 be set to 1 and not 1.1. But your code will continue to
 run. If you want an error to happen 
 instead, you can use the braced initialization:
-\begin{lstlisting}
+\begin{verbatim}
     int checkMe{1.1};   // ERROR!
-\end{lstlisting}
+\end{verbatim}
 Instead of a warning, the compiler will create an
 error, complaining, "type 'double' cannot be narrowed to 'int' in initializer list." 
 \index{braced initialization}
@@ -86,17 +86,17 @@ to forget this "no assignment between types" rule, especially because there are 
 automatically converts from one type to another.
 For example,
 
-\begin{lstlisting}
+\begin{verbatim}
     double y = 1;
-\end{lstlisting}
+\end{verbatim}
 %
 should technically not be legal, but C++ allows it by converting the
 {\tt int} to a {\tt double} automatically.  This leniency is
 convenient, but it can cause problems; for example:
 
-\begin{lstlisting}
+\begin{verbatim}
     double y = 1 / 3;
-\end{lstlisting}
+\end{verbatim}
 %
 You might expect the variable {\tt y} to be given the value
 {\tt 0.333333}, which is a legal floating-point value, but in
@@ -110,9 +110,9 @@ One way to solve this problem (once you figure out what
 it is) is to make the right-hand side a floating-point
 expression:
 
-\begin{lstlisting}
+\begin{verbatim}
     double y = 1.0 / 3.0;
-\end{lstlisting}
+\end{verbatim}
 %
 As expected, this sets {\tt y} to {\tt 0.333333}.
 
@@ -132,7 +132,7 @@ hardware just for performing floating-point operations.
 \index{cast!static}
 
 As I mentioned, C++ converts {\tt int}s
-to {\tt double}s automatically if necessary, because no
+to {\tt double}s automatically if necessary because no
 information is lost in the translation.  On the other hand,
 going from a {\tt double} to an {\tt int} requires rounding
 off.  C++ doesn't perform this operation automatically, in
@@ -158,9 +158,9 @@ part is 0.99999999.
 For every type in C++, there is a corresponding function that
 typecasts its argument to the appropriate type. The format follows the following pattern:
 
-\begin{lstlisting}
+\begin{verbatim}
   T newVariable = static_cast< T >(oldVariable);
-\end{lstlisting}
+\end{verbatim}
 To use this, change T to be the type you are converting into. Put the variable name you are converting where "oldVariable" is. Last, change "newVariable" to the name of the variable you want the new value to be placed. 
 
 Here are some examples so you can try them out: \url{https://replit.com/@lpatacch/DivisionDoubleIntExamples#divdoubles.cpp }
@@ -210,7 +210,7 @@ If the condition is not true, nothing happens.
 
 The condition can contain any of the {\tt comparison operators}:
 
-\begin{lstlisting}
+\begin{lstlisting}[frame=single]
     x == y           // x equals y
     x != y           // x is not equal to y
     x > y            // x is greater than y
@@ -227,7 +227,7 @@ that {\tt =} is the assignment operator, and {\tt ==} is
 a comparison operator.  Also, there is no such thing as
 {\tt =<} or {\tt =>}.
 
-Unfortunately, the default behavior in many compilers is to not display warnings when you use one equal instead of two in an if statements. (Check out Chapter \ref{showwarning} if you want to know how to turn on the warnings.) Be sure to be careful when you are using equal signs and if statements.
+Unfortunately, the default behavior in many compilers is to not display warnings when you use one equal instead of two in an if statement. (Check out Chapter \ref{showwarning} if you want to know how to turn on the warnings.) Be sure to be careful when you are using equal signs and if statements.
 
 The two sides of a condition operator have to be the same
 type.  You can only compare {\tt ints} to {\tt ints} and
@@ -241,7 +241,7 @@ int x = -1;
 if (x < 0)
     std::cout << "negative";
 \end{lstlisting}
-The above if statement would print "negative". It does lead to some confusion though. 
+The above if statement would print "negative." It does lead to some confusion, though. 
 If you have the following if statement, it may not print what you expect.
 \begin{lstlisting}
 int x = 1;

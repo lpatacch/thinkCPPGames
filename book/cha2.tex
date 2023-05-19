@@ -150,18 +150,18 @@ There are other kinds of values, including integers and characters.
 An integer is a whole number like 1 or 17.  You can output
 integer values the same way you output strings:
 
-\begin{lstlisting}
+\begin{verbatim}
   std::cout << 17 << std::endl;
-\end{lstlisting}
+\end{verbatim}
 
 A character value is a letter or digit or punctuation mark
 enclosed in single quotes, like {\tt 'a'} or {\tt '5'}.
 You can output character values the same way:
 
 
-\begin{lstlisting}
+\begin{verbatim}
   std::cout << '}' << std::endl;
-\end{lstlisting}
+\end{verbatim}
 
 This example outputs a single close curly-brace on a line
 by itself.
@@ -186,9 +186,9 @@ variable, you have to declare what type it is.  For example, the
 character type in C++ is called {\tt char}.  The following statement
 creates a new variable named {\tt sarah} that has type {\tt char}.
 
-\begin{lstlisting}
+\begin{verbatim}
     char sarah;
-\end{lstlisting}
+\end{verbatim}
 
 This kind of statement is called a {\bf declaration}.
 
@@ -204,9 +204,10 @@ are going to skip that for now (see Chapter~\ref{strings} if you want to see it 
 
 To create an integer variable, the syntax is 
 
-\begin{lstlisting}
+\begin{verbatim}    
     int bob;
-\end{lstlisting}
+\end{verbatim}
+
 %
 where {\tt bob} is the arbitrary name you made up for the
 variable.  In general, you will want to make up variable names
@@ -294,9 +295,9 @@ characters {\tt 1}, {\tt 2} and {\tt 3}, is not
 the same thing as the {\em number} {\tt 123}.
 This assignment is illegal:
 
-\begin{lstlisting}
+\begin{verbatim}
   minute = "59";         // WRONG!
-\end{lstlisting}
+\end{verbatim}
 %
 \section{Initialization}
 When variables are created, they can be set to a value immediately instead of waiting until later. This can shorten your code. 
@@ -305,17 +306,17 @@ When variables are created, they can be set to a value immediately instead of wa
 Pre-C++ 11, it was quite common to use an equation to initialize 
 your variables.
 Here is an example:
-\begin{lstlisting}
+\begin{verbatim}
   int hitPoints = 10;
-\end{lstlisting}
+\end{verbatim}
 Most of our examples use this format because people are used to 
 this style when using other computer languages. But, C++11 and later
 have a different style that can be used instead.
 \subsection{Braced}
 This new style is called braced initialization. Instead of having an equal sign, the line is even shorter. Although it does the same thing as the equal sign, it can help with some common programming errors. We will be talking about this in later chapters.
-\begin{lstlisting}
+\begin{verbatim}
   int hitPoints{10};
-\end{lstlisting}
+\end{verbatim}
 \index{braced initialization}
 \index{initalization!braced}
 \section{Outputting variables}
@@ -324,7 +325,7 @@ This new style is called braced initialization. Instead of having an equal sign,
 You can output the value of a variable using the same commands
 we used to output simple values.
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
   int hour, minute;
   char colon;
 
@@ -358,7 +359,7 @@ As we have seen before, you can include more than one value in
 a single output statement, which can make the previous program more
 concise:
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
   int hour, minute;
   char colon;
 
@@ -382,14 +383,13 @@ supported by some compilers, including Replit.) If
 you try this code and get a compiler error that "error: no member 
 named 'format' in namespace 'std'," it may not be supported in your development environment yet.
 
-If this is supported \footnote{If you are looking for a development
-environment that supports format, the following code 
+If this is supported \footnote{If you are looking for a development environment that supports format, the following code 
 was tested on Visual Studio Code using the Microsoft compiler.}, this is a different way for you to be able
 to output variables. To get the following code to work,
 you will need to have the line:
-\begin{lstlisting}
+\begin{verbatim}
 #include <format>  
-\end{lstlisting}
+\end{verbatim}
 up where your "\#include \textless iostream\textgreater" line is.
 
 To use format, you will be putting \{\} where you want your values
@@ -549,7 +549,7 @@ Addition, subtraction and multiplication all do what you
 expect, but you might be surprised by division.  For example,
 the following program:
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
   int hour, minute;
   int hitpoints = 49;
   hour = 11;
@@ -591,7 +591,7 @@ even in cases like this where the next integer is so close.
 A possible alternative, in this case, is to calculate a percentage
 rather than a fraction:
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
   std::cout << "Percentage of the hitpoints left:";
   std::cout << " " << hitpoints*100/50 << std::endl;
 \end{lstlisting}
@@ -622,10 +622,10 @@ and yields the {\em remainder} when the first operand is divided
 by the second.  In C++, the modulus operator is a percent sign,
 {\tt \%}.  The syntax is exactly the same as for other operators:
 
-\begin{verbatim}
+\begin{lstlisting}
   int quotient = 7 / 3;
   int remainder = 7 % 3;
-\end{verbatim}
+\end{lstlisting}
 %
 The first operator, integer division, yields 2.  The second
 operator yields 1.  Thus, 7 divided by 3 is 2 with 1 left over.
@@ -680,7 +680,7 @@ change the result.
 Interestingly, the same mathematical operations that work on
 integers also work on characters.  For example,
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
   char letter;
   letter = 'a' + 1;
   std::cout << letter << std::endl;
@@ -695,7 +695,7 @@ but that is not completely true.  In some cases, C++ converts
 automatically between types.  For example, the following is
 legal.
 
-\begin{lstlisting}[frame=single]
+\begin{lstlisting}
   int number;
   number = 'a';
   std::cout << number << std::endl;
@@ -779,12 +779,12 @@ make more than one assignment to the same variable.  The
 effect of the second assignment is to replace the old value
 of the variable with a new value.
 
-\begin{verbatim}
+\begin{lstlisting}
   int fred = 5;
-  cout << fred;
+  std::cout << fred;
   fred = 7;
-  cout << fred;
-\end{verbatim}
+  std::cout << fred;
+\end{lstlisting}
 %
 The output of this program is {\tt 57}, because the first
 time we print {\tt fred} his value is 5, and the second time
@@ -815,15 +815,15 @@ for all time.  If $a = b$ now, then $a$ will always equal $b$.
 In C++, an assignment statement can make two variables equal,
 but they don't have to stay that way!
 
-\begin{verbatim}
+\begin{lstlisting}
   int a = 5;
   int b = a;     // a and b are now equal
   a = 3;         // a and b are no longer equal
-\end{verbatim}
+\end{lstlisting}
 %
 The third line changes the value of {\tt a} but it does not
 change the value of {\tt b}, and so they are no longer equal.
-In many programming languages an alternate symbol is used
+In many programming languages, an alternate symbol is used
 for assignment, such as {\tt <-} or {\tt :=}, in order to
 avoid confusion.
 
@@ -834,15 +834,31 @@ the code difficult to read and debug.
 
 % FIXME - should I include the UFO operator here?
 \section{Exercises}
-FIXME
-get a value
-print something cool and gamelike
 \subsection{Hello World}
 You have seen hello world a few times by now. Can you recreate it in this Parson Problem? 
 \url{https://lpatacch.github.io/thinkCPPGamesEx/HelloParsonsPractice.html} 
 \subsection{Modulus Practice}
 If you have problems understanding how the modulus operator works, try this small web application.
 \url{https://lpatacch.github.io/thinkCPPGamesEx/ModPractice.html}
+\subsection{Game HighScore}
+For this program, you will practice using characters, cin and cout. Start your program
+with the typical main function. Create three
+variables - one for the first initial, second
+for the last initial, and third to hold a high
+score. Next, write code that asks the user to
+enter their first initial. Write code that
+puts that value in the first initial variable. 
+Write similar code for the last initial. Then,
+ask the user to enter their high score and place
+it in the high score variable. Then, you will
+print a line that says "High Scores," then
+the next line will have the first and last initial and then the score.
+\begin{itemize}
+    \item Remember to use appropriate variable types for storing the player's name and game score.
+\item Use descriptive variable names and comments in your code to improve its readability.
+\item Test your program with different inputs to ensure it handles various scenarios correctly.
+\end{itemize}
+
 \subsection{Validation}
 % Checksums with UPC numbers
 Computers have to deal with numbers a lot. There are messages that are sent to and from the internet. In order to make sure the numbers were entered or received properly, programs usually
