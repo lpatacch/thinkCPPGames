@@ -3,12 +3,12 @@
 
 
 \chapter{Variables and types}
-
+In this chapter, we will look into how to put values into something called a variable. But, we need to learn a bit more about programs before we add that feature. 
 \section{More output}
 \index{output}
 \index{statement!output}
-
-As I mentioned in the last chapter, you can put as many statements as
+First, we will try making a more complex program with more output statements and comment lines.
+As mentioned in the last chapter, you can put as many statements as
 you want in {\tt main}.  For example, to output more than one line:
 
 \begin{lstlisting}
@@ -26,14 +26,13 @@ int main ()
   return 0;
 }
 \end{lstlisting}
-
-As you can see, it is legal to put comments at the
+This shows two output lines and many comments. As you can see, it is legal to put comments at the
 end of a line, as well as on a line by themselves.
 
 \index{replit}
 If you want to try that with the replit code, go back to the project link 
 \url{https://replit.com/@lpatacch/helloWorld#hello.cpp}. Then, look for a button on the right hand of the screen with the words "Fork Repl". It should look like Figure \ref{fig:fork}
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics{fork}
     \caption{The Fork button on Replit}
@@ -51,8 +50,7 @@ marks, and other special characters.
 
 \index{newline}
 
-Often it is useful to display the output from multiple output
-statements all on one line.  You can do this by leaving out
+Often it is useful to display the output from multiple output statements all on one line.  You can do this by leaving out
 the first {\tt endl}:
 
 \begin{lstlisting}
