@@ -1,6 +1,5 @@
 % LaTeX source for textbook ``How to think like a computer scientist''
-% Copyright (C) 1999  Allen B. Downey
-
+% Copyright (C) 2023  Lisa Patacchiola and Allen B. Downey
 
 
 \chapter{Structures}
@@ -22,7 +21,7 @@ instance variables).  This ambiguity is useful.
 It is also useful to be able to create your own compound values.  C++
 provides two mechanisms for doing that: {\bf structures} and {\bf
 classes}.  We will start out with structures and get to classes in
-Chapter~\ref{class} (there is not much difference between them). Note: If you are coming from C, structures have more features in C++.
+Chapter~\ref{class} \footnote{If you are coming from C, structures have more features in C++. C does not have member functions in its structures.}
 
 \section{{\tt Point} objects}
 \index{Point}
@@ -114,7 +113,7 @@ You can use dot notation as part of any C++ expression, so the
 following are legal.
 
 \begin{verbatim}
-  std::cout << blank.x << ", " << blank.y << endl;
+  std::cout << blank.x << ", " << blank.y << std::endl;
   double distance = blank.x * blank.x + blank.y * blank.y;
 \end{verbatim}
 %
@@ -183,7 +182,7 @@ example,
 
 \begin{verbatim}
 void printPoint (Point p) {
-  cout << "(" << p.x << ", " << p.y << ")" << endl;
+  std::cout << "(" << p.x << ", " << p.y << ")" << std::endl;
 }
 \end{verbatim}
 %
@@ -304,6 +303,13 @@ keep track of what gets modified where.  Nevertheless, in C++
 programs, almost all structures are passed by reference almost all the
 time.  In this book I will follow that convention.
 
+If you do not expect to change the object in the function, another method is to use constant references. This makes using references safer:
+\begin{verbatim}
+void printPoint (const Point &p) {
+  std::cout << "(" << p.x << ", " << p.y << ")" << std::endl;
+}
+\end{verbatim}
+The above code passes the structure by reference, but the function is not allowed to change it. 
 
 \section{Rectangles}
 \index{Rectangle}
@@ -353,7 +359,7 @@ We can access the {\tt width} and {\tt height} in the usual way:
 
 \begin{verbatim}
   box.width += 50.0;
-  cout << box.height << endl;
+  std::cout << box.height << std::endl;
 \end{verbatim}
 %
 In order to access the instance variables of {\tt corner}, we can use a
@@ -403,7 +409,7 @@ returns a {\tt Point} that contains the coordinates of the
 center of the {\tt Rectangle}:
 
 \begin{verbatim}
-Point findCenter (Rectangle& box)
+Point findCenter (const Rectangle& box)
 {
   double x = box.corner.x + box.width/2;
   double y = box.corner.y + box.height/2;
@@ -448,7 +454,7 @@ We would call this function in the usual way:
   int i = 7;
   int j = 9;
   swap (i, j);
-  cout << i << j << endl;
+  std::cout << i << j << std::endl;
 \end{verbatim}
 %
 The output of this program is {\tt 97}.  Draw a stack
@@ -471,134 +477,9 @@ as a reference argument.  For example:
 This is not legal because the expression {\tt j+1} is not
 a variable---it does not occupy a location that the reference
 can refer to.  It is a little tricky to figure out exactly
-what kinds of expressions can be passed by reference.  For now
-a good rule of thumb is that reference arguments have to be
+what kinds of expressions can be passed by reference.  For now,
+a good rule of thumb is that non-const reference arguments have to be
 variables.
-
-\section{Getting user input}
-\label{input}
-\index{input!keyboard}
-
-The programs we have written so far are pretty predictable;
-they do the same thing every time they run.  Most of the time,
-though, we want programs that take input from the user and
-respond accordingly.
-
-There are many ways to get input, including keyboard
-input, mouse movements and button clicks, as well as more exotic
-mechanisms like voice control and retinal scanning.  In this
-text we will consider only keyboard input.
-
-\index{stream}
-\index{cin}
-\index{cout}
-
-In the header file {\tt iostream},
-C++ defines an object named {\tt cin} that handles input in
-much the same way that {\tt cout} handles output.  To get an
-integer value from the user:
-
-\begin{verbatim}
-  int x;
-  cin >> x;
-\end{verbatim}
-%
-The {\tt >>} operator causes the program to stop executing and
-wait for the user to type something.  If the user types a valid
-integer, the program converts it into an integer value and
-stores it in {\tt x}.
-
-\index{operator!{\tt >>}}
-
-If the user types something other than an integer,
-C++ doesn't report an error, or anything sensible like that.
-Instead, it puts some meaningless value in {\tt x} and continues.
-
-Fortunately, there is a way to check and see if an input
-statement succeeds.  We can invoke the {\tt good} function on
-{\tt cin} to check what is called the {\bf stream state}.
-{\tt good} returns a {\tt bool}: if true, then the last input
-statement succeeded.  If not, we know that some previous operation
-failed, and also that the next operation will fail.
-
-Thus, getting input from the user might look like this:
-
-\begin{verbatim}
-#include <iostream>
-
-using namespace std;
-
-int main ()
-{
-  int x;
-
-  // prompt the user for input
-  cout << "Enter an integer: ";
-
-  // get input
-  cin >> x;
-
-  // check and see if the input statement succeeded
-  if (cin.good() == false) {
-    cout << "That was not an integer." << endl;
-    return -1;
-  }
-
-  // print the value we got from the user
-  cout << x << endl;
-  return 0;
-}
-\end{verbatim}
-%
-{\tt cin} can also be used to input a {\tt string}:
-
-\begin{verbatim}
-  string name;
-
-  cout << "What is your name? ";
-  cin >> name;
-  cout << name << endl;
-\end{verbatim}
-%
-Unfortunately, this statement only takes the first word of
-input, and leaves the rest for the next input statement.
-So, if you run this program and type your full name, it
-will only output your first name.
-
-Because of these problems (inability to handle errors and
-funny behavior), I avoid using the {\tt >>} operator altogether,
-unless I am reading data from a source that is known to be
-error-free.
-
-Instead, I use a function in the header {\tt string} called {\tt getline}.
-
-\begin{verbatim}
-  string name;
-
-  cout << "What is your name? ";
-  getline (cin, name);
-  cout << name << endl;
-\end{verbatim}
-%
-The first argument to {\tt getline} is {\tt cin}, which is
-where the input is coming from.  The second argument is the
-name of the {\tt string} where you want the result to be
-stored.
-
-{\tt getline} reads the entire line until the user hits
-Return or Enter.  This is useful for inputting strings that
-contain spaces.
-
-In fact, {\tt getline} is generally useful for getting input
-of any kind.  For example, if you wanted the user to type an
-integer, you could input a string and then check to see if
-it is a valid integer.  If so, you can convert it to an integer
-value.  If not, you can print an error message and ask the user
-to try again.
-
-To convert a string to an integer, you can use the {\tt atoi}
-function defined in the header file {\tt cstdlib}.  We will
-get to that in Section~\ref{parsing}.
 
 \section{Glossary}
 

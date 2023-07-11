@@ -831,6 +831,40 @@ constantly in different parts of the program, it can make
 the code difficult to read and debug.
 
 % FIXME - should I include the UFO operator here?
+
+\section{Getting user input}
+\label{input}
+\index{input!keyboard}
+
+The programs we have written so far are pretty predictable;
+they do the same thing every time they run.  Most of the time,
+though, we want programs that take input from the user and
+respond accordingly.
+
+There are many ways to get input, including keyboard
+input, mouse movements and button clicks, as well as more exotic
+mechanisms like voice control and retinal scanning.  In this
+text we will consider only keyboard input.
+
+\index{stream}
+\index{cin}
+\index{cout}
+
+In the header file {\tt iostream},
+C++ defines an object named {\tt cin} that handles input in
+much the same way that {\tt cout} handles output.  To get an
+integer value from the user:
+
+\begin{verbatim}
+  int x;
+  std::cin >> x;
+\end{verbatim}
+%
+The {\tt >>} operator causes the program to stop executing and
+wait for the user to type something.  If the user types a valid
+integer, the program converts it into an integer value and
+stores it in {\tt x}.
+
 \section{Exercises}
 \subsection{Hello World}
 You have seen hello world a few times by now. Can you recreate it in this Parson Problem? 

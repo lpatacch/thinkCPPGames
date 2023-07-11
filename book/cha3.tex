@@ -480,6 +480,52 @@ Next is how the OR comparison works. If you look at the OR truth table, you will
 \vspace{0.1in}
 Just like the AND comparison, there is a shortcut. As soon as it sees a "true", the program goes straight to the resulting code. If you know the comparison that happens to be true more often, you can have your code run quicker by having it be the first comparison.
 
+\section{Getting user input error checking}
+\index{input!keyboard}
+
+\index{operator!{\tt >>}}
+You have already used cin in order to get values from the user. One example we had got an integer and placed it in a variable. That code does have a small problem.
+If the user types something other than an integer,
+C++ doesn't report an error, or anything sensible like that.
+Instead, it puts some meaningless value in {\tt x} and continues.
+
+Fortunately, there is a way to check and see if an input
+statement succeeds.  We can invoke the {\tt good} function on
+{\tt cin} to check what is called the {\bf stream state}.
+{\tt good} returns a {\tt bool}: if true, then the last input
+statement succeeded.  If not, we know that some previous operation
+failed, and also that the next operation will fail.
+
+Thus, getting input from the user might look like this:
+
+\begin{verbatim}
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+  int x;
+
+  // prompt the user for input
+  cout << "Enter an integer: ";
+
+  // get input
+  cin >> x;
+
+  // check and see if the input statement succeeded
+  if (cin.good() == false) {
+    cout << "That was not an integer." << endl;
+    return -1;
+  }
+
+  // print the value we got from the user
+  cout << x << endl;
+  return 0;
+}
+\end{verbatim}
+%
+
 \section{Conditional (ternary) Operator}
 \index{conditional operator}
 \index{ternary operator}

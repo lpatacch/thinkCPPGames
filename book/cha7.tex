@@ -28,7 +28,7 @@ What people call c-strings are just character arrays:
 \end{verbatim}
 The array is large enough to hold all the characters in the string and an extra
 character at the end. Every native c-string ends with the character '\\0'. This
-is why these strings are sometimes called "null-terminated strings". For example,
+is why these strings are sometimes called "null-terminated strings." For example,
 \begin{verbatim}
     char hellostr[6]{'h', 'e', 'l', 'l', 'o', '\0'};
 \end{verbatim}
@@ -85,6 +85,54 @@ add the line \#include<string> to your file.
 Before proceeding, you should type in the program above and make
 sure you can compile and run it.
 
+\section{Getting strings from user input}
+\index{input!keyboard}
+
+{\tt cin} can also be used to input a {\tt string}:
+
+\begin{verbatim}
+  std::string name;
+
+  std::cout << "What is your name? ";
+  std::cin >> name;
+  std::cout << name << std::endl;
+\end{verbatim}
+%
+Unfortunately, this statement only takes the first word of
+input, and leaves the rest for the next input statement.
+So, if you run this program and type your full name, it
+will only output your first name.
+
+In order to get a string with spaces, I use a function in the header {\tt string} called {\tt getline}.
+
+\begin{verbatim}
+  std::string name;
+
+  std::cout << "What is your name? ";
+  std::getline (std::cin, name);
+  std::cout << name << std::endl;
+\end{verbatim}
+%
+The first argument to {\tt getline} is {\tt cin}, which is
+where the input is coming from.  The second argument is the
+name of the {\tt string} where you want the result to be
+stored.
+
+{\tt getline} reads the entire line until the user hits
+Return or Enter.  This is useful for inputting strings that
+contain spaces.
+
+In fact, {\tt getline} is generally useful for getting input
+of any kind.  For example, if you wanted the user to type an
+integer, you could input a string and then check to see if
+it is a valid integer.  If so, you can convert it to an integer
+value.  If not, you can print an error message and ask the user
+to try again.
+
+To convert a string to an integer, you can use the {\tt atoi}
+function defined in the header file {\tt cstdlib}.  We will
+get to that in Section~\ref{parsing}.
+
 \section{Extracting characters from a string}
 
 Strings are called ``strings'' because they are made up of a sequence,
@@ -115,12 +163,12 @@ a
 \end{verbatim}
 %
 {\tt a} is not the first letter of {\tt "banana"}.  Unless you are a
-computer scientist.  For perverse reasons, computer scientists always
+computer scientist.  For reasons I will not get into, computer scientists always
 start counting from zero.  The 0th letter (``zeroeth'') of {\tt
 "banana"} is {\tt b}.  The 1th letter (``oneth'') is {\tt a} and the
 2th (``twoeth'') letter is {\tt n}.
 
-If you want the the zereoth letter of a string, you have to put
+If you want the zereoth letter of a string, you have to put
 zero in the square brackets:
 
 \begin{verbatim}
@@ -248,7 +296,7 @@ A C++ string is considered a container class, so you can
 use a different type of loop - a ranged based for loop. 
 We showed an example when we covered std::arrays and std::spans, but we
 didn't explain what it was doing. I am a fan of these types of
-loops because it reduces the amount of things we need to type.
+loops because it reduces the number of things we need to type.
 
 Here is an example of a ranged based loop that does the same
 thing as the while loop we saw earlier.
@@ -280,7 +328,7 @@ in letter. No need to keep track of the index. It is doing it for you.
 \index{find}
 
 The {\tt string} class provides several other functions that you can
-invoke on strings.  The {\tt find} function is like the opposite the
+invoke on strings.  The {\tt find} function is the opposite the
 {\tt []} operator.  Instead of taking an index and extracting the
 character at that index, {\tt find} takes a character and finds the
 index where that character appears.
@@ -312,7 +360,7 @@ You should remember from Section~\ref{overloading} that there
 can be more than one function with the same name, as long as they
 take a different number of parameters or different types.  In
 this case, C++ knows which version of {\tt find} to invoke
-by looking at the type of the argument we provide.
+by looking at the type of argument we provide.
 
 \section{Our own version of {\tt find}}
 
@@ -337,6 +385,14 @@ Instead of invoking this function on a {\tt string}, like
 the first version of {\tt find}, we have to pass the {\tt string}
 as the first argument.  The other arguments are the character
 we are looking for and the index where we should start.
+
+The above code should give you an idea of how the find function works internally. But you do not have to write your own function. The string object does have a find that works similarly.
+
+\begin{verbatim}
+  string fruit = "banana";
+  int index = fruit.find('a', 2);
+\end{verbatim}
+In the above code snippet, it looks for the character 'a' after the letter at the "2" index. This code would return the number 3.
 
 \section{Looping and counting}
 \label{loopcount}
@@ -367,7 +423,11 @@ time we find an {\tt 'a'}.  (To {\bf increment} is to increase by one;
 it is the opposite of {\bf decrement}, and unrelated to {\bf
 excrement}, which is a noun.)  When we exit the loop, {\tt count}
 contains the result: the total number of a's.
-
+\footnote{Some of you may be saying, "isn't there something in the language that already does this?" Yes, there is. There is an algorithm named count. If you include "algorithm", the following code will count for you --   
+std::cout \textless\textless "Number of times 'a' appears : "
+         \textless\textless std::count(fruit.begin(), fruit.end(), 'a'); 
+The count code was to show an example of a counter. 
+}
 \index{counter}
 \index{increment}
 \index{decrement}
@@ -511,7 +571,7 @@ Your word, Zebra, comes before banana.
 %
 A common way to address this problem is to convert strings to a
 standard format, like all lower-case, before performing the
-comparison.  The next sections explains how.  I will not address the
+comparison.  The next section explains how.  I will not address the
 more difficult problem, which is making the program realize that
 zebras are not fruit.
 
@@ -543,7 +603,7 @@ all non-zero values are treated as {\tt true}.
 
 Technically, this sort of thing should not be allowed---integers are
 not the same thing as boolean values.  Nevertheless, the C++ habit of
-converting automatically between types can be useful.
+converting automatically between types can be useful. \footnote{If you are wondering why the call is like this, this call is originally from the language 'C'. At the time the function was created, the language did not have a bool type variable. The zero/not zero was the only way that they could get a bool like experience. Luckily, the language writers decided to add booleans. But, old functions like this still exist, showing what was available years ago.}
 
 Other character classification functions include {\tt isdigit}, which
 identifies the digits 0 through 9, and {\tt isspace}, which identifies
@@ -580,7 +640,7 @@ in Section~\ref{finput} and Section~\ref{parsing}.
 \section{string\_view}
 In C++17, string\_view was added to the language. String
 views are another way that we can use strings. This version
-of strings are good for variables that we are not planning on
+of strings is good for variables that we are not planning on
 changing. It is a "view" of a string in memory that is
 somewhere else. This type needs the code to "\#include \textless  string\_view \textgreater"
 
@@ -595,7 +655,7 @@ void printme(std::string_view yum)
 }
 \end{verbatim}
 
-String views are just a view of a different variables memory. If the
+String views are just a view of a different variable's memory. If the
 other variable was changed, the view variable would be changed as well.
 
 \begin{verbatim}
