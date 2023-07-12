@@ -1,5 +1,5 @@
  % LaTeX source for textbook ``How to think like a computer scientist''
-% Copyright (C) 1999  Allen B. Downey
+% Copyright (C) 2023  Lisa Patacchiola and Allen B. Downey
 
 
 
@@ -58,8 +58,8 @@ function that displays the instance variables in a human-readable
 form.  For example:
 
 \begin{verbatim}
-void printTime (Time& t) {
-  cout << t.hour << ":" << t.minute << ":" << t.second << endl;
+void printTime (const Time& t) {
+  std::cout << t.hour << ":" << t.minute << ":" << t.second << std::endl;
 }
 \end{verbatim}
 %
@@ -77,9 +77,9 @@ struct Time {
 };
 
 
-void printTime (Time& t) {
-  cout << t.hour << ":" << t.minute << ":" << t.second << endl;
-  cout << "Time is " << t.hour << " hour " << t.minute << " minutes " << t.second << "  seconds  "<<endl;
+void printTime (const Time& t) {
+  std::cout << t.hour << ":" << t.minute << ":" << t.second << std::endl;
+  std::cout << "Time is " << t.hour << " hour " << t.minute << " minutes " << t.second << "  seconds  "<<std::endl;
 }
 
 
@@ -134,7 +134,7 @@ returns a {\tt bool} that indicates whether the first operand
 comes after the second:
 
 \begin{verbatim}
-bool after (Time& time1, Time& time2) {
+bool after (const Time& time1, const Time& time2) {
   if (time1.hour > time2.hour) return true;
   if (time1.hour < time2.hour) return false;
 
@@ -159,7 +159,7 @@ the bread will be done.
 Here is a rough draft of this function that is not quite right:
 
 \begin{verbatim}
-Time addTime (Time& t1, Time& t2) {
+Time addTime (const Time& t1, const Time& t2) {
   Time sum;
   sum.hour = t1.hour + t2.hour;
   sum.minute = t1.minute + t2.minute;
@@ -194,7 +194,7 @@ column.
 Here's a second, corrected version of this function.
 
 \begin{verbatim}
-Time addTime (Time& t1, Time& t2) {
+Time addTime (const Time& t1, const Time& t2) {
   Time sum;
   sum.hour = t1.hour + t2.hour;
   sum.minute = t1.minute + t2.minute;
@@ -229,7 +229,7 @@ decrement variables.  For example, the statement {\tt sum.second -=
 \section{{\tt const} parameters}
 
 You might have noticed that the parameters for {\tt after}
-and {\tt addTime} are being passed by reference.  Since
+and {\tt addTime} are being passed by reference and I added the word "const".  Since
 these are pure functions, they do not modify the parameters
 they receive, so I could just as well have passed them by
 value.
@@ -240,7 +240,7 @@ for a change in one to affect the other, except by affecting
 the return value.
 
 On the other hand, passing by reference usually is more efficient
-because it avoids copying the argument.  Furthermore, there is a nice
+because it avoids copying the argument.  As a reminder, there is a nice
 feature in C++, called {\tt const}, that can make reference parameters
 just as safe as value parameters.
 
@@ -313,6 +313,25 @@ void increment (Time& time, double secs) {
 This solution is correct, but not very efficient.
 Can you think of a solution that does not require iteration?
 
+FYI: Some people are now suggesting that functions that change objects directly can cause unexpected side effects. Instead, they suggest that functions should return the changed object and not change the value that
+was sent via parameter. Instead, it could be something like the following:
+\begin{verbatim}
+Time increment (const Time& time, double secs) {
+  Time temp = time;
+  temp.second += secs;
+
+  while (temp.second >= 60.0) {
+    temp.second -= 60.0;
+    temp.minute += 1;
+  }
+  while (temp.minute >= 60) {
+    temp.minute -= 60;
+    temp.hour += 1;
+  }
+  return temp;
+}
+\end{verbatim}
+%
 \section{Fill-in functions}
 \index{fill-in function}
 \index{function!fill-in}
